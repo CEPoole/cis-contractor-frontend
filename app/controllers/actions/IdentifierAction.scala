@@ -18,7 +18,9 @@ package controllers.actions
 
 import com.google.inject.Inject
 import config.FrontendAppConfig
+import connectors.RateLimitedAllowListConnector
 import controllers.routes
+import models.EmployerReference
 import models.requests.IdentifierRequest
 import play.api.Logging
 import play.api.mvc.Results.*
@@ -43,7 +45,8 @@ class AuthenticatedIdentifierAction @Inject() (
   override val authConnector: AuthConnector,
   config: FrontendAppConfig,
   val parser: BodyParsers.Default,
-  clientListCheckEnforcer: ClientListCheckEnforcer
+  clientListCheckEnforcer: ClientListCheckEnforcer,
+  rateLimitedAllowListConnector: RateLimitedAllowListConnector
 )(implicit val executionContext: ExecutionContext)
     extends IdentifierAction
     with AuthorisedFunctions
@@ -60,7 +63,10 @@ class AuthenticatedIdentifierAction @Inject() (
         case Some(internalId) ~ Enrolments(enrolments) ~ Some(Organisation) ~ Some(User) =>
           hasCisOrgEnrolment(enrolments)
             .map { employerReference =>
-              block(IdentifierRequest(request, internalId, Some(employerReference), None))
+              checkAllowList(employerReference).flatMap {
+                case false => Future.successful(Redirect(config.legacyCisServiceUrl))
+                case true  => block(IdentifierRequest(request, internalId, Some(employerReference), None))
+              }
             }
             .getOrElse(
               Future.successful(
@@ -99,5 +105,13 @@ class AuthenticatedIdentifierAction @Inject() (
         Redirect(routes.UnauthorisedController.onPageLoad())
     }
   }
+
+  private def checkAllowList(employerReference: EmployerReference)(implicit hc: HeaderCarrier): Future[Boolean] =
+    if (config.useRateLimitedAllowList) {
+      val identifier = s"${employerReference.taxOfficeNumber}/${employerReference.taxOfficeReference}"
+      rateLimitedAllowListConnector.checkAllowList(config.splitterServiceName, config.splitterAllowListName, identifier)
+    } else {
+      Future.successful(true)
+    }
 
 }
