@@ -23,6 +23,7 @@ import models.{FinalValidationMode, Mode}
 import models.contact.ContactMethodOptions
 import navigation.Navigator
 import pages.add.partnership.{PartnershipContactMethodOptionsPage, PartnershipPhoneNumberPage}
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -44,7 +45,8 @@ class PartnershipPhoneNumberController @Inject() (
   view: PartnershipPhoneNumberView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form = formProvider()
 
@@ -68,6 +70,7 @@ class PartnershipPhoneNumberController @Inject() (
       case (Some(_), false) =>
         Redirect(controllers.add.partnership.routes.AddPartnershipContactMethodsYesNoController.onPageLoad(mode))
       case _                =>
+        logger.error(s"[PartnershipPhoneNumberController][onPageLoad] - PartnershipNamePage missing from userAnswers")
         Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
     }
   }
@@ -95,6 +98,9 @@ class PartnershipPhoneNumberController @Inject() (
               _              <- sessionRepository.set(updatedAnswers)
             } yield Redirect(navigator.nextPage(PartnershipPhoneNumberPage, mode, updatedAnswers))
         ))
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error(s"[PartnershipPhoneNumberController][onSubmit] - partnership name or phone option missing")
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
   }
 }

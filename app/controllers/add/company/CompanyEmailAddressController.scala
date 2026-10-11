@@ -22,6 +22,7 @@ import models.{FinalValidationMode, Mode}
 import models.contact.ContactMethodOptions
 import navigation.Navigator
 import pages.add.company.{CompanyContactMethodOptionsPage, CompanyEmailAddressPage}
+import play.api.Logging
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -46,7 +47,8 @@ class CompanyEmailAddressController @Inject() (
   view: CompanyEmailAddressView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form: Form[String] = formProvider()
 
@@ -72,6 +74,7 @@ class CompanyEmailAddressController @Inject() (
         case (Some(_), false) =>
           Redirect(controllers.add.company.routes.AddCompanyContactMethodsYesNoController.onPageLoad(mode))
         case _                =>
+          logger.error("[CompanyEmailAddressController][onPageLoad] - CompanyNamePage missing from userAnswers")
           Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
       }
     }
@@ -99,6 +102,11 @@ class CompanyEmailAddressController @Inject() (
               _              <- sessionRepository.set(updatedAnswers)
             } yield Redirect(navigator.nextPage(CompanyEmailAddressPage, mode, updatedAnswers))
         ))
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error(
+            "[CompanyEmailAddressController][onSubmit] - CompanyNamePage missing or email contact method not selected"
+          )
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
   }
 }

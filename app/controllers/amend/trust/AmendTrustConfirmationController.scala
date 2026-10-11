@@ -60,7 +60,7 @@ class AmendTrustConfirmationController @Inject() (
       val ua = request.userAnswers
 
       if (!ua.get(AmendCheckYourAnswersSubmittedPage).contains(true)) {
-        logger.warn("[AmendTrustConfirmationController] Accessed without prior CYA submission")
+        logger.error("[AmendTrustConfirmationController] Accessed without prior CYA submission")
         Future.successful(recoveryRedirect)
       } else {
         ua.get(OriginalTrustAnswersQuery) match {

@@ -63,6 +63,9 @@ class ReviewUnmatchedSubcontractorsController @Inject() (
           }
 
         case None =>
+          logger.error(
+            "[ReviewUnmatchedSubcontractorsController][onPageLoad] - CurrentVerificationBatchResponsePage missing from userAnswers"
+          )
           Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
       }
     }

@@ -114,6 +114,21 @@ class VerificationPreSelectionServiceSpec extends SpecBase {
       service.preSelectedSubcontractorIds(displayedSubcontractors, ua) mustBe Set("1", "2", "3")
     }
 
+    "must cap pre-selection at 100 when batch is not open and there are more than 100 subcontractors" in {
+      val manySubs = (1L to 150L).map(id => subcontractor(id, None))
+
+      val ua =
+        emptyUserAnswers
+          .set(NewestVerificationBatchResponsePage, newestBatch(Some("ACCEPTED")))
+          .success
+          .value
+
+      val result = service.preSelectedSubcontractorIds(manySubs, ua)
+
+      result.size mustBe 100
+      result mustBe (1L to 100L).map(_.toString).toSet
+    }
+
     "must select all displayed subcontractors when batch status is missing" in {
       val ua =
         emptyUserAnswers

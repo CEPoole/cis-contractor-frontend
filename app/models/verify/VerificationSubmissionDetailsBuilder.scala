@@ -18,14 +18,15 @@ package models.verify
 
 import models.response.{ChrisPollResponse, ChrisSubmissionResponse}
 
-import java.time.ZonedDateTime.now
-import java.time.{LocalDateTime, ZoneId}
+import java.time.LocalDateTime
 import scala.util.Try
 
 object VerificationSubmissionDetailsBuilder {
-  private val ukZone = ZoneId.of("Europe/London")
 
-  def fromSubmissionResponse(response: ChrisSubmissionResponse): VerificationSubmissionDetails =
+  def fromSubmissionResponse(
+    response: ChrisSubmissionResponse,
+    submittedAt: LocalDateTime
+  ): VerificationSubmissionDetails =
     VerificationSubmissionDetails(
       submissionId = response.submissionId,
       status = response.status,
@@ -34,9 +35,7 @@ object VerificationSubmissionDetailsBuilder {
       correlationId = response.correlationId,
       pollUrl = response.responseEndPoint.map(_.url),
       pollIntervalSeconds = response.responseEndPoint.map(_.pollIntervalSeconds),
-      submittedAt = response.gatewayTimestamp
-        .flatMap(timestamp => Try(LocalDateTime.parse(timestamp)).toOption)
-        .getOrElse(now(ukZone).toLocalDateTime),
+      submittedAt = submittedAt,
       lastMessageDate = None,
       timedOut = false
     )

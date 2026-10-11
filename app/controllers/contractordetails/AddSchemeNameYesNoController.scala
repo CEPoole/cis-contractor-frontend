@@ -20,7 +20,7 @@ import controllers.actions.*
 import forms.contractordetails.AddSchemeNameYesNoFormProvider
 import models.Mode
 import navigation.Navigator
-import pages.contractordetails.AddSchemeNameYesNoPage
+import pages.contractordetails.{AddSchemeNameYesNoPage, SchemeNamePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -64,7 +64,9 @@ class AddSchemeNameYesNoController @Inject() (
           formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
           value =>
             for {
-              updatedAnswers <- Future.fromTry(request.userAnswers.set(AddSchemeNameYesNoPage, value))
+              withYesNo      <- Future.fromTry(request.userAnswers.set(AddSchemeNameYesNoPage, value))
+              updatedAnswers <- if (!value) Future.fromTry(withYesNo.remove(SchemeNamePage))
+                                else Future.successful(withYesNo)
               _              <- sessionRepository.set(updatedAnswers)
             } yield Redirect(navigator.nextPage(AddSchemeNameYesNoPage, mode, updatedAnswers))
         )

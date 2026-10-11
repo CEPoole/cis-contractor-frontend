@@ -87,6 +87,7 @@ class PartnershipCheckYourAnswersController @Inject() (
   def onSubmit(): Action[AnyContent] =
     (identify andThen getData andThen requireData).async { implicit request =>
       if (request.userAnswers.get(CheckYourAnswersSubmittedPage).contains(true)) {
+        logger.error("[PartnershipCheckYourAnswersController][onSubmit] - CheckYourAnswersSubmittedPage already true")
         Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
       } else {
 

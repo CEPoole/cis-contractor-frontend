@@ -23,6 +23,7 @@ import controllers.helpers.SubcontractorNameDisplayHelper
 import models.address.Address
 import models.address.AddressLookupJourneyIdentifier.partnershipQuestionsAddress
 import pages.add.partnership.PartnershipAddressPage
+import play.api.Logging
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents}
 import queries.{AddressLookupAmendReturnQuery, Settable}
@@ -41,7 +42,8 @@ class PartnershipAddressController @Inject() (
   override protected val addressLookupService: AddressLookupService,
   val controllerComponents: MessagesControllerComponents
 )(implicit override protected val executionContext: ExecutionContext)
-    extends AddressLookupJourneyController {
+    extends AddressLookupJourneyController
+    with Logging {
 
   override protected def journeyId = partnershipQuestionsAddress
 
@@ -79,7 +81,13 @@ class PartnershipAddressController @Inject() (
         ua <- Future.fromTry(request.userAnswers.set(AddressLookupAmendReturnQuery, true))
         _  <- sessionRepository.set(ua)
       } yield Redirect(routes.PartnershipAddressController.redirectToAddressLookup(AmendMode, Some("change"))))
-        .recover { case _ => Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()) }
+        .recover { case ex =>
+          logger.error(
+            "[PartnershipAddressController][redirectToAmendAddressLookup] - failed to set session data for amend",
+            ex
+          )
+          Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
+        }
     }
 
 }

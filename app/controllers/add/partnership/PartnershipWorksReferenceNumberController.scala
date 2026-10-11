@@ -22,6 +22,7 @@ import forms.add.partnership.PartnershipWorksReferenceNumberFormProvider
 import models.Mode
 import navigation.Navigator
 import pages.add.partnership.{PartnershipWorksReferenceNumberPage, PartnershipWorksReferenceNumberYesNoPage}
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -45,7 +46,8 @@ class PartnershipWorksReferenceNumberController @Inject() (
   view: PartnershipWorksReferenceNumberView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form = formProvider()
 
@@ -63,9 +65,12 @@ class PartnershipWorksReferenceNumberController @Inject() (
         val result       = Ok(view(preparedForm, mode, partnershipName))
         yesOrNoPageGuardService.yesOrNoPageRoute(result, yesOrNoPageOption, yesOrNoPage, mode)
       }
-      .getOrElse(
+      .getOrElse {
+        logger.error(
+          s"[PartnershipWorksReferenceNumberController][onPageLoad] - PartnershipNamePage missing from userAnswers"
+        )
         Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
-      )
+      }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -84,10 +89,11 @@ class PartnershipWorksReferenceNumberController @Inject() (
                 } yield Redirect(navigator.nextPage(PartnershipWorksReferenceNumberPage, mode, updatedAnswers))
             )
         }
-        .getOrElse(
-          Future.successful(
-            Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
+        .getOrElse {
+          logger.error(
+            s"[PartnershipWorksReferenceNumberController][onSubmit] - PartnershipNamePage missing from userAnswers"
           )
-        )
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
   }
 }

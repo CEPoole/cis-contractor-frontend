@@ -19,6 +19,7 @@ package controllers
 import config.FrontendAppConfig
 import controllers.actions.{DataRetrievalAction, IdentifierAction}
 import pages.CisIdPage
+import play.api.Logging
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -30,7 +31,8 @@ class ServiceHomeController @Inject() (
   appConfig: FrontendAppConfig,
   val controllerComponents: MessagesControllerComponents
 ) extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   def onPageLoad(): Action[AnyContent] =
     (identify andThen getData) { implicit request =>
@@ -40,9 +42,10 @@ class ServiceHomeController @Inject() (
           .map { cisId =>
             Redirect(s"${appConfig.constructionIndustryAgentAccountUrl}$cisId")
           }
-          .getOrElse(
+          .getOrElse {
+            logger.error("[ServiceHomeController][onPageLoad] - CisIdPage missing from userAnswers")
             Redirect(routes.JourneyRecoveryController.onPageLoad())
-          )
+          }
       } else {
         Redirect(appConfig.constructionIndustryOrgAccountUrl)
       }

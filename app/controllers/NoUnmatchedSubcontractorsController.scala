@@ -19,6 +19,7 @@ package controllers
 import config.FrontendAppConfig
 import controllers.actions._
 import javax.inject.Inject
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import play.utils.UriEncoding
@@ -35,7 +36,8 @@ class NoUnmatchedSubcontractorsController @Inject() (
   view: NoUnmatchedSubcontractorsView
 )(implicit appConfig: FrontendAppConfig)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
     request.userAnswers.get(CisIdQuery) match {
@@ -44,6 +46,7 @@ class NoUnmatchedSubcontractorsController @Inject() (
           s"${appConfig.manageSubcontractorsUrl}/${UriEncoding.encodePathSegment(cisId, "UTF-8")}"
         Ok(view(manageSubcontractorsUrl))
       case None        =>
+        logger.error("[NoUnmatchedSubcontractorsController][onPageLoad] - CIS ID missing from userAnswers")
         Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
     }
   }

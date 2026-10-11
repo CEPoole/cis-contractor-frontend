@@ -71,4 +71,15 @@ class FinalValidationDraftService @Inject() (
 
   def commit(instanceId: String, draftId: String)(implicit hc: HeaderCarrier): Future[Unit] =
     connector.commitFinalValidationDraft(instanceId, draftId)
+
+  def resetSubcontractor(
+    instanceId: String,
+    draftId: String,
+    subcontractorId: Long
+  )(implicit hc: HeaderCarrier): Future[FinalValidationDraft] =
+    connector.resetFinalValidationSubcontractor(
+      instanceId,
+      draftId,
+      subcontractorId
+    )
 }

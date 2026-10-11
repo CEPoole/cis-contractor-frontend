@@ -25,6 +25,7 @@ import pages.add.CheckYourAnswersSubmittedPage
 import pages.add.company.CompanyNamePage
 import pages.add.partnership.PartnershipNamePage
 import pages.add.trust.TrustNamePage
+import play.api.Logging
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import queries.CisIdQuery
@@ -45,7 +46,8 @@ class SubcontractorAddedController @Inject() (
   view: SubcontractorAddedView,
   appConfig: FrontendAppConfig
 ) extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   def individualSubcontractorAdded: Action[AnyContent] =
     (identify andThen getData andThen requireData).async { implicit request =>
@@ -114,10 +116,12 @@ class SubcontractorAddedController @Inject() (
           )
 
         case _ =>
+          logger.error("[SubcontractorAddedController][subcontractorAdded] - name or CIS ID missing from userAnswers")
           Future.successful(recoveryRedirect)
       }
 
     } else {
+      logger.error("[SubcontractorAddedController][subcontractorAdded] - CheckYourAnswersSubmitted not true")
       Future.successful(recoveryRedirect)
     }
   }

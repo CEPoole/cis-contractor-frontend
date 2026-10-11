@@ -108,8 +108,11 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
 
   lazy val manageSubcontractorsLandingBaseUrl: String = configuration.get[String]("urls.manageSubcontractorsLanding")
   private val exitSurveyBaseUrl: String               = configuration.get[Service]("microservice.services.feedback-frontend").baseUrl
-  lazy val exitSurveyUrl: String                      = s"$exitSurveyBaseUrl/feedback/cis-contractor-frontend"
+  lazy val exitSurveyUrl: String                      = s"$exitSurveyBaseUrl/feedback/construction-industry-scheme"
   lazy val cisFeedbackSurveyUrl: String               = s"$exitSurveyBaseUrl/feedback/construction-industry-scheme"
+
+  lazy val userResearchUrl: String                = configuration.get[String]("urls.userResearchUrl")
+  lazy val showUserResearchBannerEnabled: Boolean = configuration.get[Boolean]("features.user-research-banner-enabled")
 
   lazy val languageTranslationEnabled: Boolean =
     configuration.get[Boolean]("features.welsh-translation")

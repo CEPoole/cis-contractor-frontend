@@ -55,7 +55,11 @@ class VerificationResultsController @Inject() (
             .map { _ =>
               Ok(view(VerificationResultsViewModel.from(response), manageSubcontractorsUrl))
             }
-        case None           => Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        case None           =>
+          logger.error(
+            "[VerificationResultsController][onPageLoad] - LastSubmittedVerificationBatchResponsePage missing from userAnswers"
+          )
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
       }
   }
 

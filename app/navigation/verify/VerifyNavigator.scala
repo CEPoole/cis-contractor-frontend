@@ -38,6 +38,7 @@ class VerifyNavigator @Inject() () extends NavigatorForJourney {
     case CheckMode  =>
       checkRouteMap(page)(userAnswers)
     case AmendMode  =>
+      logger.error(s"[VerifyNavigator][nextPage] - AmendMode not supported, page=$page")
       routes.JourneyRecoveryController.onPageLoad()
   }
 
@@ -63,7 +64,10 @@ class VerifyNavigator @Inject() () extends NavigatorForJourney {
       _ => controllers.verify.routes.ReviewInsufficientInfoSubcontractorsController.onPageLoad()
     case ProceedSubcontractorVerifyRequestPage(_)         =>
       _ => controllers.verify.routes.ReviewUnmatchedSubcontractorsController.onPageLoad()
-    case _                                                => _ => controllers.routes.JourneyRecoveryController.onPageLoad()
+    case unexpected                                       =>
+      _ =>
+        logger.error(s"[VerifyNavigator][normalRoutes] - navigator fallback reached, page=$unexpected")
+        controllers.routes.JourneyRecoveryController.onPageLoad()
   }
 
   private def checkRouteMap: Page => UserAnswers => Call = {
@@ -83,7 +87,10 @@ class VerifyNavigator @Inject() () extends NavigatorForJourney {
       _ => controllers.verify.routes.VerifyCheckYourAnswersController.onPageLoad()
     case VerificationDeclarationPage              =>
       _ => controllers.verify.routes.VerifyCheckYourAnswersController.onPageLoad()
-    case _                                        => _ => controllers.routes.JourneyRecoveryController.onPageLoad()
+    case unexpected                               =>
+      _ =>
+        logger.error(s"[VerifyNavigator][checkRouteMap] - navigator fallback reached, page=$unexpected")
+        controllers.routes.JourneyRecoveryController.onPageLoad()
   }
 
   private def navigatorFromContractorEmailConfirmationNotStoredPage(mode: Mode)(ua: UserAnswers): Call =
@@ -99,6 +106,9 @@ class VerifyNavigator @Inject() () extends NavigatorForJourney {
         controllers.verify.routes.VerifyCheckYourAnswersController.onPageLoad()
 
       case _ =>
+        logger.error(
+          s"[VerifyNavigator][navigatorFromContractorEmailConfirmationNotStoredPage] - answer missing, mode=$mode"
+        )
         controllers.routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -131,6 +141,7 @@ class VerifyNavigator @Inject() () extends NavigatorForJourney {
         }
 
       case AmendMode =>
+        logger.error("[VerifyNavigator][navigatorFromSelectSubcontractorPage] - AmendMode not supported")
         controllers.routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -163,6 +174,9 @@ class VerifyNavigator @Inject() () extends NavigatorForJourney {
         }
 
       case _ =>
+        logger.error(
+          s"[VerifyNavigator][navigatorFromReverifyExistingSubcontractorsYesNoPage] - answer missing, mode=$mode"
+        )
         controllers.routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -179,6 +193,7 @@ class VerifyNavigator @Inject() () extends NavigatorForJourney {
         controllers.verify.routes.NoSubcontractorsSelectedWarningController.onPageLoadCheckMode()
 
       case _ =>
+        logger.error(s"[VerifyNavigator][navigatorFromVerifyYourSubcontractorsYesNoPage] - answer missing, mode=$mode")
         controllers.routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -197,6 +212,7 @@ class VerifyNavigator @Inject() () extends NavigatorForJourney {
           controllers.verify.routes.CurrentVerificationBatchController.onPageLoad(CheckMode)
 
         case AmendMode =>
+          logger.error("[VerifyNavigator][navigatorFromSelectSubcontractorsToReverifyPage] - AmendMode not supported")
           controllers.routes.JourneyRecoveryController.onPageLoad()
       }
     } else {
@@ -208,6 +224,7 @@ class VerifyNavigator @Inject() () extends NavigatorForJourney {
           controllers.verify.routes.NoSubcontractorsSelectedWarningController.onPageLoadCheckMode()
 
         case AmendMode =>
+          logger.error("[VerifyNavigator][navigatorFromSelectSubcontractorsToReverifyPage] - AmendMode not supported")
           controllers.routes.JourneyRecoveryController.onPageLoad()
       }
     }
@@ -232,6 +249,9 @@ class VerifyNavigator @Inject() () extends NavigatorForJourney {
         controllers.verify.routes.VerifyCheckYourAnswersController.onPageLoad()
 
       case _ =>
+        logger.error(
+          s"[VerifyNavigator][navigatorFromContractorEmailConfirmationStoredPage] - answer missing, mode=$mode"
+        )
         controllers.routes.JourneyRecoveryController.onPageLoad()
     }
 }

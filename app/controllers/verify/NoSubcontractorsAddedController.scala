@@ -19,6 +19,7 @@ package controllers.verify
 import config.FrontendAppConfig
 import controllers.actions.*
 import models.NormalMode
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import queries.CisIdQuery
@@ -36,7 +37,8 @@ class NoSubcontractorsAddedController @Inject() (
   view: NoSubcontractorsAddedView
 )(implicit appConfig: FrontendAppConfig)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
 
@@ -49,6 +51,9 @@ class NoSubcontractorsAddedController @Inject() (
         Ok(view(addSubcontractorsUrl, manageSubcontractorsUrl))
 
       case None =>
+        logger.error(
+          "[NoSubcontractorsAddedController][onPageLoad] - CisIdQuery missing from userAnswers"
+        )
         Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
 
     }

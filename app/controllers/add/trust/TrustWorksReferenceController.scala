@@ -22,6 +22,7 @@ import forms.add.trust.TrustWorksReferenceFormProvider
 import models.Mode
 import navigation.Navigator
 import pages.add.trust.{TrustWorksReferencePage, TrustWorksReferenceYesNoPage}
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -45,7 +46,8 @@ class TrustWorksReferenceController @Inject() (
   view: TrustWorksReferenceView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form = formProvider()
 
@@ -64,7 +66,10 @@ class TrustWorksReferenceController @Inject() (
         val result = Ok(view(preparedForm, mode, trustName))
         yesOrNoPageGuardService.yesOrNoPageRoute(result, yesOrNoPageOption, yesOrNoPage, mode)
       }
-      .getOrElse(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+      .getOrElse {
+        logger.error(s"[TrustWorksReferenceController][onPageLoad] - TrustNamePage missing from userAnswers")
+        Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
+      }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -83,6 +88,9 @@ class TrustWorksReferenceController @Inject() (
                 } yield Redirect(navigator.nextPage(TrustWorksReferencePage, mode, updatedAnswers))
             )
         }
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error(s"[TrustWorksReferenceController][onSubmit] - TrustNamePage missing from userAnswers")
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
   }
 }

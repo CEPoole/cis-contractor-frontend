@@ -23,6 +23,7 @@ import models.{FinalValidationMode, Mode}
 import models.contact.ContactMethodOptions
 import navigation.Navigator
 import pages.add.trust.{TrustContactMethodOptionsPage, TrustMobileNumberPage}
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -44,7 +45,8 @@ class TrustMobileNumberController @Inject() (
   view: TrustMobileNumberView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form = formProvider()
 
@@ -69,6 +71,7 @@ class TrustMobileNumberController @Inject() (
         case (Some(_), false) =>
           Redirect(controllers.add.trust.routes.AddTrustContactMethodsYesNoController.onPageLoad(mode))
         case _                =>
+          logger.error(s"[TrustMobileNumberController][onPageLoad] - trust name missing from userAnswers, mode=$mode")
           Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
       }
     }
@@ -96,6 +99,9 @@ class TrustMobileNumberController @Inject() (
               _              <- sessionRepository.set(updatedAnswers)
             } yield Redirect(navigator.nextPage(TrustMobileNumberPage, mode, updatedAnswers))
         ))
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error(s"[TrustMobileNumberController][onSubmit] - trust name or mobile option missing, mode=$mode")
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
   }
 }

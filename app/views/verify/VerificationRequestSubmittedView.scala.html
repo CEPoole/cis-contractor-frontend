@@ -47,7 +47,11 @@
     messages: Messages
 )
 
-@layout(pageTitle = titleNoForm(messages("verify.verificationRequestSubmitted.title")), showBackLink = false) {
+@layout(
+    pageTitle = titleNoForm(messages("verify.verificationRequestSubmitted.title")), 
+    showBackLink = false,
+    showUrBanner = true
+) {
 
     @govukPanel(
         Panel(

@@ -21,6 +21,7 @@ import forms.add.company.CompanyCrnFormProvider
 import models.Mode
 import navigation.Navigator
 import pages.add.company.{CompanyCrnPage, CompanyCrnYesNoPage}
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -46,7 +47,8 @@ class CompanyCrnController @Inject() (
   view: CompanyCrnView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form = formProvider()
 
@@ -66,7 +68,10 @@ class CompanyCrnController @Inject() (
         val result = Ok(view(preparedForm, mode, companyName))
         yesOrNoPageGuardService.yesOrNoPageRoute(result, yesOrNoPageOption, yesOrNoPage, mode)
       }
-      .getOrElse(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+      .getOrElse {
+        logger.error("[CompanyCrnController][onPageLoad] - CompanyNamePage missing from userAnswers")
+        Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
+      }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -85,6 +90,9 @@ class CompanyCrnController @Inject() (
                 } yield Redirect(navigator.nextPage(CompanyCrnPage, mode, updatedAnswers))
             )
         }
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error("[CompanyCrnController][onSubmit] - CompanyNamePage missing from userAnswers")
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
   }
 }

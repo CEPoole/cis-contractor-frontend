@@ -22,6 +22,7 @@ import models.Mode
 import models.requests.DataRequest
 import navigation.Navigator
 import pages.add.SubAddressYesNoPage
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -45,7 +46,8 @@ class SubAddressYesNoController @Inject() (
   view: SubAddressYesNoView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   private val form = formProvider()
 
@@ -59,7 +61,10 @@ class SubAddressYesNoController @Inject() (
     (identify andThen getData andThen requireData) { implicit request =>
       subcontractorNameExtractor
         .getSubcontractorName(request.userAnswers, mode)
-        .fold(recoveryRedirect) { subcontractorName =>
+        .fold {
+          logger.error("[SubAddressYesNoController][onPageLoad] - subcontractor name missing or invalid")
+          recoveryRedirect
+        } { subcontractorName =>
           Ok(view(preparedForm, mode, subcontractorName))
         }
     }
@@ -68,7 +73,10 @@ class SubAddressYesNoController @Inject() (
     (identify andThen getData andThen requireData).async { implicit request =>
       subcontractorNameExtractor
         .getSubcontractorName(request.userAnswers, mode)
-        .fold(Future.successful(recoveryRedirect)) { subcontractorName =>
+        .fold {
+          logger.error("[SubAddressYesNoController][onSubmit] - subcontractor name missing or invalid")
+          Future.successful(recoveryRedirect)
+        } { subcontractorName =>
           form
             .bindFromRequest()
             .fold(

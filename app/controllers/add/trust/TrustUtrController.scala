@@ -24,6 +24,7 @@ import models.{AmendMode, FinalValidationMode, Mode}
 import navigation.Navigator
 import pages.add.trust.{TrustUtrPage, TrustUtrYesNoPage}
 import pages.finalvalidation.FinalValidationBaseUtrPage
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -49,7 +50,8 @@ class TrustUtrController @Inject() (
   view: TrustUtrView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form = formProvider()
 
@@ -77,7 +79,10 @@ class TrustUtrController @Inject() (
           val result       = Ok(view(preparedForm, mode, trustName))
           yesOrNoPageGuardService.yesOrNoPageRoute(result, yesOrNoPageOption, yesOrNoPage, mode)
         }
-        .getOrElse(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        .getOrElse {
+          logger.error(s"[TrustUtrController][onPageLoad] - TrustNamePage missing from userAnswers")
+          Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
+        }
     }
 
   def onSubmit(mode: Mode): Action[AnyContent] =
@@ -114,6 +119,9 @@ class TrustUtrController @Inject() (
                 }
             )
         }
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error(s"[TrustUtrController][onSubmit] - TrustNamePage missing from userAnswers")
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
     }
 }

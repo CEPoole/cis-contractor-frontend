@@ -71,6 +71,7 @@ class ContractorDetailsNavigator @Inject() () extends NavigatorForJourney {
       case (Some(false), CheckMode | AmendMode) =>
         checkAnswers
       case _                                    =>
+        logger.error(s"[ContractorDetailsNavigator][nextForAddSchemeNameYesNo] - answer missing or invalid, mode=$mode")
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -85,6 +86,9 @@ class ContractorDetailsNavigator @Inject() () extends NavigatorForJourney {
       case (Some(false), CheckMode | AmendMode) =>
         checkAnswers
       case _                                    =>
+        logger.error(
+          s"[ContractorDetailsNavigator][nextForAddEmailAddressYesNo] - answer missing or invalid, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 

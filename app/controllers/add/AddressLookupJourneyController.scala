@@ -21,6 +21,7 @@ import forms.mappings.Constants.MaxLength35
 import models.{Mode, UserAnswers}
 import models.address.{Address, AddressLookupJourneyIdentifier, MandatoryFieldsConfigModel}
 import models.requests.DataRequest
+import play.api.Logging
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc.{Action, AnyContent, Call, Result}
 import queries.Settable
@@ -35,7 +36,7 @@ import scala.concurrent.{ExecutionContext, Future}
   * partnership, trust) supplies only the values that differ between journeys; the redirect-to-ALF and callback handling
   * is implemented once here.
   */
-trait AddressLookupJourneyController extends FrontendBaseController with I18nSupport {
+trait AddressLookupJourneyController extends FrontendBaseController with I18nSupport with Logging {
 
   protected val sessionRepository: SessionRepository
   protected val addressLookupService: AddressLookupService
@@ -93,8 +94,18 @@ trait AddressLookupJourneyController extends FrontendBaseController with I18nSup
               townMaxLength = Some(MaxLength35)
             )
             .map(Redirect)
-            .recover { case _ => Redirect(journeyRecovery) }
-        case None       => Future.successful(Redirect(journeyRecovery))
+            .recover { case ex =>
+              logger.error(
+                "[AddressLookupJourneyController][redirectToAddressLookup] - failed to get ALF journey URL",
+                ex
+              )
+              Redirect(journeyRecovery)
+            }
+        case None       =>
+          logger.error(
+            "[AddressLookupJourneyController][redirectToAddressLookup] - subcontractor name missing from userAnswers"
+          )
+          Future.successful(Redirect(journeyRecovery))
       }
     }
 
@@ -115,7 +126,20 @@ trait AddressLookupJourneyController extends FrontendBaseController with I18nSup
     (for {
       address <- addressLookupService.getAddressById(id)
       updated <- addressLookupService.saveAddressDetails(address, addressPage)
-    } yield if (updated) Redirect(onSuccess) else Redirect(journeyRecovery))
-      .recover { case _ => Redirect(journeyRecovery) }
+    } yield
+      if (updated) Redirect(onSuccess)
+      else {
+        logger.error(
+          "[AddressLookupJourneyController][saveAddressAndRedirect] - address not saved, update returned false"
+        )
+        Redirect(journeyRecovery)
+      })
+      .recover { case ex =>
+        logger.error(
+          "[AddressLookupJourneyController][saveAddressAndRedirect] - failed to retrieve or save address",
+          ex
+        )
+        Redirect(journeyRecovery)
+      }
 
 }

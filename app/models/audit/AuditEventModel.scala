@@ -38,7 +38,12 @@ trait AuditEventModel extends AuditEvent {
     )
 }
 
-case class AuthFailureAuditEventModel() extends AuditEventModel {
+case class AuthFailureAuditEventModel(
+  agentUserId: String,
+  taxOfficeNumber: String,
+  taxOfficeReference: String,
+  clientUniqueId: String
+) extends AuditEventModel {
   override val auditType: String = "AuthoriseServiceGuardFailure"
 
   override val detailJson: JsValue =

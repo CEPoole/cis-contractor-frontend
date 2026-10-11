@@ -47,6 +47,7 @@ class FinalValidationHandoffController @Inject() (
         case Some((updatedAnswers, payload)) =>
           Redirect(finalValidationNavigator.startPage(payload.changeTarget, updatedAnswers))
         case None                            =>
+          logger.error("[FinalValidationHandoffController][onPageLoad] - handoff journey not prepared")
           Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
       }
       .recover { case NonFatal(ex) =>

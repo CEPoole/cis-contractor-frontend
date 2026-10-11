@@ -109,6 +109,9 @@ class NewestVerificationBatchController @Inject() (
   ): Future[play.api.mvc.Result] =
     checkSchemeInactivity(response) match {
       case InactivityStatus.MissingData =>
+        logger.error(
+          "[NewestVerificationBatchController][routeFromResponse] - monthlyReturnSubmission data missing for scheme"
+        )
         Future.successful(
           Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
         )
@@ -202,6 +205,9 @@ class NewestVerificationBatchController @Inject() (
 
                 batch match {
                   case None =>
+                    logger.error(
+                      "[NewestVerificationBatchController][onPageLoad] - NewestVerificationBatchResponsePage missing from userAnswers"
+                    )
                     Future.successful(
                       Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
                     )
@@ -235,6 +241,9 @@ class NewestVerificationBatchController @Inject() (
 
           batch match {
             case None =>
+              logger.error(
+                "[NewestVerificationBatchController][onContinue] - NewestVerificationBatchResponsePage missing from userAnswers"
+              )
               Future.successful(
                 Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
               )

@@ -99,7 +99,13 @@ class ProceedInsufficientSubcontractorNameYesNoController @Inject() (
               }
             }
         }
-        .getOrElse(recoveryRedirect)
+        .getOrElse {
+          logger.error(
+            "[ProceedInsufficientSubcontractorNameYesNoController][onPageLoad] - " +
+              s"CurrentVerificationBatchResponsePage missing or subcontractor not in batch, subcontractorId=$subcontractorId"
+          )
+          recoveryRedirect
+        }
     }
 
   def onSubmit(subcontractorId: Long, mode: Mode): Action[AnyContent] =
@@ -165,9 +171,19 @@ class ProceedInsufficientSubcontractorNameYesNoController @Inject() (
                       }
                   )
               }
-              .getOrElse(Future.successful(recoveryRedirect))
+              .getOrElse {
+                logger.error(
+                  "[ProceedInsufficientSubcontractorNameYesNoController][onSubmit] - " +
+                    s"subcontractor not in CurrentVerificationBatchResponsePage, subcontractorId=$subcontractorId"
+                )
+                Future.successful(recoveryRedirect)
+              }
 
           case _ =>
+            logger.error(
+              "[ProceedInsufficientSubcontractorNameYesNoController][onSubmit] - " +
+                "CisIdQuery or CurrentVerificationBatchResponsePage missing from userAnswers"
+            )
             Future.successful(recoveryRedirect)
         }
 

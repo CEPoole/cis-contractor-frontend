@@ -36,10 +36,6 @@
 }
 
 @verifySubcontractorSubmitLink() = {
-    <span class="app-task-list-row-submit">
-        <span class="govuk-link govuk-link--no-visited-state">
-            @messages("finalValidations.verify.reviewSubcontractorDetails.taskList.verifySubcontractor")
-        </span>
 
         @helper.form(
             action = controllers.finalvalidations.routes.ReviewSubcontractorDetailsController.onSubmit
@@ -48,14 +44,11 @@
 
             <button
                     type="submit"
-                    class="app-task-list-row-submit__button"
+                    class="govuk-link govuk-link--no-visited-state app-task-list-row-submit__button"
             >
-                <span class="govuk-visually-hidden">
-                    @messages("finalValidations.verify.reviewSubcontractorDetails.taskList.verifySubcontractor")
-                </span>
+                @messages("finalValidations.verify.reviewSubcontractorDetails.taskList.verifySubcontractor")
             </button>
         }
-    </span>
 }
 
 @defining(
@@ -100,8 +93,7 @@
                             content = HtmlContent(verifySubcontractorSubmitLink())
                         ),
                         href = None,
-                        status = incompleteStatus,
-                        classes = "govuk-task-list__item--with-link app-task-list-row-submit-item"
+                        status = incompleteStatus
                     )
                 } else {
                     TaskListItem(

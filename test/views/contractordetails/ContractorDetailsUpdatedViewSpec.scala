@@ -74,12 +74,11 @@ class ContractorDetailsUpdatedViewSpec extends SpecBase with Matchers {
           )
         }
 
-        "must not show back link or sign out link" in new Setup {
+        "must not show back link" in new Setup {
           val html: HtmlFormat.Appendable = view(cisAccountUrl)
           val doc: Document               = Jsoup.parse(html.body)
 
           doc.getElementsByClass("govuk-back-link").size mustBe 0
-          doc.getElementsByClass("hmrc-sign-out-nav__link").size mustBe 0
         }
       }
     }

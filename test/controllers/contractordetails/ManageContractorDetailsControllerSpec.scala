@@ -17,12 +17,13 @@
 package controllers.contractordetails
 
 import base.SpecBase
+import models.contractordetails.ContractorDetailsValidationTarget
 import models.{Scheme, UserAnswers}
 import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.{any, eq as eqTo}
 import org.mockito.Mockito.{atLeastOnce, verify, when}
 import org.scalatestplus.mockito.MockitoSugar
-import pages.contractordetails.ContractorSchemePage
+import pages.contractordetails.{ContractorDetailsValidationTargetPage, ContractorSchemePage}
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
@@ -365,6 +366,12 @@ class ManageContractorDetailsControllerSpec extends SpecBase with MockitoSugar {
           .set(CisIdQuery, "cisId")
           .success
           .value
+          .set(
+            ContractorDetailsValidationTargetPage,
+            ContractorDetailsValidationTarget.FileNilReturn
+          )
+          .success
+          .value
 
       when(
         mockContractorDetailsService.getScheme(eqTo("cisId"))(any())
@@ -406,6 +413,19 @@ class ManageContractorDetailsControllerSpec extends SpecBase with MockitoSugar {
           controllers.contractordetails.routes.ContractorDetailsCheckAnswersController
             .onPageLoad(Some(target))
             .url
+
+        val userAnswersCaptor =
+          ArgumentCaptor.forClass(classOf[UserAnswers])
+
+        verify(mockSessionRepository, atLeastOnce())
+          .set(userAnswersCaptor.capture())
+
+        val savedAnswers =
+          userAnswersCaptor.getAllValues.asScala.last
+
+        savedAnswers.get(ContractorDetailsValidationTargetPage) mustBe None
+
+        savedAnswers.get(ContractorSchemePage) mustBe Some(schemeWithUtr)
       }
     }
   }

@@ -28,7 +28,7 @@
 
 @(cisAccountUrl: String)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
 
-@layout(pageTitle = titleNoForm(messages("contractordetails.contractorDetailsUpdated.title")), showBackLink = false, showSignOut = false) {
+@layout(pageTitle = titleNoForm(messages("contractordetails.contractorDetailsUpdated.title")), showBackLink = false, showSignOut = true) {
 
     @govukPanel(
         Panel(title = Text(

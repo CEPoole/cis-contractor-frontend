@@ -60,6 +60,7 @@ class AmendCompanyRemoveDetailYesNoController @Inject() (
         action(detailType)
 
       case None =>
+        logger.error(s"[AmendCompanyRemoveDetailYesNoController][withValidDetail] - invalid detail=$detail")
         Future.successful(
           Redirect(
             controllers.routes.JourneyRecoveryController.onPageLoad()
@@ -112,6 +113,9 @@ class AmendCompanyRemoveDetailYesNoController @Inject() (
         .map { companyName =>
           withValidDetail(subcontractorDetail) { detailType =>
             if (!detailIsPresent(detailType, request.userAnswers)) {
+              logger.error(
+                s"[AmendCompanyRemoveDetailYesNoController][onPageLoad] - detail missing, detail=$subcontractorDetail"
+              )
 
               Future.successful(journeyRecovery)
 
@@ -128,7 +132,10 @@ class AmendCompanyRemoveDetailYesNoController @Inject() (
             }
           }
         }
-        .getOrElse(Future.successful(journeyRecovery))
+        .getOrElse {
+          logger.error("[AmendCompanyRemoveDetailYesNoController][onPageLoad] - company name missing from userAnswers")
+          Future.successful(journeyRecovery)
+        }
     }
 
   def onSubmit(subcontractorDetail: String): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -138,6 +145,9 @@ class AmendCompanyRemoveDetailYesNoController @Inject() (
         .map { companyName =>
           withValidDetail(subcontractorDetail) { detailType =>
             if (!detailIsPresent(detailType, request.userAnswers)) {
+              logger.error(
+                s"[AmendCompanyRemoveDetailYesNoController][onSubmit] - detail missing, detail=$subcontractorDetail"
+              )
 
               Future.successful(journeyRecovery)
 
@@ -177,6 +187,9 @@ class AmendCompanyRemoveDetailYesNoController @Inject() (
             }
           }
         }
-        .getOrElse(Future.successful(journeyRecovery))
+        .getOrElse {
+          logger.error("[AmendCompanyRemoveDetailYesNoController][onSubmit] - company name missing from userAnswers")
+          Future.successful(journeyRecovery)
+        }
   }
 }

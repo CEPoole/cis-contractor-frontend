@@ -74,13 +74,26 @@ class RemoveSubcontractorVerifyRequestController @Inject() (
 
                   Ok(view(preparedForm, subcontractor.displayName, subcontractorId))
                 }
-                .getOrElse(recoveryRedirect)
+                .getOrElse {
+                  logger.error(
+                    "[RemoveSubcontractorVerifyRequestController][onPageLoad] - " +
+                      s"subcontractor not found in CurrentVerificationBatchResponsePage, subcontractorId=$subcontractorId"
+                  )
+                  recoveryRedirect
+                }
 
             case None =>
+              logger.error(
+                "[RemoveSubcontractorVerifyRequestController][onPageLoad] - " +
+                  s"verification not found in CurrentVerificationBatchResponsePage, subcontractorId=$subcontractorId"
+              )
               recoveryRedirect
           }
 
         case None =>
+          logger.error(
+            "[RemoveSubcontractorVerifyRequestController][onPageLoad] - CurrentVerificationBatchResponsePage missing from userAnswers"
+          )
           recoveryRedirect
       }
     }
@@ -120,10 +133,18 @@ class RemoveSubcontractorVerifyRequestController @Inject() (
                               } else if (deleteResponse.verificationsCounter.contains(0L)) {
                                 Redirect(appConfig.retrieveSubcontractorListUrl)
                               } else {
+                                logger.error(
+                                  "[RemoveSubcontractorVerifyRequestController][onSubmit] - " +
+                                    s"unexpected verificationsCounter after delete, subcontractorId=$subcontractorId"
+                                )
                                 recoveryRedirect
                               }
 
                           case None =>
+                            logger.error(
+                              "[RemoveSubcontractorVerifyRequestController][onSubmit] - " +
+                                s"verificationResourceRef missing for subcontractorId=$subcontractorId"
+                            )
                             Future.successful(recoveryRedirect)
                         }
                       } else {
@@ -138,9 +159,18 @@ class RemoveSubcontractorVerifyRequestController @Inject() (
                       }
                   )
               }
-              .getOrElse(Future.successful(recoveryRedirect))
+              .getOrElse {
+                logger.error(
+                  "[RemoveSubcontractorVerifyRequestController][onSubmit] - " +
+                    s"subcontractor not found in CurrentVerificationBatchResponsePage, subcontractorId=$subcontractorId"
+                )
+                Future.successful(recoveryRedirect)
+              }
 
           case None =>
+            logger.error(
+              "[RemoveSubcontractorVerifyRequestController][onSubmit] - CurrentVerificationBatchResponsePage missing from userAnswers"
+            )
             Future.successful(recoveryRedirect)
         }
 

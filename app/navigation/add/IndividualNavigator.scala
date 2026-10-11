@@ -162,6 +162,7 @@ class IndividualNavigator @Inject() () extends NavigatorForJourney {
         controllers.amend.routes.AmendIndividualCheckYourAnswersController.onPageLoad()
 
       case _ =>
+        logger.error(s"[IndividualNavigator][navigatorFromIndividualNamesOptionsPage] - unexpected state, mode=$mode")
         routes.JourneyRecoveryController.onPageLoad()
 
     }
@@ -186,6 +187,7 @@ class IndividualNavigator @Inject() () extends NavigatorForJourney {
         controllers.amend.routes.AmendIndividualCheckYourAnswersController.onPageLoad()
 
       case _ =>
+        logger.error(s"[IndividualNavigator][navigatorFromSubcontractorNamePage] - unexpected state, mode=$mode")
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -198,6 +200,9 @@ class IndividualNavigator @Inject() () extends NavigatorForJourney {
           case Some(false) =>
             cyaRoute(mode)
           case None        =>
+            logger.error(
+              "[IndividualNavigator][navigatorFromSubAddressYesNoPage] - SubAddressYesNoPage missing from userAnswers"
+            )
             controllers.routes.JourneyRecoveryController.onPageLoad()
         }
       case _         =>
@@ -228,6 +233,9 @@ class IndividualNavigator @Inject() () extends NavigatorForJourney {
       case (Some(false), CheckMode | AmendMode) =>
         cyaRoute(mode)
       case _                                    =>
+        logger.error(
+          s"[IndividualNavigator][navigatorFromNationalInsuranceNumberYesNoPage] - unexpected state, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -249,6 +257,9 @@ class IndividualNavigator @Inject() () extends NavigatorForJourney {
         cyaRoute(mode)
 
       case _ =>
+        logger.error(
+          s"[IndividualNavigator][navigatorFromUniqueTaxpayerReferenceYesNoPage] - unexpected state, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -271,6 +282,9 @@ class IndividualNavigator @Inject() () extends NavigatorForJourney {
         cyaRoute(mode)
 
       case _ =>
+        logger.error(
+          s"[IndividualNavigator][navigatorFromWorksReferenceNumberYesNoPage] - unexpected state, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -294,6 +308,9 @@ class IndividualNavigator @Inject() () extends NavigatorForJourney {
         cyaRoute(mode)
 
       case _ =>
+        logger.error(
+          s"[IndividualNavigator][navigatorFromAddIndividualContactMethodsYesNoPage] - unexpected state, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -325,9 +342,17 @@ class IndividualNavigator @Inject() () extends NavigatorForJourney {
   )(terminalStep: Seq[ContactMethodOptions] => Call): Call =
     selectedContactMethodsInOrder(userAnswers)
       .filter(_.nonEmpty)
-      .fold(routes.JourneyRecoveryController.onPageLoad()) { selectedContactMethods =>
+      .fold {
+        logger.error(
+          "[IndividualNavigator][navigateFromContactMethodPage] - ContactMethodOptions missing or empty"
+        )
+        routes.JourneyRecoveryController.onPageLoad()
+      } { selectedContactMethods =>
         current match {
           case Some(currentContactMethod) if !selectedContactMethods.contains(currentContactMethod) =>
+            logger.error(
+              "[IndividualNavigator][navigateFromContactMethodPage] - current contact method not selected"
+            )
             routes.JourneyRecoveryController.onPageLoad()
 
           case _ =>

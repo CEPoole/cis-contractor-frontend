@@ -39,6 +39,7 @@ class SharedNavigator @Inject() () extends NavigatorForJourney {
     case CheckMode  =>
       checkRouteMap(page)(userAnswers)
     case AmendMode  =>
+      logger.error(s"[SharedNavigator][nextPage] - AmendMode not supported for page=$page")
       routes.JourneyRecoveryController.onPageLoad()
   }
 
@@ -54,7 +55,11 @@ class SharedNavigator @Inject() () extends NavigatorForJourney {
 
   private def navigatorFromTypeOfSubcontractorPage(mode: Mode)(userAnswers: UserAnswers): Call =
     userAnswers.get(TypeOfSubcontractorPage) match {
-      case None                    => routes.JourneyRecoveryController.onPageLoad()
+      case None                    =>
+        logger.error(
+          "[SharedNavigator][navigatorFromTypeOfSubcontractorPage] - TypeOfSubcontractorPage missing"
+        )
+        routes.JourneyRecoveryController.onPageLoad()
       case Some(subcontractorType) =>
         mode match {
           case NormalMode => firstJourneyPageFor(subcontractorType)

@@ -81,6 +81,7 @@ class TrustCheckYourAnswersController @Inject() (
   def onSubmit(): Action[AnyContent] =
     (identify andThen getData andThen requireData).async { implicit request =>
       if (request.userAnswers.get(CheckYourAnswersSubmittedPage).contains(true)) {
+        logger.error("[TrustCheckYourAnswersController][onSubmit] - CheckYourAnswersSubmittedPage already true")
         Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
       } else {
         ValidatedTrust.build(request.userAnswers) match {

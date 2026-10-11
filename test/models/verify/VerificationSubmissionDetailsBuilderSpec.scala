@@ -42,7 +42,10 @@ class VerificationSubmissionDetailsBuilderSpec extends SpecBase {
       )
 
       val result =
-        VerificationSubmissionDetailsBuilder.fromSubmissionResponse(response)
+        VerificationSubmissionDetailsBuilder.fromSubmissionResponse(
+          response,
+          LocalDateTime.parse("2026-06-15T03:30:52")
+        )
 
       result mustBe VerificationSubmissionDetails(
         submissionId = "13602",

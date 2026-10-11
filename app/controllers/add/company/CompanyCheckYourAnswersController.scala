@@ -85,6 +85,9 @@ class CompanyCheckYourAnswersController @Inject() (
   def onSubmit(): Action[AnyContent] =
     (identify andThen getData andThen requireData).async { implicit request =>
       if (request.userAnswers.get(CheckYourAnswersSubmittedPage).contains(true)) {
+        logger.error(
+          "[CompanyCheckYourAnswersController][onSubmit] - CheckYourAnswersSubmittedPage is true, resubmission blocked"
+        )
         Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
       } else {
         ValidatedCompany.build(request.userAnswers) match {

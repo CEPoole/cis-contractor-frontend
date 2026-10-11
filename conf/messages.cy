@@ -1121,6 +1121,7 @@ verify.selectSubcontractor.title                                                
 verify.selectSubcontractor.heading                                                 =  Pa is-gontractwyr ydych am eu dilysu?
 verify.selectSubcontractor.hint                                                    =  Dewiswch yr is-gontractwyr sydd heb eu dilysu rydych am eu hychwanegu at y cais dilysu hwn.
 verify.selectSubcontractor.error.required                                          =  Dewiswch o leiaf un is-gontractwr i’w ddilysu
+verify.selectSubcontractor.error.maxSelected                                       =  xxxxxxxxxxxxxxxxxxxx
 verify.selectSubcontractor.checkYourAnswersLabel                                   =  xxxxxxxxxxxxxxxxxxxx
 verify.selectSubcontractor.showingResults                                          =  xxxxxxxxxxxxxxxxxxxx
 verify.selectSubcontractor.change.hidden                                           =  xxxxxxxxxxxxxxxxxxxx
@@ -1152,6 +1153,7 @@ verify.selectSubcontractorsToReverify.dateAdded                                 
 verify.selectSubcontractorsToReverify.taxTreatment.net                             =  Cyfradd safonol
 verify.selectSubcontractorsToReverify.taxTreatment.unmatched                       =  Cyfradd uwch
 verify.selectSubcontractorsToReverify.taxTreatment.gross                           =  Gros
+verify.selectSubcontractorsToReverify.error.maxSelected                            =  xxxxxxxxxxxxxxxxxxxx
 verify.selectSubcontractorsToReverify.checkYourAnswersLabel                        =  xxxxxxxxxxxxxxxxxxxx
 verify.selectSubcontractorsToReverify.change.hidden                                =  xxxxxxxxxxxxxxxxxxxx
 verify.selectSubcontractorsToReverify.showingResults                               =  xxxxxxxxxxxxxxxxxxxx

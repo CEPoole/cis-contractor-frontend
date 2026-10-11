@@ -130,6 +130,9 @@ class CompanyNavigator @Inject() () extends NavigatorForJourney {
           case Some(false) =>
             cyaRoute(mode)
           case None        =>
+            logger.error(
+              "[CompanyNavigator][navigatorFromCompanyAddressYesNoPage] - CompanyAddressYesNoPage missing"
+            )
             controllers.routes.JourneyRecoveryController.onPageLoad()
         }
       case _         =>
@@ -160,6 +163,7 @@ class CompanyNavigator @Inject() () extends NavigatorForJourney {
       case (Some(false), CheckMode | AmendMode) =>
         cyaRoute(mode)
       case _                                    =>
+        logger.error(s"[CompanyNavigator][navigatorFromCompanyUtrYesNoPage] - unexpected state, mode=$mode")
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -178,6 +182,7 @@ class CompanyNavigator @Inject() () extends NavigatorForJourney {
       case (Some(false), CheckMode | AmendMode) =>
         cyaRoute(mode)
       case _                                    =>
+        logger.error(s"[CompanyNavigator][navigatorFromCompanyCrnYesNoPage] - unexpected state, mode=$mode")
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -196,6 +201,9 @@ class CompanyNavigator @Inject() () extends NavigatorForJourney {
       case (Some(false), CheckMode | AmendMode) =>
         cyaRoute(mode)
       case _                                    =>
+        logger.error(
+          s"[CompanyNavigator][navigatorFromCompanyWorksReferenceYesNoPage] - unexpected state, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -218,6 +226,9 @@ class CompanyNavigator @Inject() () extends NavigatorForJourney {
         cyaRoute(mode)
 
       case _ =>
+        logger.error(
+          s"[CompanyNavigator][navigatorFromAddCompanyContactMethodsYesNoPage] - unexpected state, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -249,9 +260,17 @@ class CompanyNavigator @Inject() () extends NavigatorForJourney {
   )(terminalStep: Seq[ContactMethodOptions] => Call): Call =
     selectedContactMethodsInOrder(userAnswers)
       .filter(_.nonEmpty)
-      .fold(routes.JourneyRecoveryController.onPageLoad()) { selectedContactMethods =>
+      .fold {
+        logger.error(
+          "[CompanyNavigator][navigateFromContactMethodPage] - ContactMethodOptions missing or empty"
+        )
+        routes.JourneyRecoveryController.onPageLoad()
+      } { selectedContactMethods =>
         current match {
           case Some(currentContactMethod) if !selectedContactMethods.contains(currentContactMethod) =>
+            logger.error(
+              "[CompanyNavigator][navigateFromContactMethodPage] - current contact method not selected"
+            )
             routes.JourneyRecoveryController.onPageLoad()
 
           case _ =>

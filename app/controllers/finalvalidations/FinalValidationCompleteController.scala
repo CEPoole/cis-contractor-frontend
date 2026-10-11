@@ -53,6 +53,7 @@ class FinalValidationCompleteController @Inject() (
         completeMonthlyReturn()
 
       case None =>
+        logger.error("[FinalValidationCompleteController][onPageLoad] - FinalValidationContextPage missing")
         Future.successful(
           Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
         )
@@ -84,7 +85,7 @@ class FinalValidationCompleteController @Inject() (
         )
 
       case (Some(payload), Some(draftId)) =>
-        logger.warn(
+        logger.error(
           s"Final Validation draft ID mismatch for Verify. " +
             s"Payload draftId: ${payload.draftId}, session draftId: $draftId"
         )
@@ -94,6 +95,7 @@ class FinalValidationCompleteController @Inject() (
         )
 
       case _ =>
+        logger.error("[FinalValidationCompleteController][completeVerify] - payload or draftId missing")
         Future.successful(
           Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
         )
@@ -122,7 +124,7 @@ class FinalValidationCompleteController @Inject() (
                 )
 
               case Some(draftId) =>
-                logger.warn(
+                logger.error(
                   s"Final Validation draft ID mismatch for Monthly Return. " +
                     s"Payload draftId: ${payload.draftId}, session draftId: $draftId"
                 )
@@ -132,18 +134,21 @@ class FinalValidationCompleteController @Inject() (
                 )
 
               case None =>
+                logger.error("[FinalValidationCompleteController][completeMonthlyReturn] - draftId missing")
                 Future.successful(
                   Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
                 )
             }
 
           case None =>
+            logger.error("[FinalValidationCompleteController][completeMonthlyReturn] - handoff payload not found")
             Future.successful(
               Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
             )
         }
 
       case None =>
+        logger.error("[FinalValidationCompleteController][completeMonthlyReturn] - handoffId missing")
         Future.successful(
           Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
         )

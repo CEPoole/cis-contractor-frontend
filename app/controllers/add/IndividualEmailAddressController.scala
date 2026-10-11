@@ -23,6 +23,7 @@ import models.{FinalValidationMode, Mode}
 import models.contact.ContactMethodOptions
 import navigation.Navigator
 import pages.add.{IndividualContactMethodOptionsPage, IndividualEmailAddressPage}
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -47,7 +48,8 @@ class IndividualEmailAddressController @Inject() (
   view: IndividualEmailAddressView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   private val form = formProvider()
 
@@ -72,6 +74,7 @@ class IndividualEmailAddressController @Inject() (
         case (Some(_), false) =>
           Redirect(controllers.add.routes.IndividualContactMethodOptionsController.onPageLoad(mode))
         case _                =>
+          logger.error("[IndividualEmailAddressController][onPageLoad] - subcontractor name missing from userAnswers")
           Redirect(routes.JourneyRecoveryController.onPageLoad())
       }
     }
@@ -99,6 +102,11 @@ class IndividualEmailAddressController @Inject() (
               _              <- sessionRepository.set(updatedAnswers)
             } yield Redirect(navigator.nextPage(IndividualEmailAddressPage, mode, updatedAnswers))
         ))
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error(
+            "[IndividualEmailAddressController][onSubmit] - subcontractor name missing or email not selected"
+          )
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
   }
 }

@@ -18,6 +18,7 @@ package controllers.verify
 
 import config.FrontendAppConfig
 import controllers.actions.*
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import queries.CisIdQuery
@@ -35,7 +36,8 @@ class VerificationNotSubmittedWarningController @Inject() (
   view: VerificationNotSubmittedWarningView,
   appConfig: FrontendAppConfig
 ) extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
     request.userAnswers.get(CisIdQuery) match {
@@ -44,6 +46,9 @@ class VerificationNotSubmittedWarningController @Inject() (
         Ok(view(manageSubcontractorsUrl, appConfig.cisGeneralEnquiries))
 
       case None =>
+        logger.error(
+          "[VerificationNotSubmittedWarningController][onPageLoad] - CisIdQuery missing from userAnswers"
+        )
         Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
     }
   }

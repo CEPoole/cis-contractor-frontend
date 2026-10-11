@@ -60,20 +60,31 @@
     
     @paragraph("finalvalidations.updateSubcontractorDetails.confirmChanges.body")
 
-    @helper.form(
-        action = controllers.finalvalidations.routes.UpdateSubcontractorDetailsController.onSubmit(model.subcontractorId)
-    ) {
-        @helper.CSRF.formField
+    @buttonGroup {
 
-        @buttonGroup {
+        @helper.form(
+            action = controllers.finalvalidations.routes.UpdateSubcontractorDetailsController.onSubmit(model.subcontractorId),
+            Symbol("class") -> "final-validation-action-form"
+        ) {
+            @helper.CSRF.formField
+
             @govukButton(
                 ButtonViewModel(messages("finalvalidations.updateSubcontractorDetails.acceptAndSubmit"))
             )
-            @link(
-                "finalvalidations.updateSubcontractorDetails.cancelChanges",
-                controllers.finalvalidations.routes.ReviewSubcontractorDetailsController.onPageLoad().url,
-                paragraphWrapped = false
-            )
+        }
+
+        @helper.form(
+            action = controllers.finalvalidations.routes.UpdateSubcontractorDetailsController.onCancel(model.subcontractorId),
+            Symbol("class") -> "final-validation-action-form"
+        ) {
+            @helper.CSRF.formField
+
+            <button
+                type="submit"
+                class="final-validation-cancel-link"
+            >
+                @messages("finalvalidations.updateSubcontractorDetails.cancelChanges")
+            </button>
         }
     }
 }

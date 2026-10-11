@@ -22,6 +22,7 @@ import forms.add.partnership.PartnershipContactMethodOptionsFormProvider
 import models.Mode
 import navigation.Navigator
 import pages.add.partnership.{AddPartnershipContactMethodsYesNoPage, PartnershipContactMethodOptionsPage}
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -45,7 +46,8 @@ class PartnershipContactMethodOptionsController @Inject() (
   view: PartnershipContactMethodOptionsView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form = formProvider()
 
@@ -64,7 +66,12 @@ class PartnershipContactMethodOptionsController @Inject() (
         val result = Ok(view(preparedForm, mode, partnershipName))
         yesOrNoPageGuardService.yesOrNoPageRoute(result, yesOrNoPageOption, yesOrNoPage, mode)
       }
-      .getOrElse(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+      .getOrElse {
+        logger.error(
+          s"[PartnershipContactMethodOptionsController][onPageLoad] - PartnershipNamePage missing from userAnswers"
+        )
+        Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
+      }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -83,6 +90,11 @@ class PartnershipContactMethodOptionsController @Inject() (
                 } yield Redirect(navigator.nextPage(PartnershipContactMethodOptionsPage, mode, updatedAnswers))
             )
         }
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error(
+            s"[PartnershipContactMethodOptionsController][onSubmit] - PartnershipNamePage missing from userAnswers"
+          )
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
   }
 }

@@ -39,7 +39,9 @@ class YesOrNoPageGuardService @Inject() extends LoggingUtil {
     guardCheck match {
       case Some(true)  => continueRoute
       case Some(false) => Redirect(fetchRoute(yesOrNoPage, mode))
-      case _           => Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
+      case _           =>
+        logger.error(s"[YesOrNoPageGuardService][yesOrNoPageRoute] - guard answer missing, page=$yesOrNoPage")
+        Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
 
     }
 
@@ -79,7 +81,9 @@ class YesOrNoPageGuardService @Inject() extends LoggingUtil {
     case TrustUtrYesNoPage               => controllers.add.trust.routes.TrustUtrYesNoController.onPageLoad(mode)
     case TrustWorksReferenceYesNoPage    =>
       controllers.add.trust.routes.TrustWorksReferenceYesNoController.onPageLoad(mode)
-    case _                               => controllers.routes.JourneyRecoveryController.onPageLoad()
+    case _                               =>
+      logger.error(s"[YesOrNoPageGuardService][fetchRoute] - navigator fallback reached for page=$page")
+      controllers.routes.JourneyRecoveryController.onPageLoad()
   }
 
 }

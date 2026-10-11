@@ -80,12 +80,14 @@ class ContractorDetailsCheckAnswersController @Inject() (
               )
             )
           } else {
+            logger.error("[ContractorDetailsCheckAnswersController][onPageLoad] - required details invalid")
             Redirect(
               controllers.routes.JourneyRecoveryController.onPageLoad()
             )
           }
 
         case None =>
+          logger.error("[ContractorDetailsCheckAnswersController][onPageLoad] - scheme missing from userAnswers")
           Redirect(
             controllers.routes.JourneyRecoveryController.onPageLoad()
           )
@@ -101,6 +103,7 @@ class ContractorDetailsCheckAnswersController @Inject() (
             .getOrElse(updateContractorDetails(scheme))
 
         case _ =>
+          logger.error("[ContractorDetailsCheckAnswersController][onSubmit] - scheme or required details invalid")
           Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
       }
     }

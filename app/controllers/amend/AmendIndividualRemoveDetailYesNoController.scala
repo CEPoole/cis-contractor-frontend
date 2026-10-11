@@ -60,6 +60,7 @@ class AmendIndividualRemoveDetailYesNoController @Inject() (
         action(detailType)
 
       case None =>
+        logger.error(s"[AmendIndividualRemoveDetailYesNoController][withValidDetail] - invalid detail=$detail")
         Future.successful(
           Redirect(
             controllers.routes.JourneyRecoveryController.onPageLoad()
@@ -136,6 +137,9 @@ class AmendIndividualRemoveDetailYesNoController @Inject() (
         .map { subcontractorName =>
           withValidDetail(subcontractorDetail) { detailType =>
             if (!detailIsPresent(detailType, request.userAnswers)) {
+              logger.error(
+                s"[AmendIndividualRemoveDetailYesNoController][onPageLoad] - detail missing: $subcontractorDetail"
+              )
 
               Future.successful(journeyRecovery)
 
@@ -152,7 +156,10 @@ class AmendIndividualRemoveDetailYesNoController @Inject() (
             }
           }
         }
-        .getOrElse(Future.successful(journeyRecovery))
+        .getOrElse {
+          logger.error("[AmendIndividualRemoveDetailYesNoController][onPageLoad] - name missing from userAnswers")
+          Future.successful(journeyRecovery)
+        }
     }
 
   def onSubmit(subcontractorDetail: String): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -162,6 +169,9 @@ class AmendIndividualRemoveDetailYesNoController @Inject() (
         .map { subcontractorName =>
           withValidDetail(subcontractorDetail) { detailType =>
             if (!detailIsPresent(detailType, request.userAnswers)) {
+              logger.error(
+                s"[AmendIndividualRemoveDetailYesNoController][onSubmit] - detail missing: $subcontractorDetail"
+              )
 
               Future.successful(journeyRecovery)
 
@@ -201,6 +211,9 @@ class AmendIndividualRemoveDetailYesNoController @Inject() (
             }
           }
         }
-        .getOrElse(Future.successful(journeyRecovery))
+        .getOrElse {
+          logger.error("[AmendIndividualRemoveDetailYesNoController][onSubmit] - name missing from userAnswers")
+          Future.successful(journeyRecovery)
+        }
   }
 }

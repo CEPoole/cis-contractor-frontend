@@ -71,7 +71,12 @@ class AuditServiceSpec
     "create extended event and send to auditConnector" in {
       implicit val request: Request[?] = FakeRequest("GET", testUri, Headers(), "")
 
-      val auditEvent = AuthFailureAuditEventModel()
+      val auditEvent = AuthFailureAuditEventModel(
+        agentUserId = "agent-123",
+        taxOfficeNumber = "123",
+        taxOfficeReference = "AB456",
+        clientUniqueId = "unique-id-789"
+      )
 
       when(mockAuditConnector.sendExtendedEvent(any())(any(), any()))
         .thenReturn(Future.successful(AuditResult.Success))

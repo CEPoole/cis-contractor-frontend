@@ -184,6 +184,10 @@ class AmendCompanyCheckYourAnswersController @Inject() (
             if request.userAnswers
               .get(AmendCheckYourAnswersSubmittedPage)
               .contains(true) =>
+          logger.error(
+            "[AmendCompanyCheckYourAnswersController.onSubmit] AmendCheckYourAnswersSubmittedPage already submitted"
+          )
+
           Future.successful(
             Redirect(routes.JourneyRecoveryController.onPageLoad())
           )

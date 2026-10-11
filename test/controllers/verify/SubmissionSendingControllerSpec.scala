@@ -83,13 +83,17 @@ class SubmissionSendingControllerSpec extends SpecBase with MockitoSugar {
   private def mockPollResponse(
     mockService: VerificationService,
     response: ChrisPollResponse
-  ): Unit =
+  ): Unit = {
+    when(
+      mockService.isPollDue(any[VerificationSubmissionDetails], any[Int])
+    ).thenReturn(true)
     when(
       mockService.pollStatusAndPersist(
         any[UserAnswers],
         any[VerificationSubmissionDetails]
       )(any[HeaderCarrier])
     ).thenReturn(Future.successful(response))
+  }
 
   private def pollResponse(
     status: SubmissionStatus,
@@ -148,7 +152,7 @@ class SubmissionSendingControllerSpec extends SpecBase with MockitoSugar {
       }
     }
 
-    "must reset user answers and redirect to submitted page when initial submission returns SUBMITTED_NO_RECEIPT" in {
+    "must redirect to submitted page when initial submission returns SUBMITTED_NO_RECEIPT" in {
       val mockService = mock[VerificationService]
 
       mockInitialSubmission(
@@ -159,9 +163,6 @@ class SubmissionSendingControllerSpec extends SpecBase with MockitoSugar {
           hmrcMarkGenerated = "hmrc-mark"
         )
       )
-
-      when(mockService.resetUserAnswers(any[UserAnswers]))
-        .thenReturn(Future.successful(()))
 
       val application = applicationWith(mockService)
 
@@ -175,8 +176,6 @@ class SubmissionSendingControllerSpec extends SpecBase with MockitoSugar {
           controllers.verify.routes.VerificationRequestSubmittedController
             .onPageLoad()
             .url
-
-        verify(mockService).resetUserAnswers(any[UserAnswers])
       }
     }
 
@@ -488,20 +487,17 @@ class SubmissionSendingControllerSpec extends SpecBase with MockitoSugar {
           route(application, FakeRequest(GET, onPollRoute)).value
 
         status(result) mustBe OK
-        headers(result).get("Refresh").value mustBe "5"
+        headers(result).get("Refresh").value mustBe "10"
       }
     }
 
-    "must reset user answers and redirect to submitted page when poll returns SUBMITTED" in {
+    "must redirect to submitted page when poll returns SUBMITTED" in {
       val mockService = mock[VerificationService]
 
       mockPollResponse(
         mockService,
         pollResponse(SubmissionStatus.SUBMITTED)
       )
-
-      when(mockService.resetUserAnswers(any[UserAnswers]))
-        .thenReturn(Future.successful(()))
 
       val application =
         applicationWith(
@@ -519,7 +515,6 @@ class SubmissionSendingControllerSpec extends SpecBase with MockitoSugar {
           controllers.verify.routes.VerificationRequestSubmittedController
             .onPageLoad()
             .url
-        verify(mockService).resetUserAnswers(any[UserAnswers])
       }
     }
 
@@ -839,6 +834,9 @@ class SubmissionSendingControllerSpec extends SpecBase with MockitoSugar {
           .value
 
       when(
+        mockService.isPollDue(any[VerificationSubmissionDetails], any[Int])
+      ).thenReturn(true)
+      when(
         mockService.pollStatusAndPersist(
           any[UserAnswers],
           any[VerificationSubmissionDetails]
@@ -906,6 +904,9 @@ class SubmissionSendingControllerSpec extends SpecBase with MockitoSugar {
       val mockService = mock[VerificationService]
 
       when(
+        mockService.isPollDue(any[VerificationSubmissionDetails], any[Int])
+      ).thenReturn(true)
+      when(
         mockService.pollStatusAndPersist(
           any[UserAnswers],
           any[VerificationSubmissionDetails]
@@ -928,6 +929,33 @@ class SubmissionSendingControllerSpec extends SpecBase with MockitoSugar {
           controllers.routes.JourneyRecoveryController
             .onPageLoad()
             .url
+      }
+    }
+
+    "must show the sending page without polling when the first poll interval has not elapsed" in {
+      val mockService = mock[VerificationService]
+
+      when(
+        mockService.isPollDue(any[VerificationSubmissionDetails], any[Int])
+      ).thenReturn(false)
+
+      val application =
+        applicationWith(
+          mockService,
+          userAnswersWithSubmissionDetails
+        )
+
+      running(application) {
+        val result =
+          route(application, FakeRequest(GET, onPollRoute)).value
+
+        status(result) mustBe OK
+        header("Refresh", result).value mustBe "10"
+
+        verify(mockService, never()).pollStatusAndPersist(
+          any[UserAnswers],
+          any[VerificationSubmissionDetails]
+        )(any[HeaderCarrier])
       }
     }
   }

@@ -15,7 +15,7 @@
  *@
 
 @import config.FrontendAppConfig
-@import uk.gov.hmrc.hmrcfrontend.views.config.StandardAlphaBanner
+@import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers._
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
@@ -29,13 +29,20 @@
    hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
    hmrcScripts: HmrcScripts,
    stylesheets: Stylesheets,
-   alphaBanner: StandardAlphaBanner,
+   betaBanner: StandardBetaBanner,
    hmrcStandardPage: HmrcStandardPage,
    twoThirdsMainContent: TwoThirdsMainContent,
    fullWidthMainContent: FullWidthMainContent
  )
 
-@(pageTitle: String, showBackLink: Boolean = true, timeout: Boolean = true, showSignOut: Boolean = true, showHmrcBanner: Boolean = false, isFullWidth: Boolean = false)(contentBlock: Html)(implicit rh: RequestHeader, messages: Messages)
+@(pageTitle: String,
+    showBackLink: Boolean = true,
+    timeout: Boolean = true,
+    showSignOut: Boolean = true,
+    showHmrcBanner: Boolean = false,
+    isFullWidth: Boolean = false,
+    showUrBanner: Boolean = false,
+)(contentBlock: Html)(implicit rh: RequestHeader, messages: Messages)
 
 @scripts = {
   @hmrcScripts()
@@ -83,10 +90,11 @@
        serviceUrl = Some(routes.ServiceHomeController.onPageLoad().url),
        signOutUrl = if(showSignOut) Some(controllers.auth.routes.AuthController.signOut().url) else None
       ),
-      banners = Banners(
+    banners = Banners(
         displayHmrcBanner = showHmrcBanner,
-        phaseBanner = Some(alphaBanner(appConfig.feedbackUrl))
-       ),
+        phaseBanner = Some(betaBanner(appConfig.feedbackUrl)),
+        userResearchBanner = if(appConfig.showUserResearchBannerEnabled && showUrBanner) Some(UserResearchBanner(url = appConfig.userResearchUrl)) else None
+    ),
       isWelshTranslationAvailable = appConfig.languageTranslationEnabled,
       backLink = if (showBackLink) Some(BackLink.mimicsBrowserBackButtonViaJavaScript) else None
      )

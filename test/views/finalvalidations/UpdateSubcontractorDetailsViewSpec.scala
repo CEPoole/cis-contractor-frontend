@@ -59,15 +59,23 @@ class UpdateSubcontractorDetailsViewSpec extends SpecBase {
       result must include("John Smith")
       result must include("1234567890")
       result must include("""href="/change-utr"""")
+
       result must include(
         controllers.finalvalidations.routes.UpdateSubcontractorDetailsController
           .onSubmit(1L)
           .url
       )
+
       result must include(
-        controllers.finalvalidations.routes.ReviewSubcontractorDetailsController
-          .onPageLoad()
+        controllers.finalvalidations.routes.UpdateSubcontractorDetailsController
+          .onCancel(1L)
           .url
+      )
+
+      result must include(
+        messages(app)(
+          "finalvalidations.updateSubcontractorDetails.cancelChanges"
+        )
       )
     }
 

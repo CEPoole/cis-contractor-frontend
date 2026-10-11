@@ -1091,6 +1091,7 @@ verify.verificationRequestInProgress.p4.link                                    
 verify.selectSubcontractorsToReverify.title                                        =  Which subcontractors do you want to reverify?
 verify.selectSubcontractorsToReverify.heading                                      =  Which subcontractors do you want to reverify?
 verify.selectSubcontractorsToReverify.hint                                         =  Select the existing subcontractors you want to include in this verification request
+verify.selectSubcontractorsToReverify.error.maxSelected                            =  You can only include up to 100 subcontractors in a verification request
 verify.selectSubcontractorsToReverify.checkYourAnswersLabel                        =  Subcontractors to reverify
 verify.selectSubcontractorsToReverify.error.required                               =  Select at least one subcontractor to verify
 verify.selectSubcontractorsToReverify.change.hidden                                =  subcontractors to reverify
@@ -1155,6 +1156,7 @@ verify.reviewUnmatched.name.hidden                                              
 verify.selectSubcontractor.title                                                   =  Which subcontractors do you want to verify?
 verify.selectSubcontractor.heading                                                 =  Which subcontractors do you want to verify?
 verify.selectSubcontractor.hint                                                    =  Select the unverified subcontractors you want to add to this verification request
+verify.selectSubcontractor.error.maxSelected                                       =  You can only include up to 100 subcontractors in a verification request
 verify.selectSubcontractor.checkYourAnswersLabel                                   =  Subcontractors to verify
 verify.selectSubcontractor.showingResults                                          =  Showing {0} to {1} of {2} results
 verify.selectSubcontractor.error.required                                          =  Select at least one subcontractor to verify

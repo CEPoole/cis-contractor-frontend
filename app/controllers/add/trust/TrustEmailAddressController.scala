@@ -23,6 +23,7 @@ import models.{FinalValidationMode, Mode}
 import models.contact.ContactMethodOptions
 import navigation.Navigator
 import pages.add.trust.{TrustContactMethodOptionsPage, TrustEmailAddressPage}
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -44,7 +45,8 @@ class TrustEmailAddressController @Inject() (
   view: TrustEmailAddressView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   private val form = formProvider()
 
@@ -69,6 +71,7 @@ class TrustEmailAddressController @Inject() (
         case (Some(_), false) =>
           Redirect(controllers.add.trust.routes.AddTrustContactMethodsYesNoController.onPageLoad(mode))
         case _                =>
+          logger.error(s"[TrustEmailAddressController][onPageLoad] - trust name missing from userAnswers, mode=$mode")
           Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
       }
     }
@@ -96,6 +99,9 @@ class TrustEmailAddressController @Inject() (
               _              <- sessionRepository.set(updatedAnswers)
             } yield Redirect(navigator.nextPage(TrustEmailAddressPage, mode, updatedAnswers))
         ))
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error(s"[TrustEmailAddressController][onSubmit] - trust name or email option missing, mode=$mode")
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
   }
 }

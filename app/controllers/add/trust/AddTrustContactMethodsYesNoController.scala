@@ -22,6 +22,7 @@ import forms.add.trust.AddTrustContactMethodsYesNoFormProvider
 import models.Mode
 import navigation.Navigator
 import pages.add.trust.AddTrustContactMethodsYesNoPage
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -43,7 +44,8 @@ class AddTrustContactMethodsYesNoController @Inject() (
   view: AddTrustContactMethodsYesNoView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form = formProvider()
 
@@ -58,7 +60,10 @@ class AddTrustContactMethodsYesNoController @Inject() (
 
         Ok(view(preparedForm, mode, trustName))
       }
-      .getOrElse(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+      .getOrElse {
+        logger.error(s"[AddTrustContactMethodsYesNoController][onPageLoad] - TrustNamePage missing from userAnswers")
+        Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
+      }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -77,6 +82,9 @@ class AddTrustContactMethodsYesNoController @Inject() (
                 } yield Redirect(navigator.nextPage(AddTrustContactMethodsYesNoPage, mode, updatedAnswers))
             )
         }
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error(s"[AddTrustContactMethodsYesNoController][onSubmit] - TrustNamePage missing from userAnswers")
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
   }
 }

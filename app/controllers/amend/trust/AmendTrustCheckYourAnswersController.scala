@@ -180,6 +180,10 @@ class AmendTrustCheckYourAnswersController @Inject() (
             if request.userAnswers
               .get(AmendCheckYourAnswersSubmittedPage)
               .contains(true) =>
+          logger.error(
+            "[AmendTrustCheckYourAnswersController.onSubmit] AmendCheckYourAnswersSubmittedPage already submitted"
+          )
+
           Future.successful(
             Redirect(routes.JourneyRecoveryController.onPageLoad())
           )

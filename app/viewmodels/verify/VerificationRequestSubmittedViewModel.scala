@@ -40,7 +40,7 @@ case class VerificationRequestSubmittedViewModel(
 object VerificationRequestSubmittedViewModel {
 
   private def namesFrom[A](maybe: Option[Iterable[A]])(name: A => String): Seq[String] =
-    maybe.fold(Seq.empty)(_.map(name).toSeq.sortBy(_.toLowerCase))
+    maybe.fold(Seq.empty)(_.toSeq.map(name).sortBy(_.toLowerCase))
 
   def fromUserAnswers(
     userAnswers: UserAnswers,

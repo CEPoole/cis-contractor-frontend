@@ -45,12 +45,11 @@ class SubmissionSendingViewSpec extends SpecBase with Matchers {
       doc.getElementsByClass("loading-spinner__content").size mustBe 1
     }
 
-    "must not show back link or sign out link" in new Setup {
+    "must not show back link" in new Setup {
       val html: HtmlFormat.Appendable = view()
       val doc: Document               = Jsoup.parse(html.body)
 
       doc.getElementsByClass("govuk-back-link").size mustBe 0
-      doc.getElementsByClass("hmrc-sign-out-nav__link").size mustBe 0
     }
   }
 

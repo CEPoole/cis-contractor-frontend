@@ -26,7 +26,7 @@
 
 @()(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = titleNoForm(messages("contractordetails.contractorDetailsIndex.title")), showSignOut = false) {
+@layout(pageTitle = titleNoForm(messages("contractordetails.contractorDetailsIndex.title")), showSignOut = true) {
     @formHelper(action = controllers.contractordetails.routes.ContractorDetailsController.onSubmit(), Symbol("autoComplete") -> "off") {
 
         @h1(messages("contractordetails.contractorDetailsIndex.heading"))

@@ -188,6 +188,7 @@ class AddressLookupModelsSpec extends AnyFreeSpec with Matchers with EitherValue
     )
     val completeOptions          = AddressLookupOptionsModel(
       continueUrl = "/continue",
+      serviceHref = Some("/service-home"),
       signOutHref = Some("/sign-out"),
       phaseFeedbackLink = Some("/feedback"),
       accessibilityFooterUrl = Some("/accessibility"),
@@ -225,6 +226,7 @@ class AddressLookupModelsSpec extends AnyFreeSpec with Matchers with EitherValue
         val json = Json.toJson(completeOptions)
 
         (json \ "continueUrl").as[String] mustBe "/continue"
+        (json \ "serviceHref").asOpt[String] mustBe Some("/service-home")
         (json \ "signOutHref").asOpt[String] mustBe Some("/sign-out")
         (json \ "phaseFeedbackLink").asOpt[String] mustBe Some("/feedback")
         (json \ "accessibilityFooterUrl").asOpt[String] mustBe Some("/accessibility")
@@ -265,6 +267,7 @@ class AddressLookupModelsSpec extends AnyFreeSpec with Matchers with EitherValue
       "must not include None optional fields" in {
         val json = Json.toJson(minimalOptions)
 
+        (json \ "serviceHref").toOption mustBe None
         (json \ "signOutHref").toOption mustBe None
         (json \ "phaseFeedbackLink").toOption mustBe None
         (json \ "deskProServiceName").toOption mustBe None
@@ -275,6 +278,7 @@ class AddressLookupModelsSpec extends AnyFreeSpec with Matchers with EitherValue
 
       "must create instance with all fields" in {
         completeOptions.continueUrl mustBe "/continue"
+        completeOptions.serviceHref mustBe Some("/service-home")
         completeOptions.signOutHref mustBe Some("/sign-out")
         completeOptions.deskProServiceName mustBe Some("CIS")
         completeOptions.ukMode mustBe Some(true)
@@ -282,6 +286,7 @@ class AddressLookupModelsSpec extends AnyFreeSpec with Matchers with EitherValue
 
       "must create instance with only required fields" in {
         minimalOptions.continueUrl mustBe "/continue"
+        minimalOptions.serviceHref must not be defined
         minimalOptions.signOutHref must not be defined
         minimalOptions.ukMode      must not be defined
       }
@@ -297,6 +302,7 @@ class AddressLookupModelsSpec extends AnyFreeSpec with Matchers with EitherValue
         val modified = completeOptions.copy(continueUrl = "/new-continue")
 
         modified.continueUrl mustBe "/new-continue"
+        modified.serviceHref mustBe completeOptions.serviceHref
         modified.signOutHref mustBe completeOptions.signOutHref
       }
 

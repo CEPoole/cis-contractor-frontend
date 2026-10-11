@@ -59,6 +59,7 @@ class AmendTrustRemoveDetailYesNoController @Inject() (
         action(detailType)
 
       case None =>
+        logger.error(s"[AmendTrustRemoveDetailYesNoController][withValidDetail] - invalid detail=$detail")
         Future.successful(
           Redirect(
             controllers.routes.JourneyRecoveryController.onPageLoad()
@@ -106,6 +107,9 @@ class AmendTrustRemoveDetailYesNoController @Inject() (
         .map { trustName =>
           withValidDetail(subcontractorDetail) { detailType =>
             if (!detailIsPresent(detailType, request.userAnswers)) {
+              logger.error(
+                s"[AmendTrustRemoveDetailYesNoController][onPageLoad] - detail missing, detail=$subcontractorDetail"
+              )
 
               Future.successful(journeyRecovery)
 
@@ -122,7 +126,10 @@ class AmendTrustRemoveDetailYesNoController @Inject() (
             }
           }
         }
-        .getOrElse(Future.successful(journeyRecovery))
+        .getOrElse {
+          logger.error("[AmendTrustRemoveDetailYesNoController][onPageLoad] - trust name missing from userAnswers")
+          Future.successful(journeyRecovery)
+        }
     }
 
   def onSubmit(subcontractorDetail: String): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -132,6 +139,9 @@ class AmendTrustRemoveDetailYesNoController @Inject() (
         .map { trustName =>
           withValidDetail(subcontractorDetail) { detailType =>
             if (!detailIsPresent(detailType, request.userAnswers)) {
+              logger.error(
+                s"[AmendTrustRemoveDetailYesNoController][onSubmit] - detail missing, detail=$subcontractorDetail"
+              )
 
               Future.successful(journeyRecovery)
 
@@ -172,6 +182,9 @@ class AmendTrustRemoveDetailYesNoController @Inject() (
             }
           }
         }
-        .getOrElse(Future.successful(journeyRecovery))
+        .getOrElse {
+          logger.error("[AmendTrustRemoveDetailYesNoController][onSubmit] - trust name missing from userAnswers")
+          Future.successful(journeyRecovery)
+        }
   }
 }

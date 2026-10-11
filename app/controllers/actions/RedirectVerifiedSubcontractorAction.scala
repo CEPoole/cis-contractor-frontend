@@ -19,6 +19,7 @@ package controllers.actions
 import controllers.amend.AmendControllerUtils
 import controllers.routes
 import models.requests.DataRequest
+import play.api.Logging
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{ActionFilter, Result}
 
@@ -26,13 +27,15 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class RedirectVerifiedSubcontractorActionImpl @Inject() (implicit val executionContext: ExecutionContext)
-    extends RedirectVerifiedSubcontractorAction {
+    extends RedirectVerifiedSubcontractorAction
+    with Logging {
 
   override protected def filter[A](request: DataRequest[A]): Future[Option[Result]] = {
     val showVerificationDetails = AmendControllerUtils.isVerifiedForAmendJourney(
       request.userAnswers
     )
     if (showVerificationDetails) {
+      logger.error("[RedirectVerifiedSubcontractorActionImpl][filter] - subcontractor is verified for amend journey")
       Future.successful(Option(Redirect(routes.JourneyRecoveryController.onPageLoad())))
     } else {
       Future.successful(None)

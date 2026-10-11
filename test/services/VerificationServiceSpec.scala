@@ -1369,6 +1369,66 @@ final class VerificationServiceSpec extends SpecBase with MockitoSugar with Mode
     }
   }
 
+  "VerificationService.isPollDue" - {
+
+    def detailsWith(
+      submittedAt: LocalDateTime,
+      lastMessageDate: Option[LocalDateTime]
+    ): VerificationSubmissionDetails =
+      VerificationSubmissionDetails(
+        submissionId = "13602",
+        status = "ACCEPTED",
+        hmrcMarkGenerated = "hmrc-mark",
+        hmrcMarkGgis = None,
+        correlationId = Some("corr-id"),
+        pollUrl = Some("http://localhost/poll"),
+        pollIntervalSeconds = Some(5),
+        submittedAt = submittedAt,
+        lastMessageDate = lastMessageDate,
+        timedOut = false
+      )
+
+    // withinWindowClock = 2026-06-15T02:31:00Z = 2026-06-15T03:31:00 London (BST)
+    def service: VerificationService =
+      buildService(
+        mock[ConstructionIndustrySchemeConnector],
+        mock[SessionRepository],
+        clock = withinWindowClock
+      )
+
+    "must return false for the first poll before the poll interval has elapsed since submission" in {
+      // submittedAt + 5s = 03:31:05, which is after now (03:31:00)
+      service.isPollDue(detailsWith(LocalDateTime.parse("2026-06-15T03:31:00"), None), 5) mustBe false
+    }
+
+    "must return true for the first poll once the poll interval has elapsed since submission" in {
+      // submittedAt + 5s = 03:30:57, which is before now (03:31:00)
+      service.isPollDue(detailsWith(LocalDateTime.parse("2026-06-15T03:30:52"), None), 5) mustBe true
+    }
+
+    "must return false after a poll when the interval has not elapsed since the last message" in {
+      // lastMessageDate + 5s = 03:31:04, which is after now (03:31:00)
+      service.isPollDue(
+        detailsWith(
+          LocalDateTime.parse("2026-06-15T03:30:52"),
+          Some(LocalDateTime.parse("2026-06-15T03:30:59"))
+        ),
+        5
+      ) mustBe false
+    }
+
+    "must return true after a poll once the interval has elapsed since the last message" in {
+      // lastMessageDate + 5s = 03:30:57, which is before now (03:31:00)
+      service.isPollDue(
+        detailsWith(
+          LocalDateTime.parse("2026-06-15T03:31:00"),
+          Some(LocalDateTime.parse("2026-06-15T03:30:52"))
+        ),
+        5
+      ) mustBe true
+    }
+  }
+
   "VerificationService.anyUnmatchedResourceRefsStillPresent" - {
 
     "must return true when an unmatched verificationResourceRef is still on the live list" in {

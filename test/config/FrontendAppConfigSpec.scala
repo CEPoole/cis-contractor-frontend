@@ -52,6 +52,12 @@ class FrontendAppConfigSpec extends SpecBase {
         "http://localhost:6993/construction-industry-scheme/monthly-return/file-your-nil-return"
     }
 
+    "exitSurveyUrl" - {
+      "must be built from feedback-frontend service base URL" in {
+        applicationConfig.exitSurveyUrl mustBe "http://localhost:9514/feedback/construction-industry-scheme"
+      }
+    }
+
     "getConfString" - {
 
       "must return the configured value when present" in {

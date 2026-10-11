@@ -26,11 +26,17 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class VerificationPreSelectionService @Inject() () {
 
-  def preSelectedSubcontractorIds(displayedSubcontractors: Seq[Subcontractor], userAnswers: UserAnswers): Set[String] =
+  def preSelectedSubcontractorIds(
+    displayedSubcontractors: Seq[Subcontractor],
+    userAnswers: UserAnswers
+  ): Set[String] =
     if (hasOpenCurrentVerificationBatch(userAnswers)) {
       preSelectedFromNewestBatch(displayedSubcontractors, userAnswers)
     } else {
-      displayedSubcontractors.map(_.subcontractorId.toString).toSet
+      displayedSubcontractors
+        .take(100)
+        .map(_.subcontractorId.toString)
+        .toSet
     }
 
   private def hasOpenCurrentVerificationBatch(userAnswers: UserAnswers): Boolean =

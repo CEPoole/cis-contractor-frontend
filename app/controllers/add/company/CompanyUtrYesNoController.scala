@@ -21,6 +21,7 @@ import forms.add.company.CompanyUtrYesNoFormProvider
 import models.Mode
 import navigation.Navigator
 import pages.add.company.CompanyUtrYesNoPage
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -45,7 +46,8 @@ class CompanyUtrYesNoController @Inject() (
   view: CompanyUtrYesNoView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form = formProvider()
 
@@ -61,7 +63,10 @@ class CompanyUtrYesNoController @Inject() (
 
           Ok(view(preparedForm, mode, companyName))
         }
-        .getOrElse(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        .getOrElse {
+          logger.error("[CompanyUtrYesNoController][onPageLoad] - CompanyNamePage missing from userAnswers")
+          Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
+        }
     }
 
   def onSubmit(mode: Mode): Action[AnyContent] =
@@ -80,6 +85,9 @@ class CompanyUtrYesNoController @Inject() (
                 } yield Redirect(navigator.nextPage(CompanyUtrYesNoPage, mode, updatedAnswers))
             )
         }
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error("[CompanyUtrYesNoController][onSubmit] - CompanyNamePage missing from userAnswers")
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
     }
 }

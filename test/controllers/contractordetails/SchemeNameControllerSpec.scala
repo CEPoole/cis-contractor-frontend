@@ -24,7 +24,7 @@ import navigation.{FakeNavigator, Navigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.contractordetails.SchemeNamePage
+import pages.contractordetails.{AddSchemeNameYesNoPage, SchemeNamePage}
 import play.api.data.Form
 import play.api.inject.bind
 import play.api.mvc.Call
@@ -37,47 +37,110 @@ import scala.concurrent.Future
 
 class SchemeNameControllerSpec extends SpecBase with MockitoSugar {
 
-  def onwardRoute = Call("GET", "/foo")
+  def onwardRoute: Call = Call("GET", "/foo")
 
   val formProvider       = new SchemeNameFormProvider()
   val form: Form[String] = formProvider()
 
   lazy val schemeNameRoute: String =
-    controllers.contractordetails.routes.SchemeNameController.onPageLoad(NormalMode).url
+    controllers.contractordetails.routes.SchemeNameController
+      .onPageLoad(NormalMode)
+      .url
+
+  val userAnswersForSchemeNamePage: UserAnswers =
+    emptyUserAnswers
+      .set(AddSchemeNameYesNoPage, true)
+      .success
+      .value
 
   "SchemeName Controller" - {
 
-    "must return OK and the correct view for a GET" in {
+    "must return OK and the correct view for a GET when AddSchemeNameYesNoPage is true" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application =
+        applicationBuilder(userAnswers = Some(userAnswersForSchemeNamePage)).build()
 
       running(application) {
         val request = FakeRequest(GET, schemeNameRoute)
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[SchemeNameView]
+        val view =
+          application.injector.instanceOf[SchemeNameView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual
+          view(form, NormalMode)(request, messages(application)).toString
       }
     }
 
-    "must populate the view correctly on a GET when the question has previously been answered" in {
+    "must populate the view correctly on a GET when the scheme name has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(SchemeNamePage, "answer").success.value
+      val userAnswers =
+        userAnswersForSchemeNamePage
+          .set(SchemeNamePage, "answer")
+          .success
+          .value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      val application =
+        applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request = FakeRequest(GET, schemeNameRoute)
 
-        val view = application.injector.instanceOf[SchemeNameView]
+        val view =
+          application.injector.instanceOf[SchemeNameView]
 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual
+          view(form.fill("answer"), NormalMode)(
+            request,
+            messages(application)
+          ).toString
+      }
+    }
+
+    "must redirect to AddSchemeNameYesNo page on a GET when AddSchemeNameYesNoPage has not been answered" in {
+
+      val application =
+        applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      running(application) {
+        val request = FakeRequest(GET, schemeNameRoute)
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual
+          controllers.contractordetails.routes.AddSchemeNameYesNoController
+            .onPageLoad(NormalMode)
+            .url
+      }
+    }
+
+    "must redirect to AddSchemeNameYesNo page on a GET when AddSchemeNameYesNoPage is false" in {
+
+      val userAnswers =
+        emptyUserAnswers
+          .set(AddSchemeNameYesNoPage, false)
+          .success
+          .value
+
+      val application =
+        applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val request = FakeRequest(GET, schemeNameRoute)
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual
+          controllers.contractordetails.routes.AddSchemeNameYesNoController
+            .onPageLoad(NormalMode)
+            .url
       }
     }
 
@@ -88,7 +151,7 @@ class SchemeNameControllerSpec extends SpecBase with MockitoSugar {
       when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
       val application =
-        applicationBuilder(userAnswers = Some(emptyUserAnswers))
+        applicationBuilder(userAnswers = Some(userAnswersForSchemeNamePage))
           .overrides(
             bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
             bind[SessionRepository].toInstance(mockSessionRepository)
@@ -109,7 +172,8 @@ class SchemeNameControllerSpec extends SpecBase with MockitoSugar {
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application =
+        applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
         val request =
@@ -118,18 +182,21 @@ class SchemeNameControllerSpec extends SpecBase with MockitoSugar {
 
         val boundForm = form.bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[SchemeNameView]
+        val view =
+          application.injector.instanceOf[SchemeNameView]
 
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual
+          view(boundForm, NormalMode)(request, messages(application)).toString
       }
     }
 
     "must redirect to Journey Recovery for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      val application =
+        applicationBuilder(userAnswers = None).build()
 
       running(application) {
         val request = FakeRequest(GET, schemeNameRoute)
@@ -137,13 +204,15 @@ class SchemeNameControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
+        redirectLocation(result).value mustEqual
+          routes.JourneyRecoveryController.onPageLoad().url
       }
     }
 
     "must redirect to Journey Recovery for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      val application =
+        applicationBuilder(userAnswers = None).build()
 
       running(application) {
         val request =
@@ -153,7 +222,8 @@ class SchemeNameControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
+        redirectLocation(result).value mustEqual
+          routes.JourneyRecoveryController.onPageLoad().url
       }
     }
   }

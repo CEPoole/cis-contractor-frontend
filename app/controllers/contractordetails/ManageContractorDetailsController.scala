@@ -20,7 +20,7 @@ import controllers.AgentClientChecks
 import controllers.actions.*
 import controllers.helpers.ContractorDetailsPopulator
 import models.{Scheme, UserAnswers}
-import pages.contractordetails.ContractorSchemePage
+import pages.contractordetails.{ContractorDetailsValidationTargetPage, ContractorSchemePage}
 import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -31,6 +31,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success}
 
 class ManageContractorDetailsController @Inject() (
   override val messagesApi: MessagesApi,
@@ -63,49 +64,51 @@ class ManageContractorDetailsController @Inject() (
           Future.successful(redirect)
 
         case Right(checkedAnswers) =>
-          getCisId(checkedAnswers).flatMap { cisId =>
-            contractorDetailsService
-              .getScheme(cisId)
-              .flatMap { scheme =>
-                checkedAnswers
-                  .set(ContractorSchemePage, scheme) match {
+          Future
+            .fromTry(checkedAnswers.remove(ContractorDetailsValidationTargetPage))
+            .flatMap { cleanedAnswers =>
+              getCisId(cleanedAnswers).flatMap { cisId =>
+                contractorDetailsService
+                  .getScheme(cisId)
+                  .flatMap { scheme =>
+                    cleanedAnswers
+                      .set(ContractorSchemePage, scheme) match {
 
-                  case scala.util.Failure(error) =>
-                    Future.failed(error)
+                      case Failure(error) =>
+                        Future.failed(error)
 
-                  case scala.util.Success(answersWithScheme) =>
-                    if (shouldRedirectToCheckAnswers(scheme)) {
+                      case Success(answersWithScheme) =>
+                        if (shouldRedirectToCheckAnswers(scheme)) {
 
-                      ContractorDetailsPopulator
-                        .populate(
-                          answersWithScheme,
-                          scheme
-                        )
-                        .fold(
-                          Future.failed,
-                          updatedAnswers =>
-                            sessionRepository
-                              .set(updatedAnswers)
-                              .map(_ =>
-                                Redirect(
-                                  routes.ContractorDetailsCheckAnswersController.onPageLoad(target)
-                                )
+                          ContractorDetailsPopulator
+                            .populate(
+                              answersWithScheme,
+                              scheme
+                            )
+                            .fold(
+                              Future.failed,
+                              updatedAnswers =>
+                                sessionRepository
+                                  .set(updatedAnswers)
+                                  .map(_ =>
+                                    Redirect(
+                                      routes.ContractorDetailsCheckAnswersController.onPageLoad(target)
+                                    )
+                                  )
+                            )
+                        } else {
+                          sessionRepository
+                            .set(answersWithScheme)
+                            .map(_ =>
+                              Redirect(
+                                routes.ContractorDetailsController.onPageLoad()
                               )
-                        )
-
-                    } else {
-
-                      sessionRepository
-                        .set(answersWithScheme)
-                        .map(_ =>
-                          Redirect(
-                            routes.ContractorDetailsController.onPageLoad()
-                          )
-                        )
+                            )
+                        }
                     }
-                }
+                  }
               }
-          }
+            }
       }.recover { case error =>
         logger.error(
           "[ManageContractorDetailsController] Failed to retrieve contractor details",

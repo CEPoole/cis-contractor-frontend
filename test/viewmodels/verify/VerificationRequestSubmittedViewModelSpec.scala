@@ -208,6 +208,38 @@ class VerificationRequestSubmittedViewModelSpec extends SpecBase {
         vm.showVerify             shouldBe true
       }
 
+      "must preserve duplicate subcontractor names (different IDs, same name)" in {
+
+        val subcontractors =
+          Set(
+            SubcontractorViewModel("ID1", "Common Trading Name"),
+            SubcontractorViewModel("ID2", "Common Trading Name"),
+            SubcontractorViewModel("ID3", "Common Trading Name")
+          )
+
+        val userAnswers =
+          UserAnswers("id")
+            .set(SelectSubcontractorPage, subcontractors)
+            .success
+            .value
+            .set(CisIdQuery, cisId)
+            .success
+            .value
+            .set(NewestVerificationBatchResponsePage, newestBatchResponse)
+            .success
+            .value
+
+        val vm =
+          VerificationRequestSubmittedViewModel.fromUserAnswers(userAnswers, applicationConfig)
+
+        vm.subcontractorsToVerify        shouldBe Seq(
+          "Common Trading Name",
+          "Common Trading Name",
+          "Common Trading Name"
+        )
+        vm.subcontractorsToVerify.length shouldBe 3
+      }
+
       "must throw when cisId is missing from userAnswers" in {
 
         val exception = intercept[IllegalStateException] {

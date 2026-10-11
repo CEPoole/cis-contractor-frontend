@@ -18,7 +18,6 @@ package controllers.verify
 
 import config.FrontendAppConfig
 import controllers.actions.*
-import models.requests.DataRequest
 import models.verify.SubmissionStatus
 import models.verify.SubmissionStatus.*
 import models.response.{ChrisPollResponse, ChrisSubmissionResponse}
@@ -26,7 +25,7 @@ import models.verify.GovTalkErrorStatus.{DepartmentalError, FatalError}
 import pages.verify.VerificationSubmissionDetailsPage
 import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
 import services.VerificationService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -77,25 +76,37 @@ class SubmissionSendingController @Inject() (
 
       request.userAnswers.get(VerificationSubmissionDetailsPage) match {
         case None =>
+          logger.error(
+            "[SubmissionSendingController][onPollAndRedirect] - VerificationSubmissionDetailsPage missing from userAnswers"
+          )
           Future.successful(recovery)
 
         case Some(submissionDetails) =>
-          val pollInterval =
+          val gatePollInterval =
             submissionDetails.pollIntervalSeconds
               .getOrElse(appConfig.submissionPollDefaultIntervalSeconds)
+          // Fixed page-refresh cadence, independent of the ChRIS poll interval used for the gate.
+          val refreshInterval  = appConfig.submissionPollDefaultIntervalSeconds
 
-          verificationService
-            .pollStatusAndPersist(request.userAnswers, submissionDetails)
-            .flatMap { response =>
-              redirectForPollSubmissionResponse(response, pollInterval)
-            }
-            .recover { case ex =>
-              logger.error(
-                "[SubmissionSendingController.onPollAndRedirect] Verification poll failed",
-                ex
-              )
-              recovery
-            }
+          if (!verificationService.isPollDue(submissionDetails, gatePollInterval)) {
+            Future.successful(
+              Ok(view())
+                .withHeaders("Refresh" -> refreshInterval.toString)
+            )
+          } else {
+            verificationService
+              .pollStatusAndPersist(request.userAnswers, submissionDetails)
+              .flatMap { response =>
+                redirectForPollSubmissionResponse(response, refreshInterval)
+              }
+              .recover { case ex =>
+                logger.error(
+                  "[SubmissionSendingController.onPollAndRedirect] Verification poll failed",
+                  ex
+                )
+                recovery
+              }
+          }
       }
     }
 
@@ -129,13 +140,17 @@ class SubmissionSendingController @Inject() (
             .onPageLoad()
         )
 
-      case _ =>
+      case unexpectedStatus =>
+        logger.error(
+          "[SubmissionSendingController][redirectForErrorStatus] - " +
+            s"unexpected submission status=${unexpectedStatus.value}"
+        )
         recovery
     }
 
   private def redirectForInitialSubmissionResponse(
     response: ChrisSubmissionResponse
-  )(implicit request: DataRequest[_]): Future[Result] =
+  ): Future[Result] =
     SubmissionStatus.fromString(response.status) match {
 
       case SubmissionStatus.PENDING | SubmissionStatus.ACCEPTED =>
@@ -144,43 +159,41 @@ class SubmissionSendingController @Inject() (
         )
 
       case SUBMITTED_NO_RECEIPT =>
-        verificationService
-          .resetUserAnswers(request.userAnswers)
-          .map { _ =>
-            Redirect(controllers.verify.routes.VerificationRequestSubmittedController.onPageLoad())
-          }
+        Future.successful(
+          Redirect(controllers.verify.routes.VerificationRequestSubmittedController.onPageLoad())
+        )
 
       case status @ (DEPARTMENTAL_ERROR | FATAL_ERROR) =>
         Future.successful(redirectForErrorStatus(status, response.govTalkErrorStatus))
 
-      case _ =>
+      case unexpectedStatus =>
+        logger.error(
+          "[SubmissionSendingController][redirectForInitialSubmissionResponse] - " +
+            s"unexpected submission status=${unexpectedStatus.value}"
+        )
         Future.successful(recovery)
     }
 
   private def redirectForPollSubmissionResponse(
     response: ChrisPollResponse,
-    pollInterval: Int
-  )(implicit request: DataRequest[_]): Future[Result] =
+    refreshInterval: Int
+  )(implicit request: Request[_]): Future[Result] =
     response.status match {
       case SubmissionStatus.PENDING | SubmissionStatus.ACCEPTED =>
         Future.successful(
           Ok(view())
-            .withHeaders("Refresh" -> pollInterval.toString)
+            .withHeaders("Refresh" -> refreshInterval.toString)
         )
 
       case SUBMITTED =>
-        verificationService
-          .resetUserAnswers(request.userAnswers)
-          .map { _ =>
-            Redirect(controllers.verify.routes.VerificationRequestSubmittedController.onPageLoad())
-          }
+        Future.successful(
+          Redirect(controllers.verify.routes.VerificationRequestSubmittedController.onPageLoad())
+        )
 
       case SUBMITTED_NO_RECEIPT =>
-        verificationService
-          .resetUserAnswers(request.userAnswers)
-          .map { _ =>
-            Redirect(controllers.verify.routes.VerificationRequestSubmittedController.onPageLoad())
-          }
+        Future.successful(
+          Redirect(controllers.verify.routes.VerificationRequestSubmittedController.onPageLoad())
+        )
 
       case status @ (DEPARTMENTAL_ERROR | FATAL_ERROR) =>
         Future.successful(redirectForErrorStatus(status, response.govTalkErrorStatus))
@@ -194,7 +207,11 @@ class SubmissionSendingController @Inject() (
 
       case TIMED_OUT => Future.successful(Redirect(controllers.verify.routes.VerifySendErrorController.onPageLoad()))
 
-      case _ =>
+      case unexpectedStatus =>
+        logger.error(
+          "[SubmissionSendingController][redirectForPollSubmissionResponse] - " +
+            s"unexpected poll status=${unexpectedStatus.value}"
+        )
         Future.successful(recovery)
     }
 

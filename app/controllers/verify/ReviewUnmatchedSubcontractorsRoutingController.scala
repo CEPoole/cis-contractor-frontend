@@ -117,6 +117,9 @@ class ReviewUnmatchedSubcontractorsRoutingController @Inject() (
                 }
 
               case _ =>
+                logger.error(
+                  "[ReviewUnmatchedSubcontractorsRoutingController][onPageLoad] - LastSubmittedVerificationBatchResponsePage missing from userAnswers"
+                )
                 Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
             }
           }

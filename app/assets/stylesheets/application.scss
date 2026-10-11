@@ -151,23 +151,18 @@
   }
 }
 
-.app-task-list-row-submit-item {
-  position: relative;
-}
-
 .app-task-list-row-submit__button {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: 0;
-  margin: 0;
-  background: transparent;
-  cursor: pointer;
-  appearance: none;
-}
+   padding: 0;
+   border: 0;
+   margin: 0;
+   background: transparent;
+   font: inherit;
+   text-align: left;
+   cursor: pointer;
+   appearance: none;
+   color: #1d70b8;
+   text-decoration: underline;
+ }
 
 .app-task-list-row-submit__button:focus {
   outline: 3px solid #ffdd00;
@@ -178,6 +173,22 @@
   .govuk-summary-list__value {
     white-space: pre-line;
   }
+}
+
+.final-validation-action-form {
+  display: inline-flex;
+  align-items: center;
+}
+
+.final-validation-cancel-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #1d70b8;
+  font-size: 19px;
+  font-family: "GDS Transport", arial, sans-serif;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 // Prevent Safari on iOS from styling auto-detected phone/data links

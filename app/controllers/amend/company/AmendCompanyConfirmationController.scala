@@ -59,7 +59,7 @@ class AmendCompanyConfirmationController @Inject() (
       val ua = request.userAnswers
 
       if (!ua.get(AmendCheckYourAnswersSubmittedPage).contains(true)) {
-        logger.warn(
+        logger.error(
           "[AmendCompanyConfirmationController] Accessed without prior CYA submission"
         )
         Future.successful(recoveryRedirect)

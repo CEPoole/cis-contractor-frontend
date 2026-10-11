@@ -47,7 +47,9 @@ class FinalValidationNavigator @Inject() extends NavigatorForJourney with Loggin
       case Some(Limitedcompany)         => companyStartPage(target)
       case Some(Partnership)            => partnershipStartPage(target)
       case Some(Trust)                  => trustStartPage(target)
-      case None                         => recovery
+      case None                         =>
+        logger.error("[FinalValidationNavigator][startPage] - TypeOfSubcontractorPage missing from userAnswers")
+        recovery
     }
 
   override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call =
@@ -75,14 +77,14 @@ class FinalValidationNavigator @Inject() extends NavigatorForJourney with Loggin
           case Some(_)                   =>
             complete
           case None                      =>
-            logger.warn(
+            logger.error(
               "[FinalValidationNavigator][nextPage] " +
                 "FinalValidationChangeTargetPage missing"
             )
             recovery
         }
       case _                   =>
-        logger.warn(
+        logger.error(
           s"[FinalValidationNavigator][nextPage] " +
             s"Unexpected mode=$mode"
         )
@@ -102,7 +104,9 @@ class FinalValidationNavigator @Inject() extends NavigatorForJourney with Loggin
     answer match {
       case Some(true)  => onYes
       case Some(false) => complete
-      case None        => recovery
+      case None        =>
+        logger.error("[FinalValidationNavigator][yesNoNextPage] - yes/no answer missing from userAnswers")
+        recovery
     }
 
   private def identifierYesNoNextPage(page: Page, userAnswers: UserAnswers): Call =
@@ -200,6 +204,9 @@ class FinalValidationNavigator @Inject() extends NavigatorForJourney with Loggin
         } else if (selected.contains(IndividualNamesOptions.TradingName)) {
           soleTraderRoutes.TradingNameOfSubcontractorController.onPageLoad(FinalValidationMode)
         } else {
+          logger.error(
+            "[FinalValidationNavigator][individualNamesNextPage] - names option missing"
+          )
           recovery
         }
 
@@ -214,6 +221,7 @@ class FinalValidationNavigator @Inject() extends NavigatorForJourney with Loggin
         complete
 
       case _ =>
+        logger.error(s"[FinalValidationNavigator][individualNamesNextPage] - navigator fallback reached, page=$page")
         recovery
     }
   }
@@ -241,6 +249,7 @@ class FinalValidationNavigator @Inject() extends NavigatorForJourney with Loggin
           trustRoutes.TrustAddressController.redirectToAddressLookup(FinalValidationMode, None)
         )
       case _                           =>
+        logger.error(s"[FinalValidationNavigator][addressYesNoNextPage] - navigator fallback reached, page=$page")
         recovery
     }
 
@@ -354,6 +363,9 @@ class FinalValidationNavigator @Inject() extends NavigatorForJourney with Loggin
           userAnswers
         )
       case _                                     =>
+        logger.error(
+          s"[FinalValidationNavigator][contactDetailsYesNoNextPage] - navigator fallback reached, page=$page"
+        )
         recovery
     }
 
@@ -373,23 +385,31 @@ class FinalValidationNavigator @Inject() extends NavigatorForJourney with Loggin
     current: Option[ContactMethodOptions],
     selectedContactMethods: Option[Seq[ContactMethodOptions]]
   )(terminalStep: Seq[ContactMethodOptions] => Call): Call =
-    selectedContactMethods.filter(_.nonEmpty).fold(recovery) { selected =>
-      current match {
-        case Some(currentContactMethod) if !selected.contains(currentContactMethod) =>
-          recovery
-        case _                                                                      =>
-          val remaining =
-            current match {
-              case None                       =>
-                selected
-              case Some(currentContactMethod) =>
-                val currentIndex = selected.indexWhere(_ == currentContactMethod)
-                selected.drop(currentIndex + 1)
-            }
+    selectedContactMethods
+      .filter(_.nonEmpty)
+      .fold {
+        logger.error("[FinalValidationNavigator][navigateFromContactMethodPage] - contact methods missing or empty")
+        recovery
+      } { selected =>
+        current match {
+          case Some(currentContactMethod) if !selected.contains(currentContactMethod) =>
+            logger.error(
+              "[FinalValidationNavigator][navigateFromContactMethodPage] - current contact method not selected"
+            )
+            recovery
+          case _                                                                      =>
+            val remaining =
+              current match {
+                case None                       =>
+                  selected
+                case Some(currentContactMethod) =>
+                  val currentIndex = selected.indexWhere(_ == currentContactMethod)
+                  selected.drop(currentIndex + 1)
+              }
 
-          terminalStep(remaining)
+            terminalStep(remaining)
+        }
       }
-    }
 
   private def nextSelectedIndividualContactMethodPageAfter(
     current: Option[ContactMethodOptions],
@@ -509,7 +529,9 @@ class FinalValidationNavigator @Inject() extends NavigatorForJourney with Loggin
       case WorksReferenceNumberYesNo =>
         soleTraderRoutes.WorksReferenceNumberYesNoController.onPageLoad(FinalValidationMode)
       case WorksReferenceNumber      => soleTraderRoutes.WorksReferenceNumberController.onPageLoad(FinalValidationMode)
-      case _                         => recovery
+      case _                         =>
+        logger.error(s"[FinalValidationNavigator][soleTraderStartPage] - navigator fallback reached, target=$target")
+        recovery
     }
 
   private def companyStartPage(target: FinalValidationChangeTarget): Call =
@@ -528,7 +550,9 @@ class FinalValidationNavigator @Inject() extends NavigatorForJourney with Loggin
       case WorksReferenceNumberYesNo =>
         companyRoutes.CompanyWorksReferenceYesNoController.onPageLoad(FinalValidationMode)
       case WorksReferenceNumber      => companyRoutes.CompanyWorksReferenceController.onPageLoad(FinalValidationMode)
-      case _                         => recovery
+      case _                         =>
+        logger.error(s"[FinalValidationNavigator][companyStartPage] - navigator fallback reached, target=$target")
+        recovery
     }
 
   private def trustStartPage(target: FinalValidationChangeTarget): Call =
@@ -544,7 +568,9 @@ class FinalValidationNavigator @Inject() extends NavigatorForJourney with Loggin
       case Utr                       => trustRoutes.TrustUtrController.onPageLoad(FinalValidationMode)
       case WorksReferenceNumberYesNo => trustRoutes.TrustWorksReferenceYesNoController.onPageLoad(FinalValidationMode)
       case WorksReferenceNumber      => trustRoutes.TrustWorksReferenceController.onPageLoad(FinalValidationMode)
-      case _                         => recovery
+      case _                         =>
+        logger.error(s"[FinalValidationNavigator][trustStartPage] - navigator fallback reached, target=$target")
+        recovery
     }
 
   private def partnershipStartPage(target: FinalValidationChangeTarget): Call =
@@ -571,7 +597,11 @@ class FinalValidationNavigator @Inject() extends NavigatorForJourney with Loggin
         partnershipRoutes.PartnershipWorksReferenceNumberYesNoController.onPageLoad(FinalValidationMode)
       case WorksReferenceNumber      =>
         partnershipRoutes.PartnershipWorksReferenceNumberController.onPageLoad(FinalValidationMode)
-      case _                         => recovery
+      case _                         =>
+        logger.error(
+          s"[FinalValidationNavigator][partnershipStartPage] - navigator fallback reached, target=$target"
+        )
+        recovery
     }
 
 }

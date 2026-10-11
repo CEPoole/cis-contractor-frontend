@@ -495,6 +495,15 @@ class ConstructionIndustrySchemeConnector @Inject() (config: ServicesConfig, htt
         }
       }
 
+  def resetFinalValidationSubcontractor(
+    instanceId: String,
+    draftId: String,
+    subcontractorId: Long
+  )(implicit hc: HeaderCarrier): Future[FinalValidationDraft] =
+    http
+      .put(url"$cisBaseUrl/final-validation/drafts/$instanceId/$draftId/subcontractors/$subcontractorId/reset")
+      .execute[FinalValidationDraft]
+
   def updateSubcontractorForEdit(
     request: UpdateSubcontractorForEditRequest
   )(implicit hc: HeaderCarrier): Future[Unit] = {

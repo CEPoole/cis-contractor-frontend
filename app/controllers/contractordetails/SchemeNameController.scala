@@ -20,7 +20,7 @@ import controllers.actions.*
 import forms.contractordetails.SchemeNameFormProvider
 import models.Mode
 import navigation.Navigator
-import pages.contractordetails.SchemeNamePage
+import pages.contractordetails.{AddSchemeNameYesNoPage, SchemeNamePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -46,15 +46,21 @@ class SchemeNameController @Inject() (
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] =
+    (identify andThen getData andThen requireData) { implicit request =>
+      if (!request.userAnswers.get(AddSchemeNameYesNoPage).contains(true)) {
+        Redirect(
+          controllers.contractordetails.routes.AddSchemeNameYesNoController.onPageLoad(mode)
+        )
+      } else {
+        val preparedForm = request.userAnswers.get(SchemeNamePage) match {
+          case None        => form
+          case Some(value) => form.fill(value)
+        }
 
-    val preparedForm = request.userAnswers.get(SchemeNamePage) match {
-      case None        => form
-      case Some(value) => form.fill(value)
+        Ok(view(preparedForm, mode))
+      }
     }
-
-    Ok(view(preparedForm, mode))
-  }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>

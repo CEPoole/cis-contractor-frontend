@@ -16,12 +16,13 @@
 
 package controllers.helpers
 
+import play.api.Logging
 import play.api.mvc.Result
 import controllers.routes
 import models.contact.ContactMethodOptions
 import play.api.mvc.Results.Redirect
 
-trait ContactGuard {
+trait ContactGuard extends Logging {
 
   def requireContactMethodInSet[A](
     name: Option[A],
@@ -33,7 +34,8 @@ trait ContactGuard {
       methods <- contactMethods
       if methods.contains(expected)
     } yield onSuccess(n))
-      .getOrElse(
+      .getOrElse {
+        logger.error("[ContactGuard][requireContactMethodInSet] - name or contact method missing")
         Redirect(routes.JourneyRecoveryController.onPageLoad())
-      )
+      }
 }

@@ -171,6 +171,9 @@ class PartnershipNavigator @Inject() () extends NavigatorForJourney {
         cyaRoute(mode)
 
       case (None, _) =>
+        logger.error(
+          s"[PartnershipNavigator][navigatorFromPartnershipNominatedPartnerNinoPage] - answer missing, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -183,6 +186,9 @@ class PartnershipNavigator @Inject() () extends NavigatorForJourney {
         cyaRoute(mode)
 
       case (None, _) =>
+        logger.error(
+          s"[PartnershipNavigator][navigatorFromPartnershipNominatedPartnerCrnPage] - answer missing, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -205,6 +211,9 @@ class PartnershipNavigator @Inject() () extends NavigatorForJourney {
         controllers.add.partnership.routes.PartnershipNominatedPartnerNameController.onPageLoad(NormalMode)
 
       case _ =>
+        logger.error(
+          s"[PartnershipNavigator][navigatorFromPartnershipHasUtrYesNoPage] - unexpected state, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -227,6 +236,9 @@ class PartnershipNavigator @Inject() () extends NavigatorForJourney {
         controllers.add.partnership.routes.PartnershipCheckYourAnswersController.onPageLoad()
 
       case _ =>
+        logger.error(
+          s"[PartnershipNavigator][navigatorFromPartnershipWorksReferenceNumberYesNoPage] - unexpected, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -251,6 +263,9 @@ class PartnershipNavigator @Inject() () extends NavigatorForJourney {
         cyaRoute(mode)
 
       case (None, _) =>
+        logger.error(
+          s"[PartnershipNavigator][navigatorFromPartnershipNominatedPartnerUtrYesNoPage] - answer missing, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -275,6 +290,9 @@ class PartnershipNavigator @Inject() () extends NavigatorForJourney {
         cyaRoute(mode)
 
       case (None, _) =>
+        logger.error(
+          s"[PartnershipNavigator][navigatorFromPartnershipNominatedPartnerCrnYesNoPage] - answer missing, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -287,6 +305,9 @@ class PartnershipNavigator @Inject() () extends NavigatorForJourney {
           case Some(false) =>
             cyaRoute(mode)
           case None        =>
+            logger.error(
+              s"[PartnershipNavigator][navigatorFromPartnershipAddressYesNoPage] - answer missing, mode=$mode"
+            )
             controllers.routes.JourneyRecoveryController.onPageLoad()
         }
       case _         =>
@@ -324,6 +345,9 @@ class PartnershipNavigator @Inject() () extends NavigatorForJourney {
         cyaRoute(mode)
 
       case (None, _) =>
+        logger.error(
+          s"[PartnershipNavigator][navigatorFromPartnershipNominatedPartnerNinoYesNoPage] - answer missing, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -347,6 +371,9 @@ class PartnershipNavigator @Inject() () extends NavigatorForJourney {
         cyaRoute(mode)
 
       case _ =>
+        logger.error(
+          s"[PartnershipNavigator][navigatorFromAddPartnershipContactMethodsYesNoPage] - unexpected state, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -378,9 +405,17 @@ class PartnershipNavigator @Inject() () extends NavigatorForJourney {
   )(terminalStep: Seq[ContactMethodOptions] => Call): Call =
     selectedContactMethodsInOrder(userAnswers)
       .filter(_.nonEmpty)
-      .fold(routes.JourneyRecoveryController.onPageLoad()) { selectedContactMethods =>
+      .fold {
+        logger.error(
+          "[PartnershipNavigator][navigateFromContactMethodPage] - ContactMethodOptions missing or empty"
+        )
+        routes.JourneyRecoveryController.onPageLoad()
+      } { selectedContactMethods =>
         current match {
           case Some(currentContactMethod) if !selectedContactMethods.contains(currentContactMethod) =>
+            logger.error(
+              "[PartnershipNavigator][navigateFromContactMethodPage] - current contact method not selected"
+            )
             routes.JourneyRecoveryController.onPageLoad()
 
           case _ =>

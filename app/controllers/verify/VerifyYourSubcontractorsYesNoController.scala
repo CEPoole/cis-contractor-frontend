@@ -22,6 +22,7 @@ import models.NormalMode
 import navigation.Navigator
 import config.FrontendAppConfig
 import pages.verify.VerifyYourSubcontractorsYesNoPage
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import queries.CisIdQuery
@@ -45,7 +46,8 @@ class VerifyYourSubcontractorsYesNoController @Inject() (
 )(implicit ec: ExecutionContext, appConfig: FrontendAppConfig)
     extends FrontendBaseController
     with I18nSupport
-    with PendingVerificationRequestGuard {
+    with PendingVerificationRequestGuard
+    with Logging {
 
   private val form = formProvider()
 
@@ -83,6 +85,9 @@ class VerifyYourSubcontractorsYesNoController @Inject() (
                       Redirect(s"${appConfig.manageSubcontractorsUrl}/$cisId")
 
                     case None =>
+                      logger.error(
+                        "[VerifyYourSubcontractorsYesNoController][onSubmit] - CisIdQuery missing from userAnswers"
+                      )
                       Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
                   }
                 }

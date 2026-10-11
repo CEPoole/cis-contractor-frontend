@@ -22,6 +22,7 @@ import forms.add.partnership.PartnershipNominatedPartnerCrnYesNoFormProvider
 import models.Mode
 import navigation.Navigator
 import pages.add.partnership.PartnershipNominatedPartnerCrnYesNoPage
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -43,7 +44,8 @@ class PartnershipNominatedPartnerCrnYesNoController @Inject() (
   view: PartnershipNominatedPartnerCrnYesNoView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form = formProvider()
 
@@ -58,7 +60,12 @@ class PartnershipNominatedPartnerCrnYesNoController @Inject() (
 
         Ok(view(preparedForm, mode, nominatedPartnershipName))
       }
-      .getOrElse(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+      .getOrElse {
+        logger.error(
+          s"[PartnershipNominatedPartnerCrnYesNoController][onPageLoad] - partner name missing from userAnswers"
+        )
+        Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
+      }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -78,6 +85,11 @@ class PartnershipNominatedPartnerCrnYesNoController @Inject() (
                 } yield Redirect(navigator.nextPage(PartnershipNominatedPartnerCrnYesNoPage, mode, updatedAnswers))
             )
         }
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error(
+            s"[PartnershipNominatedPartnerCrnYesNoController][onSubmit] - partner name missing from userAnswers"
+          )
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
   }
 }

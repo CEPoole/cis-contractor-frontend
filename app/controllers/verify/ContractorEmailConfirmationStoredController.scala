@@ -23,6 +23,7 @@ import models.finalvalidation.{FinalValidationDraftRequestBuilder, VerifyFinalVa
 import navigation.Navigator
 import pages.finalvalidation.{FinalValidationDraftIdPage, VerifyFinalValidationContinuationPage, VerifyFinalValidationModePage}
 import pages.verify.{ContractorEmailConfirmationNotStoredPage, ContractorEmailConfirmationStoredPage, NewestVerificationBatchResponsePage}
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -50,7 +51,8 @@ class ContractorEmailConfirmationStoredController @Inject() (
   view: ContractorEmailConfirmationStoredView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form = formProvider()
 
@@ -77,6 +79,9 @@ class ContractorEmailConfirmationStoredController @Inject() (
     (identify andThen getData andThen requireData andThen requireCisId).async { implicit request =>
       getEmailAddress(request.userAnswers) match {
         case Left(_) =>
+          logger.error(
+            "[ContractorEmailConfirmationStoredController][onPageLoad] - NewestVerificationBatchResponsePage missing from userAnswers"
+          )
           Future.successful(recoveryRedirect)
 
         case Right(None) =>
@@ -141,6 +146,9 @@ class ContractorEmailConfirmationStoredController @Inject() (
     (identify andThen getData andThen requireData).async { implicit request =>
       getEmailAddress(request.userAnswers) match {
         case Left(_) =>
+          logger.error(
+            "[ContractorEmailConfirmationStoredController][onPageLoadAfterFinalValidation] - NewestVerificationBatchResponsePage missing from userAnswers"
+          )
           Future.successful(recoveryRedirect)
 
         case Right(None) =>
@@ -169,7 +177,12 @@ class ContractorEmailConfirmationStoredController @Inject() (
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
       getEmailAddress(request.userAnswers).toOption.flatten
-        .fold(Future.successful(recoveryRedirect)) { emailAddress =>
+        .fold {
+          logger.error(
+            "[ContractorEmailConfirmationStoredController][onSubmit] - NewestVerificationBatchResponsePage or scheme email missing"
+          )
+          Future.successful(recoveryRedirect)
+        } { emailAddress =>
           form
             .bindFromRequest()
             .fold(

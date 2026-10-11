@@ -147,11 +147,26 @@ class SelectSubcontractorControllerSpec extends SpecBase with MockitoSugar {
     "must return OK and correct view for GET (page 1)" in {
 
       val mockSessionRepository = mock[SessionRepository]
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+      when(mockSessionRepository.set(any()))
+        .thenReturn(Future.successful(true))
+
+      val mockVerificationPreSelectionService =
+        mock[VerificationPreSelectionService]
+
+      when(
+        mockVerificationPreSelectionService.preSelectedSubcontractorIds(
+          any[Seq[Subcontractor]],
+          any[UserAnswers]
+        )
+      ).thenReturn(Set.empty[String])
 
       val application =
         applicationBuilder(userAnswers = Some(uaWithSubcontractors))
-          .overrides(bind[SessionRepository].toInstance(mockSessionRepository))
+          .overrides(
+            bind[SessionRepository].toInstance(mockSessionRepository),
+            bind[VerificationPreSelectionService]
+              .toInstance(mockVerificationPreSelectionService)
+          )
           .build()
 
       running(application) {
@@ -160,8 +175,11 @@ class SelectSubcontractorControllerSpec extends SpecBase with MockitoSugar {
 
         val view = application.injector.instanceOf[SelectSubcontractorView]
 
-        val allItems         = SubcontractorViewModel.checkboxItems(allSubs)
-        val paginationResult = paginationService.paginateCheckboxItems(allItems, 1)
+        val allItems =
+          SubcontractorViewModel.checkboxItems(allSubs)
+
+        val paginationResult =
+          paginationService.paginateCheckboxItems(allItems, 1)
 
         status(result) mustEqual OK
 
@@ -175,6 +193,12 @@ class SelectSubcontractorControllerSpec extends SpecBase with MockitoSugar {
           paginationResult.totalCount,
           paginationResult.totalPages
         )(request, messages(application)).toString
+
+        verify(mockVerificationPreSelectionService)
+          .preSelectedSubcontractorIds(
+            any[Seq[Subcontractor]],
+            any[UserAnswers]
+          )
       }
     }
 
@@ -302,6 +326,81 @@ class SelectSubcontractorControllerSpec extends SpecBase with MockitoSugar {
       }
     }
 
+    "must return BadRequest when more than 100 subcontractors are selected" in {
+
+      val manySubcontractors = generateSubcontractors(201)
+
+      val manySubs =
+        SubcontractorViewModel.fromSubcontractors(manySubcontractors)
+
+      val allItems =
+        SubcontractorViewModel.checkboxItems(manySubs)
+
+      val firstPage =
+        paginationService.paginateCheckboxItems(allItems, 1)
+
+      val currentPageIds: Set[String] =
+        firstPage.paginatedData.map(_.value).toSet
+
+      val priorSelections: Set[SubcontractorViewModel] =
+        manySubs
+          .filterNot(sub => currentPageIds.contains(sub.id))
+          .take(100)
+          .toSet
+
+      priorSelections.size mustBe 100
+
+      val newlySelectedId =
+        firstPage.paginatedData.head.value
+
+      val responseWithManySubcontractors =
+        getNewestVerificationBatchResponse.copy(
+          subcontractors = manySubcontractors
+        )
+
+      val userAnswers =
+        userAnswersWithCisId
+          .set(
+            NewestVerificationBatchResponsePage,
+            responseWithManySubcontractors
+          )
+          .success
+          .value
+          .set(
+            UnverifiedSubcontractorsPage,
+            manySubcontractors
+          )
+          .success
+          .value
+          .set(
+            SelectSubcontractorPage,
+            priorSelections
+          )
+          .success
+          .value
+
+      val application =
+        applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, url())
+            .withFormUrlEncodedBody(
+              "value[0]" -> newlySelectedId
+            )
+
+        val result = route(application, request).value
+
+        status(result) mustBe BAD_REQUEST
+
+        val body = contentAsString(result)
+
+        body must include(
+          "You can only include up to 100 subcontractors in a verification request"
+        )
+      }
+    }
+
     "must support pagination (page 2)" in {
 
       val mockSessionRepository = mock[SessionRepository]
@@ -347,6 +446,71 @@ class SelectSubcontractorControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustBe BAD_REQUEST
+    }
+
+    "must allow gotoPage navigation even when more than 100 subcontractors are selected" in {
+
+      val mockSessionRepository = mock[SessionRepository]
+      when(mockSessionRepository.set(any()))
+        .thenReturn(Future.successful(true))
+
+      val manySubcontractors = generateSubcontractors(201)
+
+      val manySubs =
+        SubcontractorViewModel.fromSubcontractors(manySubcontractors)
+
+      val allItems =
+        SubcontractorViewModel.checkboxItems(manySubs)
+
+      val firstPage =
+        paginationService.paginateCheckboxItems(allItems, 1)
+
+      val currentPageIds: Set[String] =
+        firstPage.paginatedData.map(_.value).toSet
+
+      val priorSelections: Set[SubcontractorViewModel] =
+        manySubs
+          .filterNot(sub => currentPageIds.contains(sub.id))
+          .take(100)
+          .toSet
+
+      val responseWithManySubcontractors =
+        getNewestVerificationBatchResponse.copy(
+          subcontractors = manySubcontractors
+        )
+
+      val userAnswers =
+        userAnswersWithCisId
+          .set(NewestVerificationBatchResponsePage, responseWithManySubcontractors)
+          .success
+          .value
+          .set(UnverifiedSubcontractorsPage, manySubcontractors)
+          .success
+          .value
+          .set(SelectSubcontractorPage, priorSelections)
+          .success
+          .value
+
+      val application =
+        applicationBuilder(userAnswers = Some(userAnswers))
+          .overrides(bind[SessionRepository].toInstance(mockSessionRepository))
+          .build()
+
+      running(application) {
+        val newlySelectedId = firstPage.paginatedData.head.value
+
+        val request =
+          FakeRequest(POST, url())
+            .withFormUrlEncodedBody(
+              "value[0]" -> newlySelectedId,
+              "gotoPage" -> "2"
+            )
+
+        val result = route(application, request).value
+
+        status(result) mustBe SEE_OTHER
+        redirectLocation(result).value mustEqual url(2)
+      }
     }
 
     "must initialise verification data and render the page for a GET if no existing data is found" in {

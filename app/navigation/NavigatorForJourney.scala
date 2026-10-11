@@ -16,11 +16,12 @@
 
 package navigation
 
+import play.api.Logging
 import play.api.mvc.Call
 import pages.Page
 import models.{CheckMode, Mode, NormalMode, UserAnswers}
 
-trait NavigatorForJourney {
+trait NavigatorForJourney extends Logging {
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call
 
   /** Shared routing for an "add an address?" Yes/No page that feeds into the Address Lookup Frontend journey. Identical
@@ -53,6 +54,8 @@ trait NavigatorForJourney {
       case (Some(false), NormalMode) => onNo
       case (Some(true), CheckMode)   => if (addressEntered) checkYourAnswers else onYesChange
       case (Some(false), CheckMode)  => checkYourAnswers
-      case _                         => controllers.routes.JourneyRecoveryController.onPageLoad()
+      case _                         =>
+        logger.error(s"[NavigatorForJourney][addressLookupYesNoRoute] - navigator fallback reached, mode=$mode")
+        controllers.routes.JourneyRecoveryController.onPageLoad()
     }
 }

@@ -46,14 +46,16 @@ class VerificationRequestSubmittedController @Inject() (
     (identify andThen getData andThen requireData).async { implicit request =>
       verificationService
         .refreshSubmittedVerificationRequest(request.userAnswers)
-        .map { updatedAnswers =>
+        .flatMap { updatedAnswers =>
           val viewModel =
             VerificationRequestSubmittedViewModel.fromUserAnswers(
               updatedAnswers,
               appConfig
             )
 
-          Ok(view(viewModel))
+          verificationService.resetUserAnswers(updatedAnswers).map { _ =>
+            Ok(view(viewModel))
+          }
         }
         .recover { case t =>
           logger.error(

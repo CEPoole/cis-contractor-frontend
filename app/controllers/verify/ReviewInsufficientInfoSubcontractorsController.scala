@@ -75,6 +75,9 @@ class ReviewInsufficientInfoSubcontractorsController @Inject() (
                         _              <- sessionRepository.set(updatedAnswers)
                       } yield Ok(view(viewModel))
                     } else {
+                      logger.error(
+                        "[ReviewInsufficientInfoSubcontractorsController][onPageLoad] - no missing or ready subcontractors in view model"
+                      )
                       Future.successful(
                         Redirect(
                           controllers.routes.JourneyRecoveryController.onPageLoad()
@@ -96,6 +99,9 @@ class ReviewInsufficientInfoSubcontractorsController @Inject() (
                 }
 
               case None =>
+                logger.error(
+                  "[ReviewInsufficientInfoSubcontractorsController][onPageLoad] - CurrentVerificationBatchResponsePage missing from userAnswers"
+                )
                 Future.successful(
                   Redirect(
                     controllers.routes.JourneyRecoveryController.onPageLoad()

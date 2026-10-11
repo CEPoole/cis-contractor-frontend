@@ -23,6 +23,7 @@ import models.requests.DataRequest
 import navigation.Navigator
 import pages.add.WorksReferenceNumberYesNoPage
 import play.api.data.Form
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -46,7 +47,8 @@ class WorksReferenceNumberYesNoController @Inject() (
   view: WorksReferenceNumberYesNoView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   private val form: Form[Boolean] = formProvider()
 
@@ -60,7 +62,10 @@ class WorksReferenceNumberYesNoController @Inject() (
     (identify andThen getData andThen requireData) { implicit request =>
       subcontractorNameExtractor
         .getSubcontractorName(request.userAnswers, mode)
-        .fold(recoveryRedirect) { subcontractorName =>
+        .fold {
+          logger.error("[WorksReferenceNumberYesNoController][onPageLoad] - subcontractor name missing or invalid")
+          recoveryRedirect
+        } { subcontractorName =>
           Ok(view(preparedForm, mode, subcontractorName))
         }
     }
@@ -69,7 +74,10 @@ class WorksReferenceNumberYesNoController @Inject() (
     (identify andThen getData andThen requireData).async { implicit request =>
       subcontractorNameExtractor
         .getSubcontractorName(request.userAnswers, mode)
-        .fold(Future.successful(recoveryRedirect)) { subcontractorName =>
+        .fold {
+          logger.error("[WorksReferenceNumberYesNoController][onSubmit] - subcontractor name missing or invalid")
+          Future.successful(recoveryRedirect)
+        } { subcontractorName =>
           form
             .bindFromRequest()
             .fold(

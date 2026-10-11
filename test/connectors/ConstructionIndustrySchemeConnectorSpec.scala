@@ -17,6 +17,7 @@
 package connectors
 
 import models.TypeOfSubcontractor
+import models.finalvalidation.FinalValidationDraft
 import models.requests.*
 import models.requests.CreateAndUpdateSubcontractorPayload.*
 import models.response.*
@@ -1128,6 +1129,125 @@ class ConstructionIndustrySchemeConnectorSpec extends AnyWordSpec with Matchers 
 
       ex.getMessage mustEqual
         "Update contractor details failed, returned 500"
+    }
+  }
+
+  "ConstructionIndustrySchemeConnector.resetFinalValidationSubcontractor" should {
+
+    "PUT the reset request and return the updated Final Validation draft" in {
+      val config = mock[ServicesConfig]
+      val http   = mock[HttpClientV2]
+      val rb     = mock[RequestBuilder]
+
+      when(
+        config.baseUrl("construction-industry-scheme")
+      ).thenReturn("http://cis-host")
+
+      when(http.put(any())(any()))
+        .thenReturn(rb)
+
+      val expected =
+        Json
+          .obj(
+            "subcontractors" -> Json.arr(
+              Json.obj(
+                "subcontractorId"   -> 10903L,
+                "subbieResourceRef" -> 7L,
+                "baseVersion"       -> 12,
+                "subcontractorType" -> "soletrader",
+                "displayName"       -> "A Alice",
+                "base"              -> Json.obj(
+                  "firstName" -> "A",
+                  "surname"   -> "Alice",
+                  "utr"       -> "1111111111"
+                ),
+                "proposed"          -> Json.obj(
+                  "firstName" -> "A",
+                  "surname"   -> "Alice",
+                  "utr"       -> "1111111111"
+                ),
+                "changedTargets"    -> Json.arr(),
+                "issues"            -> Json.arr(),
+                "readiness"         -> "Incomplete",
+                "commitStatus"      -> "Pending"
+              )
+            )
+          )
+          .as[FinalValidationDraft]
+
+      when(
+        rb.execute[FinalValidationDraft](any(), any())
+      ).thenReturn(
+        Future.successful(expected)
+      )
+
+      val connector =
+        new ConstructionIndustrySchemeConnector(
+          config,
+          http
+        )
+
+      val result =
+        connector
+          .resetFinalValidationSubcontractor(
+            instanceId = "INST-123",
+            draftId = "draft-123",
+            subcontractorId = 10903L
+          )
+          .futureValue
+
+      result mustBe expected
+
+      val urlCaptor =
+        ArgumentCaptor.forClass(classOf[URL])
+
+      verify(http)
+        .put(urlCaptor.capture())(any[HeaderCarrier])
+
+      urlCaptor.getValue.toString mustBe
+        "http://cis-host/cis/final-validation/drafts/INST-123/draft-123/subcontractors/10903/reset"
+
+      verify(rb)
+        .execute[FinalValidationDraft](any(), any())
+    }
+
+    "propagate a failed HTTP request" in {
+      val config = mock[ServicesConfig]
+      val http   = mock[HttpClientV2]
+      val rb     = mock[RequestBuilder]
+
+      when(
+        config.baseUrl("construction-industry-scheme")
+      ).thenReturn("http://cis-host")
+
+      when(http.put(any())(any()))
+        .thenReturn(rb)
+
+      when(
+        rb.execute[FinalValidationDraft](any(), any())
+      ).thenReturn(
+        Future.failed(
+          new RuntimeException("CIS request failed")
+        )
+      )
+
+      val connector =
+        new ConstructionIndustrySchemeConnector(
+          config,
+          http
+        )
+
+      val exception =
+        connector
+          .resetFinalValidationSubcontractor(
+            instanceId = "INST-123",
+            draftId = "draft-123",
+            subcontractorId = 10903L
+          )
+          .failed
+          .futureValue
+
+      exception.getMessage mustBe "CIS request failed"
     }
   }
 }

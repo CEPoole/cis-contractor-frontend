@@ -163,8 +163,9 @@ GET   /subcontractor/final-validations/complete  controllers.finalvalidations.Fi
 GET   /subcontractor/final-validations/review-subcontractor-details  controllers.finalvalidations.ReviewSubcontractorDetailsController.onPageLoad()
 POST  /subcontractor/final-validations/review-subcontractor-details  controllers.finalvalidations.ReviewSubcontractorDetailsController.onSubmit
 
-GET   /subcontractor/final-validations/update-subcontractor-details/:subcontractorId  controllers.finalvalidations.UpdateSubcontractorDetailsController.onPageLoad(subcontractorId: Long)
-POST  /subcontractor/final-validations/update-subcontractor-details/:subcontractorId  controllers.finalvalidations.UpdateSubcontractorDetailsController.onSubmit(subcontractorId: Long)
+GET   /subcontractor/final-validations/update-subcontractor-details/:subcontractorId         controllers.finalvalidations.UpdateSubcontractorDetailsController.onPageLoad(subcontractorId: Long)
+POST  /subcontractor/final-validations/update-subcontractor-details/:subcontractorId         controllers.finalvalidations.UpdateSubcontractorDetailsController.onSubmit(subcontractorId: Long)
+POST  /subcontractor/final-validations/update-subcontractor-details/:subcontractorId/cancel  controllers.finalvalidations.UpdateSubcontractorDetailsController.onCancel(subcontractorId: Long)
 
 GET   /final-validations/change/:subcontractorId/:fieldKey/:targetKey  controllers.finalvalidations.FinalValidationChangeController.onPageLoad(subcontractorId: Long, fieldKey: String, targetKey: String)
 

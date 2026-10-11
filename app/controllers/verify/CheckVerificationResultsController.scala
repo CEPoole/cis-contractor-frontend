@@ -59,6 +59,9 @@ class CheckVerificationResultsController @Inject() (
               .map { updatedAnswers =>
                 updatedAnswers.get(LastSubmittedVerificationBatchResponsePage) match {
                   case None           =>
+                    logger.error(
+                      "[CheckVerificationResultsController][onPageLoad] - LastSubmittedVerificationBatchResponsePage missing from userAnswers"
+                    )
                     Redirect(controllers.routes.SystemErrorController.onPageLoad())
                   case Some(response) =>
                     routeFromResponse(response)

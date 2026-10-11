@@ -21,6 +21,7 @@ import forms.add.company.AddCompanyContactMethodsYesNoFormProvider
 import models.Mode
 import navigation.Navigator
 import pages.add.company.AddCompanyContactMethodsYesNoPage
+import play.api.Logging
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -45,7 +46,8 @@ class AddCompanyContactMethodsYesNoController @Inject() (
   view: AddCompanyContactMethodsYesNoView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form: Form[Boolean] = formProvider()
 
@@ -60,7 +62,10 @@ class AddCompanyContactMethodsYesNoController @Inject() (
 
         Ok(view(preparedForm, mode, companyName))
       }
-      .getOrElse(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+      .getOrElse {
+        logger.error("[AddCompanyContactMethodsYesNoController][onPageLoad] - CompanyNamePage missing from userAnswers")
+        Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
+      }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -79,6 +84,9 @@ class AddCompanyContactMethodsYesNoController @Inject() (
                 } yield Redirect(navigator.nextPage(AddCompanyContactMethodsYesNoPage, mode, updatedAnswers))
             )
         }
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error("[AddCompanyContactMethodsYesNoController][onSubmit] - CompanyNamePage missing from userAnswers")
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
   }
 }

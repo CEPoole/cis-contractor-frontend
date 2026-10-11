@@ -53,7 +53,7 @@ trait AgentClientChecks extends Logging {
     } else {
       getAgentClient(userId).flatMap {
         case None =>
-          logger.warn("[AgentClientChecks] Missing agent client data")
+          logger.error("[AgentClientChecks] Missing agent client data")
           Future.successful(Left(recovery))
 
         case Some(AgentClientIdentifiers(uniqueId, ton, tor)) =>
@@ -63,7 +63,7 @@ trait AgentClientChecks extends Logging {
               case true  =>
                 storeInstanceId(uniqueId.trim, userAnswers).map(Right(_))
               case false =>
-                logger.warn(s"[AgentClientChecks] hasClient=false for taxOfficeNumber=$ton taxOfficeReference=$tor")
+                logger.error(s"[AgentClientChecks] hasClient=false for taxOfficeNumber=$ton taxOfficeReference=$tor")
                 Future.successful(Left(recovery))
             }
             .recover { case NonFatal(e) =>

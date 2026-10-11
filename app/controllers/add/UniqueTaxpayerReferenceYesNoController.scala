@@ -22,6 +22,7 @@ import models.Mode
 import models.requests.DataRequest
 import navigation.Navigator
 import pages.add.UniqueTaxpayerReferenceYesNoPage
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -46,7 +47,8 @@ class UniqueTaxpayerReferenceYesNoController @Inject() (
   view: UniqueTaxpayerReferenceYesNoView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   private val form = formProvider()
 
@@ -60,7 +62,10 @@ class UniqueTaxpayerReferenceYesNoController @Inject() (
     (identify andThen getData andThen requireData andThen redirectVerifiedSubcontractor) { implicit request =>
       subcontractorNameExtractor
         .getSubcontractorName(request.userAnswers, mode)
-        .fold(recoveryRedirect) { subcontractorName =>
+        .fold {
+          logger.error("[UniqueTaxpayerReferenceYesNoController][onPageLoad] - subcontractor name missing or invalid")
+          recoveryRedirect
+        } { subcontractorName =>
           Ok(view(preparedForm, mode, subcontractorName))
         }
     }
@@ -69,7 +74,10 @@ class UniqueTaxpayerReferenceYesNoController @Inject() (
     (identify andThen getData andThen requireData andThen redirectVerifiedSubcontractor).async { implicit request =>
       subcontractorNameExtractor
         .getSubcontractorName(request.userAnswers, mode)
-        .fold(Future.successful(recoveryRedirect)) { subcontractorName =>
+        .fold {
+          logger.error("[UniqueTaxpayerReferenceYesNoController][onSubmit] - subcontractor name missing or invalid")
+          Future.successful(recoveryRedirect)
+        } { subcontractorName =>
           form
             .bindFromRequest()
             .fold(

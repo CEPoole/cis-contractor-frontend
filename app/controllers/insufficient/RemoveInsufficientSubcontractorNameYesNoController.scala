@@ -178,6 +178,9 @@ class RemoveInsufficientSubcontractorNameYesNoController @Inject() (
     verificationResourceRef: Long
   )(implicit request: DataRequest[?]): Future[play.api.mvc.Result] =
     if (verificationResourceRef < 0) {
+      logger.error(
+        s"[RemoveInsufficientSubcontractorNameYesNoController][deleteAndRedirect] - invalid verificationResourceRef=$verificationResourceRef"
+      )
       Future.successful(recoveryRedirect)
     } else {
       verificationService
@@ -193,6 +196,10 @@ class RemoveInsufficientSubcontractorNameYesNoController @Inject() (
                   )
 
               case None =>
+                logger.error(
+                  "[RemoveInsufficientSubcontractorNameYesNoController][deleteAndRedirect] - " +
+                    s"userAnswers missing or batch readiness check failed, verificationResourceRef=$verificationResourceRef"
+                )
                 Future.successful(recoveryRedirect)
             }
 
@@ -202,10 +209,14 @@ class RemoveInsufficientSubcontractorNameYesNoController @Inject() (
               .flatMap(refreshNewestBatchAndRedirectToVerificationSelection)
 
           case _ =>
+            logger.error(
+              s"[RemoveInsufficientSubcontractorNameYesNoController][deleteAndRedirect] - " +
+                s"unexpected verificationsCounter after delete, verificationResourceRef=$verificationResourceRef"
+            )
             Future.successful(recoveryRedirect)
         }
         .recover { case e =>
-          logger.warn(
+          logger.error(
             s"[RemoveInsufficientSubcontractorNameYesNoController.deleteAndRedirect] Failed to delete verificationResourceRef=$verificationResourceRef",
             e
           )

@@ -65,6 +65,9 @@ class AmendPartnershipRemoveDetailYesNoController @Inject() (
         action(detailType)
 
       case None =>
+        logger.error(
+          s"[AmendPartnershipRemoveDetailYesNoController][withValidDetail] - invalid detail=$subcontractorDetail"
+        )
         Future.successful(journeyRecovery)
     }
 
@@ -139,6 +142,9 @@ class AmendPartnershipRemoveDetailYesNoController @Inject() (
   )(implicit request: DataRequest[_], messages: Messages): Future[Result] =
     withValidDetail(subcontractorDetail) { detailType =>
       if (!detailIsPresent(detailType, request.userAnswers)) {
+        logger.error(
+          s"[AmendPartnershipRemoveDetailYesNoController][withDetailContext] - detail missing: $subcontractorDetail"
+        )
         Future.successful(journeyRecovery)
       } else {
 
@@ -151,6 +157,9 @@ class AmendPartnershipRemoveDetailYesNoController @Inject() (
             )
 
           case None =>
+            logger.error(
+              "[AmendPartnershipRemoveDetailYesNoController][withDetailContext] - name missing from userAnswers"
+            )
             Future.successful(journeyRecovery)
         }
       }

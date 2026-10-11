@@ -24,10 +24,20 @@ class AuditEventModelSpec extends SpecBase {
 
   "AuthFailureAuditEventModel" - {
 
-    val underTest = AuthFailureAuditEventModel()
+    val underTest = AuthFailureAuditEventModel(
+      agentUserId = "agent-123",
+      taxOfficeNumber = "123",
+      taxOfficeReference = "AB456",
+      clientUniqueId = "unique-id-789"
+    )
 
     "must serialise correctly" in {
-      Json.toJson(underTest) mustBe Json.obj()
+      Json.toJson(underTest) mustBe Json.obj(
+        "agentUserId"        -> "agent-123",
+        "taxOfficeNumber"    -> "123",
+        "taxOfficeReference" -> "AB456",
+        "clientUniqueId"     -> "unique-id-789"
+      )
     }
   }
 

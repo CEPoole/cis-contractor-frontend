@@ -22,6 +22,7 @@ import models.{FinalValidationMode, Mode}
 import models.contact.ContactMethodOptions
 import navigation.Navigator
 import pages.add.{IndividualContactMethodOptionsPage, IndividualMobileNumberPage}
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -45,7 +46,8 @@ class IndividualMobileNumberController @Inject() (
   view: IndividualMobileNumberView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form = formProvider()
 
@@ -70,6 +72,7 @@ class IndividualMobileNumberController @Inject() (
         case (Some(_), false) =>
           Redirect(controllers.add.routes.IndividualContactMethodOptionsController.onPageLoad(mode))
         case _                =>
+          logger.error("[IndividualMobileNumberController][onPageLoad] - subcontractor name missing from userAnswers")
           Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
       }
     }
@@ -97,6 +100,11 @@ class IndividualMobileNumberController @Inject() (
               _              <- sessionRepository.set(updatedAnswers)
             } yield Redirect(navigator.nextPage(IndividualMobileNumberPage, mode, updatedAnswers))
         ))
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error(
+            "[IndividualMobileNumberController][onSubmit] - subcontractor name missing or mobile not selected"
+          )
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
   }
 }

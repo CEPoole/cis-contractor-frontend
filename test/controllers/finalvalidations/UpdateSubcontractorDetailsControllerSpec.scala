@@ -56,6 +56,11 @@ class UpdateSubcontractorDetailsControllerSpec extends SpecBase {
       .onPageLoad()
       .url
 
+  private def cancelSubcontractorDetailsRoute =
+    controllers.finalvalidations.routes.UpdateSubcontractorDetailsController
+      .onCancel(subcontractorId)
+      .url
+
   private val userAnswers =
     userAnswersWithCisId
       .setOrException(
@@ -605,6 +610,139 @@ class UpdateSubcontractorDetailsControllerSpec extends SpecBase {
           finalValidationDraftService,
           verifyFinalValidationService
         )
+      }
+    }
+
+    "UpdateSubcontractorDetailsController.onCancel" - {
+
+      "must reset the subcontractor and redirect to Review Subcontractor Details" in {
+        val finalValidationDraftService =
+          mock[FinalValidationDraftService]
+
+        val verifyFinalValidationService =
+          mock[VerifyFinalValidationService]
+
+        when(
+          finalValidationDraftService.resetSubcontractor(
+            any[String],
+            any[String],
+            any[Long]
+          )(any[HeaderCarrier])
+        ).thenReturn(
+          Future.successful(
+            draft()
+          )
+        )
+
+        val application =
+          applicationWith(
+            userAnswers = Some(userAnswers),
+            finalValidationDraftService = finalValidationDraftService,
+            verifyFinalValidationService = verifyFinalValidationService
+          )
+
+        running(application) {
+          val request =
+            FakeRequest(
+              POST,
+              cancelSubcontractorDetailsRoute
+            )
+
+          val result =
+            route(application, request).value
+
+          status(result) mustBe SEE_OTHER
+
+          redirectLocation(result).value mustBe
+            reviewSubcontractorDetailsRoute
+
+          verify(finalValidationDraftService)
+            .resetSubcontractor(
+              any[String],
+              any[String],
+              any[Long]
+            )(any[HeaderCarrier])
+
+          verifyNoInteractions(
+            verifyFinalValidationService
+          )
+        }
+      }
+
+      "must redirect to Journey Recovery when the draft id is missing" in {
+        val finalValidationDraftService =
+          mock[FinalValidationDraftService]
+
+        val verifyFinalValidationService =
+          mock[VerifyFinalValidationService]
+
+        val application =
+          applicationWith(
+            userAnswers = Some(userAnswersWithCisId),
+            finalValidationDraftService = finalValidationDraftService,
+            verifyFinalValidationService = verifyFinalValidationService
+          )
+
+        running(application) {
+          val request =
+            FakeRequest(
+              POST,
+              cancelSubcontractorDetailsRoute
+            )
+
+          val result =
+            route(application, request).value
+
+          status(result) mustBe SEE_OTHER
+
+          redirectLocation(result).value mustBe
+            controllers.routes.JourneyRecoveryController
+              .onPageLoad()
+              .url
+
+          verifyNoInteractions(
+            finalValidationDraftService,
+            verifyFinalValidationService
+          )
+        }
+      }
+
+      "must redirect to Journey Recovery when no UserAnswers exist" in {
+        val finalValidationDraftService =
+          mock[FinalValidationDraftService]
+
+        val verifyFinalValidationService =
+          mock[VerifyFinalValidationService]
+
+        val application =
+          applicationWith(
+            userAnswers = None,
+            finalValidationDraftService = finalValidationDraftService,
+            verifyFinalValidationService = verifyFinalValidationService
+          )
+
+        running(application) {
+          val request =
+            FakeRequest(
+              POST,
+              cancelSubcontractorDetailsRoute
+            )
+
+          val result =
+            route(application, request).value
+
+          status(result) mustBe SEE_OTHER
+
+          redirectLocation(result).value mustBe
+            controllers.routes.JourneyRecoveryController
+              .onPageLoad()
+              .url
+
+          verifyNoInteractions(
+            finalValidationDraftService,
+            verifyFinalValidationService
+          )
+        }
       }
     }
   }

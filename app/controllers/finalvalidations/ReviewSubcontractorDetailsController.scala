@@ -17,14 +17,18 @@
 package controllers.finalvalidations
 
 import controllers.actions.*
-import models.{CheckMode, Mode, NormalMode}
+import models.{CheckMode, Mode, NormalMode, UserAnswers}
 import models.finalvalidation.VerifyFinalValidationSource.*
 import models.finalvalidation.*
+import models.RichJsObject
 import pages.finalvalidation.*
+import pages.verify.{SelectSubcontractorPage, SelectSubcontractorsToReverifyPage}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import play.api.Logging
 
 import javax.inject.{Inject, Singleton}
-import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
+import play.api.libs.json.*
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
 import services.finalvalidation.FinalValidationDraftService
@@ -33,6 +37,7 @@ import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import views.html.finalvalidations.ReviewSubcontractorDetailsView
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success, Try}
 
 @Singleton
 class ReviewSubcontractorDetailsController @Inject() (
@@ -48,7 +53,8 @@ class ReviewSubcontractorDetailsController @Inject() (
   view: ReviewSubcontractorDetailsView
 )(using ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   def onPageLoad: Action[AnyContent] =
     (identify andThen getData andThen requireData andThen requireCisId).async { implicit request =>
@@ -85,6 +91,7 @@ class ReviewSubcontractorDetailsController @Inject() (
           }
 
         case _ =>
+          logger.error("[ReviewSubcontractorDetailsController][onPageLoad] - required session data missing")
           Future.successful(
             Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
           )
@@ -113,9 +120,13 @@ class ReviewSubcontractorDetailsController @Inject() (
             } else {
               finalValidationDraftService.commit(request.cisId, draftId).flatMap { _ =>
 
+                val answersWithCorrectedNames =
+                  syncSelectedSubcontractorNames(request.userAnswers, draft)
+
                 val cleanedAnswers =
                   for {
-                    withoutDraftId      <- request.userAnswers.remove(FinalValidationDraftIdPage)
+                    withCorrectedNames  <- answersWithCorrectedNames
+                    withoutDraftId      <- withCorrectedNames.remove(FinalValidationDraftIdPage)
                     withoutSource       <- withoutDraftId.remove(VerifyFinalValidationSourcePage)
                     withoutMode         <- withoutSource.remove(VerifyFinalValidationModePage)
                     withoutContext      <- withoutMode.remove(FinalValidationContextPage)
@@ -141,6 +152,7 @@ class ReviewSubcontractorDetailsController @Inject() (
                         )
 
                       case _ =>
+                        logger.error("[ReviewSubcontractorDetailsController][onSubmit] - unexpected continuation")
                         Redirect(
                           controllers.routes.JourneyRecoveryController.onPageLoad()
                         )
@@ -152,6 +164,7 @@ class ReviewSubcontractorDetailsController @Inject() (
           }
 
         case _ =>
+          logger.error("[ReviewSubcontractorDetailsController][onSubmit] - required session data missing")
           Future.successful(
             Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
           )
@@ -181,6 +194,76 @@ class ReviewSubcontractorDetailsController @Inject() (
       case "NormalMode" => Some(NormalMode)
       case "CheckMode"  => Some(CheckMode)
       case _            => None
+    }
+
+  private def syncSelectedSubcontractorNames(
+    answers: UserAnswers,
+    draft: FinalValidationDraft
+  )(implicit messages: Messages): Try[UserAnswers] = {
+
+    val correctedNames =
+      draft.subcontractors.map { subcontractor =>
+        subcontractor.subcontractorId.toString ->
+          pageModelBuilder.displayName(subcontractor)
+      }.toMap
+
+    for {
+      withSelectedSubcontractors <-
+        answers
+          .get(SelectSubcontractorPage)
+          .map { selectedSubcontractors =>
+            val updatedSelectedSubcontractors =
+              selectedSubcontractors.map { subcontractor =>
+                correctedNames
+                  .get(subcontractor.id)
+                  .map(name => subcontractor.copy(name = name))
+                  .getOrElse(subcontractor)
+              }
+
+            updatePageData(
+              answers,
+              SelectSubcontractorPage.path,
+              updatedSelectedSubcontractors
+            )
+          }
+          .getOrElse(
+            Success(answers)
+          )
+
+      withReverifySubcontractors <-
+        withSelectedSubcontractors
+          .get(SelectSubcontractorsToReverifyPage)
+          .map { selectedSubcontractors =>
+            val updatedSelectedSubcontractors =
+              selectedSubcontractors.map { subcontractor =>
+                correctedNames
+                  .get(subcontractor.id)
+                  .map(name => subcontractor.copy(name = name))
+                  .getOrElse(subcontractor)
+              }
+
+            updatePageData(
+              withSelectedSubcontractors,
+              SelectSubcontractorsToReverifyPage.path,
+              updatedSelectedSubcontractors
+            )
+          }
+          .getOrElse(
+            Success(withSelectedSubcontractors)
+          )
+    } yield withReverifySubcontractors
+  }
+
+  private def updatePageData[A: Writes](
+    answers: UserAnswers,
+    path: JsPath,
+    value: A
+  ): Try[UserAnswers] =
+    answers.data.setObject(path, Json.toJson(value)) match {
+      case JsSuccess(updatedData, _) =>
+        Success(answers.copy(data = updatedData))
+      case JsError(errors)           =>
+        Failure(JsResultException(errors))
     }
 
 }

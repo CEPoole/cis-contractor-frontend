@@ -158,5 +158,18 @@ class AddressLookupConfigurationSpec extends SpecBase {
       timeoutConfig.get.timeoutUrl mustBe applicationConfig.feedbackUrl
       timeoutConfig.get.timeoutKeepAliveUrl mustBe Some(applicationConfig.keepAliveUrl)
     }
+
+    "must set the service href to the configured host plus the service home route" in {
+      val result = configBuilder(
+        individualQuestionsAddress,
+        continueRoute,
+        useUkMode = true,
+        mandatoryFieldsConfigModel = mandatoryFields
+      )
+
+      result.options.serviceHref mustBe Some(
+        applicationConfig.host + controllers.routes.ServiceHomeController.onPageLoad().url
+      )
+    }
   }
 }

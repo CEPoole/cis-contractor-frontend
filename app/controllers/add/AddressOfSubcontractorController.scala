@@ -76,6 +76,12 @@ class AddressOfSubcontractorController @Inject() (
         ua <- Future.fromTry(request.userAnswers.set(AddressLookupAmendReturnQuery, true))
         _  <- sessionRepository.set(ua)
       } yield Redirect(routes.AddressOfSubcontractorController.redirectToAddressLookup(AmendMode, Some("change"))))
-        .recover { case _ => Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()) }
+        .recover { case ex =>
+          logger.error(
+            "[AddressOfSubcontractorController][redirectToAmendAddressLookup] - failed to set amend flag",
+            ex
+          )
+          Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
+        }
     }
 }

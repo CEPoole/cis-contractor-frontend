@@ -53,6 +53,9 @@ class CheckVerificationBatchReadinessController @Inject() (
               controllers.verify.routes.VerifyCheckYourAnswersController.onPageLoad()
 
             case AmendMode =>
+              logger.error(
+                "[CheckVerificationBatchReadinessController][checkVerificationBatchReadiness] - unexpected AmendMode"
+              )
               controllers.routes.JourneyRecoveryController.onPageLoad()
           }
 

@@ -21,6 +21,7 @@ import forms.add.company.CompanyWorksReferenceYesNoFormProvider
 import models.Mode
 import navigation.Navigator
 import pages.add.company.CompanyWorksReferenceYesNoPage
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -44,7 +45,8 @@ class CompanyWorksReferenceYesNoController @Inject() (
   view: CompanyWorksReferenceYesNoView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form = formProvider()
 
@@ -59,7 +61,10 @@ class CompanyWorksReferenceYesNoController @Inject() (
 
         Ok(view(preparedForm, mode, companyName))
       }
-      .getOrElse(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+      .getOrElse {
+        logger.error("[CompanyWorksReferenceYesNoController][onPageLoad] - CompanyNamePage missing from userAnswers")
+        Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
+      }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -78,6 +83,9 @@ class CompanyWorksReferenceYesNoController @Inject() (
                 } yield Redirect(navigator.nextPage(CompanyWorksReferenceYesNoPage, mode, updatedAnswers))
             )
         }
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error("[CompanyWorksReferenceYesNoController][onSubmit] - CompanyNamePage missing from userAnswers")
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
   }
 }

@@ -24,6 +24,7 @@ import models.requests.DataRequest
 import navigation.Navigator
 import pages.add.partnership.*
 import pages.finalvalidation.FinalValidationBaseUtrPage
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -49,7 +50,8 @@ class PartnershipUniqueTaxpayerReferenceController @Inject() (
   view: PartnershipUniqueTaxpayerReferenceView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   val form = formProvider()
 
@@ -77,7 +79,12 @@ class PartnershipUniqueTaxpayerReferenceController @Inject() (
           val result       = Ok(view(preparedForm, mode, partnershipName))
           yesOrNoPageGuardService.yesOrNoPageRoute(result, yesOrNoPageOption, yesOrNoPage, mode)
         }
-        .getOrElse(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        .getOrElse {
+          logger.error(
+            s"[PartnershipUniqueTaxpayerReferenceController][onPageLoad] - PartnershipNamePage missing from userAnswers"
+          )
+          Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
+        }
     }
 
   def onSubmit(mode: Mode): Action[AnyContent] =
@@ -117,6 +124,11 @@ class PartnershipUniqueTaxpayerReferenceController @Inject() (
                 }
             )
         }
-        .getOrElse(Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())))
+        .getOrElse {
+          logger.error(
+            s"[PartnershipUniqueTaxpayerReferenceController][onSubmit] - PartnershipNamePage missing from userAnswers"
+          )
+          Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
+        }
     }
 }

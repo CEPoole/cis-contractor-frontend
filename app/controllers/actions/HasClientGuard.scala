@@ -44,7 +44,7 @@ class HasClientGuard @Inject() (
       .getAgentClient(request.userId)
       .flatMap {
         case None =>
-          logger.warn(s"[HasClientGuard] No client found for agent ${request.userId}")
+          logger.error(s"[HasClientGuard] No client found for agent ${request.userId}")
           Future.successful(Some(systemError))
 
         case Some(client) =>
@@ -52,7 +52,7 @@ class HasClientGuard @Inject() (
           val taxOfficeReference = client.taxOfficeReference
 
           if (taxOfficeNumber.isEmpty || taxOfficeReference.isEmpty) {
-            logger.warn(s"[HasClientGuard] Missing tax office number/reference in agent client data")
+            logger.error(s"[HasClientGuard] Missing tax office number/reference in agent client data")
             Future.successful(Some(systemError))
           } else {
             cisManageService
@@ -62,9 +62,16 @@ class HasClientGuard @Inject() (
                   Future.successful(None)
 
                 case false =>
-                  logger.warn(s"[HasClientGuard] hasClient=false for instanceId: ${client.uniqueId}")
+                  logger.error(s"[HasClientGuard] hasClient=false for instanceId: ${client.uniqueId}")
                   auditService
-                    .sendEvent(AuthFailureAuditEventModel())
+                    .sendEvent(
+                      AuthFailureAuditEventModel(
+                        agentUserId = request.userId,
+                        taxOfficeNumber = taxOfficeNumber,
+                        taxOfficeReference = taxOfficeReference,
+                        clientUniqueId = client.uniqueId
+                      )
+                    )
                     .map(_ => Some(systemError))
                     .recover { case NonFatal(ex) =>
                       logger.error("[HasClientGuard] failed to send authoriseServiceGuardFailure audit", ex)

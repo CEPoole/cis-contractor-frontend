@@ -22,6 +22,7 @@ import models.Mode
 import models.requests.DataRequest
 import navigation.Navigator
 import pages.add.AddIndividualContactMethodsYesNoPage
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -45,7 +46,8 @@ class AddIndividualContactMethodsYesNoController @Inject() (
   view: AddIndividualContactMethodsYesNoView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   private val form = formProvider()
 
@@ -59,7 +61,10 @@ class AddIndividualContactMethodsYesNoController @Inject() (
     (identify andThen getData andThen requireData) { implicit request =>
       subcontractorNameExtractor
         .getSubcontractorName(request.userAnswers, mode)
-        .fold(recoveryRedirect) { subcontractorName =>
+        .fold {
+          logger.error("[AddIndividualContactMethodsYesNoController][onPageLoad] - subcontractor name missing")
+          recoveryRedirect
+        } { subcontractorName =>
           Ok(view(preparedForm, mode, subcontractorName))
         }
     }
@@ -68,7 +73,10 @@ class AddIndividualContactMethodsYesNoController @Inject() (
     (identify andThen getData andThen requireData).async { implicit request =>
       subcontractorNameExtractor
         .getSubcontractorName(request.userAnswers, mode)
-        .fold(Future.successful(recoveryRedirect)) { subcontractorName =>
+        .fold {
+          logger.error("[AddIndividualContactMethodsYesNoController][onSubmit] - subcontractor name missing")
+          Future.successful(recoveryRedirect)
+        } { subcontractorName =>
           form
             .bindFromRequest()
             .fold(

@@ -108,12 +108,14 @@ class FinalValidationChangeController @Inject() (
                       }
 
                     case None =>
+                      logger.error("[FinalValidationChangeController][onPageLoad] - subcontractor missing from draft")
                       Future.successful(
                         Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
                       )
                   }
 
                 case None =>
+                  logger.error("[FinalValidationChangeController][onPageLoad] - payload not found in draft")
                   Future.successful(
                     Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
                   )
@@ -128,6 +130,7 @@ class FinalValidationChangeController @Inject() (
             }
 
         case None =>
+          logger.error("[FinalValidationChangeController][onPageLoad] - FinalValidationDraftIdPage missing")
           Future.successful(
             Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
           )

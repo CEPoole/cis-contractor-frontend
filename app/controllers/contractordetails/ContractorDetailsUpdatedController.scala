@@ -52,6 +52,7 @@ class ContractorDetailsUpdatedController @Inject() (
       request.userAnswers.get(CisIdPage) match {
 
         case None =>
+          logger.error("[ContractorDetailsUpdatedController][onPageLoad] - CisIdPage missing from userAnswers")
           Future.successful(
             Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
           )

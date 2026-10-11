@@ -84,6 +84,9 @@ class CurrentVerificationBatchController @Inject() (
                     } yield redirectFor(response, mode)
                   }
                   .getOrElse {
+                    logger.error(
+                      "[CurrentVerificationBatchController][onPageLoad] - CurrentVerificationBatchResponsePage missing from userAnswers"
+                    )
                     Future.successful(
                       Redirect(
                         controllers.routes.JourneyRecoveryController
@@ -122,6 +125,9 @@ class CurrentVerificationBatchController @Inject() (
           .modifyVerificationBatch(mode)
       )
     } else {
+      logger.error(
+        "[CurrentVerificationBatchController][redirectFor] - current batch has no verification batch or verifications"
+      )
       Redirect(
         controllers.routes.JourneyRecoveryController
           .onPageLoad()

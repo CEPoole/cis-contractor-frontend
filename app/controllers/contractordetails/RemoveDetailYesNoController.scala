@@ -19,6 +19,7 @@ package controllers.contractordetails
 import controllers.actions.*
 import forms.contractordetails.RemoveDetailYesNoFormProvider
 import pages.contractordetails.RemoveDetailYesNoPage
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import repositories.SessionRepository
@@ -39,12 +40,14 @@ class RemoveDetailYesNoController @Inject() (
   view: RemoveDetailYesNoView
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   private val validDetails = Set("email-address", "scheme-name")
 
   private def withValidDetail(contractorDetail: String)(action: => Future[Result]): Future[Result] =
     if (!validDetails.contains(contractorDetail)) {
+      logger.error(s"[RemoveDetailYesNoController][withValidDetail] - invalid contractorDetail=$contractorDetail")
       Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
     } else {
       action

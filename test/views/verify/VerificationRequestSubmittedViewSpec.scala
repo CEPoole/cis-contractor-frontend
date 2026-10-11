@@ -22,6 +22,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
+import play.api.Application
 import play.api.i18n.{Lang, Messages, MessagesApi, MessagesImpl}
 import play.api.mvc.Request
 import play.api.test.FakeRequest
@@ -47,6 +48,11 @@ class VerificationRequestSubmittedViewSpec extends SpecBase with GuiceOneAppPerS
 
       doc.select(".govuk-panel__title").text mustBe
         messages("verify.verificationRequestSubmitted.heading")
+
+      val recruitmentBanner = doc.select(".hmrc-user-research-banner")
+
+      recruitmentBanner.isEmpty mustBe false
+      recruitmentBanner.select("a").attr("href") must include(appConfig.userResearchUrl)
 
       doc.select(".govuk-panel__body").text must include(referenceNumber)
 
@@ -107,6 +113,13 @@ class VerificationRequestSubmittedViewSpec extends SpecBase with GuiceOneAppPerS
 
       surveyLink.text() mustBe messages("verify.verificationRequestSubmitted.feedback.survey.link")
       surveyLink.attr("href") mustBe appConfig.cisFeedbackSurveyUrl
+    }
+
+    "must not render the recruitment banner when user research banner flag is disabled" in new SetupWithBannerDisabled {
+
+      val doc: Document = Jsoup.parse(html.toString())
+
+      doc.select(".hmrc-user-research-banner").isEmpty mustBe true
     }
 
     "not render reverify section or email paragraph when both are absent" in new Setup {
@@ -177,5 +190,58 @@ class VerificationRequestSubmittedViewSpec extends SpecBase with GuiceOneAppPerS
 
     lazy val html: HtmlFormat.Appendable =
       view(viewModel)
+  }
+
+  trait SetupWithBannerDisabled {
+
+    val app: Application =
+      applicationBuilder()
+        .configure("features.user-research-banner-enabled" -> false)
+        .build()
+
+    val view: VerificationRequestSubmittedView = app.injector.instanceOf[VerificationRequestSubmittedView]
+
+    implicit val request: Request[_] = FakeRequest()
+
+    implicit val messages: Messages =
+      MessagesImpl(
+        Lang.defaultLang,
+        app.injector.instanceOf[MessagesApi]
+      )
+
+    val appConfig: FrontendAppConfig = app.injector.instanceOf[FrontendAppConfig]
+
+    val referenceNumber            = "Reference number 12345"
+    val submittedAt: LocalDateTime = LocalDateTime.of(2026, 4, 27, 10, 30)
+
+    val subcontractorsToVerify: Seq[String] =
+      Seq(
+        "Brody, Martin",
+        "Hooper And Associates",
+        "Quint Transportation",
+        "The Kintner Group"
+      )
+
+    val subcontractorsToReverify: Seq[String] =
+      Seq(
+        "Grant, Alan",
+        "InGen Research"
+      )
+
+    val email = "test@testmail.com"
+    val cisId = "1"
+
+    val viewModel: VerificationRequestSubmittedViewModel =
+      VerificationRequestSubmittedViewModel(
+        manageSubcontractorsUrl = s"${appConfig.manageSubcontractorsUrl}/$cisId",
+        verificationHistoryUrl = appConfig.verificationHistoryUrl,
+        referenceNumber = Some(referenceNumber),
+        submittedAt = submittedAt,
+        subcontractorsToVerify = subcontractorsToVerify,
+        subcontractorsToReverify = subcontractorsToReverify,
+        confirmationEmail = Some(email)
+      )
+
+    lazy val html: HtmlFormat.Appendable = view(viewModel)
   }
 }

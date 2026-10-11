@@ -18,6 +18,7 @@ package controllers.verify
 
 import config.FrontendAppConfig
 import controllers.actions.*
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import queries.CisIdQuery
@@ -35,7 +36,8 @@ class VerifyDepartmentalErrorSubmitAgainController @Inject() (
   view: VerifyDepartmentalErrorSubmitAgainView,
   appConfig: FrontendAppConfig
 ) extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   def onPageLoad: Action[AnyContent] =
     (identify andThen getData andThen requireData) { implicit request =>
@@ -46,6 +48,9 @@ class VerifyDepartmentalErrorSubmitAgainController @Inject() (
           Ok(view(manageSubcontractorsUrl))
 
         case None =>
+          logger.error(
+            "[VerifyDepartmentalErrorSubmitAgainController][onPageLoad] - CisIdQuery missing from userAnswers"
+          )
           Redirect(
             controllers.routes.JourneyRecoveryController.onPageLoad()
           )

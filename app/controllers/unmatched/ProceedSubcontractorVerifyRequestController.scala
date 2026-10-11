@@ -99,7 +99,13 @@ class ProceedSubcontractorVerifyRequestController @Inject() (
               }
             }
         }
-        .getOrElse(recoveryRedirect)
+        .getOrElse {
+          logger.error(
+            "[ProceedSubcontractorVerifyRequestController][onPageLoad] - " +
+              s"CurrentVerificationBatchResponsePage missing or subcontractor not in batch, subcontractorId=$subcontractorId"
+          )
+          recoveryRedirect
+        }
     }
 
   def onSubmit(subcontractorId: Long, mode: Mode): Action[AnyContent] =
@@ -163,9 +169,19 @@ class ProceedSubcontractorVerifyRequestController @Inject() (
                       }
                   )
               }
-              .getOrElse(Future.successful(recoveryRedirect))
+              .getOrElse {
+                logger.error(
+                  "[ProceedSubcontractorVerifyRequestController][onSubmit] - " +
+                    s"subcontractor not in CurrentVerificationBatchResponsePage, subcontractorId=$subcontractorId"
+                )
+                Future.successful(recoveryRedirect)
+              }
 
           case _ =>
+            logger.error(
+              "[ProceedSubcontractorVerifyRequestController][onSubmit] - " +
+                "CisIdQuery or CurrentVerificationBatchResponsePage missing from userAnswers"
+            )
             Future.successful(recoveryRedirect)
         }
 

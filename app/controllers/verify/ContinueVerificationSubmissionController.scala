@@ -21,6 +21,7 @@ import models.{NormalMode, UserAnswers}
 import models.verify.SelectedSubcontractors
 import models.response.GetCurrentVerificationBatchResponse
 import pages.verify.*
+import play.api.Logging
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -38,13 +39,17 @@ class ContinueVerificationSubmissionController @Inject() (
   val controllerComponents: MessagesControllerComponents
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   def onSubmit(): Action[AnyContent] =
     (identify andThen getData andThen requireData).async { implicit request =>
       request.userAnswers.get(CurrentVerificationBatchResponsePage) match {
 
         case None =>
+          logger.error(
+            "[ContinueVerificationSubmissionController][onSubmit] - CurrentVerificationBatchResponsePage missing from userAnswers"
+          )
           Future.successful(
             Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
           )
@@ -55,6 +60,7 @@ class ContinueVerificationSubmissionController @Inject() (
 
           if (currentIds.isEmpty) {
 
+            logger.error("[ContinueVerificationSubmissionController][onSubmit] - current batch has no subcontractors")
             Future.successful(
               Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
             )
@@ -69,6 +75,9 @@ class ContinueVerificationSubmissionController @Inject() (
                 )
               )
             } else {
+              logger.error(
+                "[ContinueVerificationSubmissionController][onSubmit] - selected subcontractors do not match current batch"
+              )
               Future.successful(
                 Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
               )
@@ -81,6 +90,9 @@ class ContinueVerificationSubmissionController @Inject() (
 
             if (selectedSubcontractors.map(_.id) != currentIds) {
 
+              logger.error(
+                "[ContinueVerificationSubmissionController][onSubmit] - selected subcontractors do not match current batch"
+              )
               Future.successful(
                 Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
               )

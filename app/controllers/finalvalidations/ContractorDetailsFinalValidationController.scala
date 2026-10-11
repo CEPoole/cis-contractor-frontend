@@ -94,6 +94,7 @@ class ContractorDetailsFinalValidationController @Inject() (
           Ok(view(viewModel(validation, target)))
 
         case None =>
+          logger.error("[ContractorDetailsFinalValidationController][onPageLoad] - validation target missing")
           Redirect(controllers.routes.JourneyRecoveryController.onPageLoad())
       }
     }
@@ -117,6 +118,7 @@ class ContractorDetailsFinalValidationController @Inject() (
           Future.successful(Redirect(routes.ContractorDetailsFinalValidationController.onPageLoad()))
 
         case None =>
+          logger.error("[ContractorDetailsFinalValidationController][onContinue] - validation target missing")
           Future.successful(Redirect(controllers.routes.JourneyRecoveryController.onPageLoad()))
       }
     }

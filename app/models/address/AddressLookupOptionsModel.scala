@@ -20,6 +20,7 @@ import play.api.libs.json.{Json, Writes}
 
 case class AddressLookupOptionsModel(
   continueUrl: String,
+  serviceHref: Option[String] = None,
   signOutHref: Option[String] = None,
   useNewGovUkServiceNavigation: Option[Boolean] = None,
   phaseFeedbackLink: Option[String] = None,

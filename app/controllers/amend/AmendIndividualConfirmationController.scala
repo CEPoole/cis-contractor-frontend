@@ -62,7 +62,7 @@ class AmendIndividualConfirmationController @Inject() (
           .get(AmendCheckYourAnswersSubmittedPage)
           .contains(true)
       ) {
-        logger.warn(
+        logger.error(
           "[AmendIndividualConfirmationController.onPageLoad] " +
             "Accessed without prior CYA submission"
         )

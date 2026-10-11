@@ -113,6 +113,7 @@ class TrustNavigator @Inject() () extends NavigatorForJourney {
       case (Some(false), CheckMode | AmendMode) =>
         cyaRoute(mode)
       case _                                    =>
+        logger.error(s"[TrustNavigator][navigatorFromTrustUtrYesNoPage] - unexpected state, mode=$mode")
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -125,6 +126,9 @@ class TrustNavigator @Inject() () extends NavigatorForJourney {
           case Some(false) =>
             cyaRoute(mode)
           case None        =>
+            logger.error(
+              "[TrustNavigator][navigatorFromTrustAddressYesNoPage] - TrustAddressYesNoPage missing from userAnswers"
+            )
             controllers.routes.JourneyRecoveryController.onPageLoad()
         }
       case _         =>
@@ -154,6 +158,7 @@ class TrustNavigator @Inject() () extends NavigatorForJourney {
       case (Some(false), CheckMode | AmendMode) =>
         cyaRoute(mode)
       case _                                    =>
+        logger.error(s"[TrustNavigator][navigatorFromTrustWorksReferenceYesNoPage] - unexpected state, mode=$mode")
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -176,6 +181,9 @@ class TrustNavigator @Inject() () extends NavigatorForJourney {
         cyaRoute(mode)
 
       case _ =>
+        logger.error(
+          s"[TrustNavigator][navigatorFromAddTrustContactMethodsYesNoPage] - unexpected state, mode=$mode"
+        )
         routes.JourneyRecoveryController.onPageLoad()
     }
 
@@ -207,9 +215,17 @@ class TrustNavigator @Inject() () extends NavigatorForJourney {
   )(terminalStep: Seq[ContactMethodOptions] => Call): Call =
     selectedContactMethodsInOrder(userAnswers)
       .filter(_.nonEmpty)
-      .fold(routes.JourneyRecoveryController.onPageLoad()) { selectedContactMethods =>
+      .fold {
+        logger.error(
+          "[TrustNavigator][navigateFromContactMethodPage] - ContactMethodOptions missing or empty"
+        )
+        routes.JourneyRecoveryController.onPageLoad()
+      } { selectedContactMethods =>
         current match {
           case Some(currentContactMethod) if !selectedContactMethods.contains(currentContactMethod) =>
+            logger.error(
+              "[TrustNavigator][navigateFromContactMethodPage] - current contact method not selected"
+            )
             routes.JourneyRecoveryController.onPageLoad()
 
           case _ =>

@@ -61,7 +61,7 @@ class AmendPartnershipConfirmationController @Inject() (
       val ua = request.userAnswers
 
       if (!ua.get(AmendCheckYourAnswersSubmittedPage).contains(true)) {
-        logger.warn(
+        logger.error(
           s"[AmendPartnershipConfirmationController][onPageLoad] " +
             "Accessed confirmation page without prior submission"
         )

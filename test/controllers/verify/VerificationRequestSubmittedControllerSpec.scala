@@ -85,6 +85,9 @@ class VerificationRequestSubmittedControllerSpec extends SpecBase with MockitoSu
         )(any[HeaderCarrier])
       ).thenReturn(Future.successful(ua))
 
+      when(mockVerificationService.resetUserAnswers(any[UserAnswers]))
+        .thenReturn(Future.successful(()))
+
       val application =
         applicationBuilder(
           userAnswers = Some(ua),

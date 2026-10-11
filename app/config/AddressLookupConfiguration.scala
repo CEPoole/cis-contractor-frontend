@@ -42,6 +42,7 @@ class AddressLookupConfiguration @Inject() (implicit appConfig: FrontendAppConfi
       version = 2,
       options = AddressLookupOptionsModel(
         continueUrl = appConfig.host + continueRoute.url,
+        serviceHref = Some(appConfig.host + controllers.routes.ServiceHomeController.onPageLoad().url),
         signOutHref = Some(appConfig.feedbackUrl),
         useNewGovUkServiceNavigation = Some(true),
         phaseFeedbackLink = Some(appConfig.feedbackUrl),
