@@ -185,7 +185,7 @@ class AuditService @Inject() (
     val contactOpts = ua.get(IndividualContactMethodOptionsPage)
     AmendSubcontractorAuditEventModel(
       cisId = ua.get(CisIdQuery),
-      subbieResourceRef = ua.get(AmendSubbieResourceRefQuery),
+      subcontractorResourceRef = ua.get(AmendSubbieResourceRefQuery),
       typeOfSubcontractor = ua.get(TypeOfSubcontractorPage).fold("")(_.toString),
       updatedDetails = IndividualSubcontractorDetails(
         subcontractorNameSelected = namesOpts.map(_.contains(IndividualNamesOptions.SubcontractorName)),
@@ -217,7 +217,7 @@ class AuditService @Inject() (
     val contactOpts = ua.get(CompanyContactMethodOptionsPage)
     AmendCompanySubcontractorAuditEventModel(
       cisId = ua.get(CisIdQuery),
-      subbieResourceRef = ua.get(AmendSubbieResourceRefQuery),
+      subcontractorResourceRef = ua.get(AmendSubbieResourceRefQuery),
       typeOfSubcontractor = ua.get(TypeOfSubcontractorPage).fold("")(_.toString),
       updatedDetails = CompanySubcontractorDetails(
         companyName = ua.get(CompanyNamePage),
@@ -244,7 +244,7 @@ class AuditService @Inject() (
     val contactOpts = ua.get(PartnershipContactMethodOptionsPage)
     AmendPartnershipSubcontractorAuditEventModel(
       cisId = ua.get(CisIdQuery),
-      subbieResourceRef = ua.get(AmendSubbieResourceRefQuery),
+      subcontractorResourceRef = ua.get(AmendSubbieResourceRefQuery),
       typeOfSubcontractor = ua.get(TypeOfSubcontractorPage).fold("")(_.toString),
       updatedDetails = PartnershipSubcontractorDetails(
         partnershipName = ua.get(PartnershipNamePage),
@@ -276,7 +276,7 @@ class AuditService @Inject() (
     val contactOpts = ua.get(TrustContactMethodOptionsPage)
     AmendTrustSubcontractorAuditEventModel(
       cisId = ua.get(CisIdQuery),
-      subbieResourceRef = ua.get(AmendSubbieResourceRefQuery),
+      subcontractorResourceRef = ua.get(AmendSubbieResourceRefQuery),
       typeOfSubcontractor = ua.get(TypeOfSubcontractorPage).fold("")(_.toString),
       updatedDetails = TrustSubcontractorDetails(
         trustName = ua.get(TrustNamePage),

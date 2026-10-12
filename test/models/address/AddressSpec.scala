@@ -292,6 +292,7 @@ class AddressSpec extends AnyFreeSpec with Matchers with EitherValues with Optio
         result.postcode mustBe Some("ZZ1 1ZZ")
         result.country mustBe Some(Country(Some("GB"), Some("United Kingdom")))
         result.addressValidated mustBe true
+        result.uprn mustBe Some("GB990091234524")
       }
 
       "must deserialize valid ALF JSON without id" in {
@@ -302,6 +303,7 @@ class AddressSpec extends AnyFreeSpec with Matchers with EitherValues with Optio
         result.addressLine3 mustBe Some("Anytown")
         result.postcode mustBe Some("ZZ1 1ZZ")
         result.addressValidated mustBe false
+        result.uprn must not be defined
       }
 
       "must deserialize ALF JSON with country but no postcode" in {
@@ -323,6 +325,7 @@ class AddressSpec extends AnyFreeSpec with Matchers with EitherValues with Optio
         result.postcode must not be defined
         result.country mustBe Some(Country(Some("US"), Some("United States")))
         result.addressValidated mustBe true
+        result.uprn mustBe Some("US990091234524")
       }
 
       "must deserialize ALF JSON with up to 5 address lines" in {
@@ -447,6 +450,36 @@ class AddressSpec extends AnyFreeSpec with Matchers with EitherValues with Optio
         val result = Address.addressLookupReads.reads(json).asEither.value
 
         result.addressValidated mustBe false
+        result.uprn must not be defined
+      }
+    }
+
+    ".auditWrites" - {
+
+      "must include uprn when present" in {
+        val address = Address(
+          addressLine1 = "1 Example Street",
+          postcode = Some("AA1 1AA"),
+          addressValidated = true,
+          uprn = Some("GB990091234524")
+        )
+
+        val json = Address.auditWrites.writes(address)
+
+        (json \ "uprn").asOpt[String] mustBe Some("GB990091234524")
+        (json \ "addressValidated").as[Boolean] mustBe true
+      }
+
+      "must omit uprn when absent" in {
+        val address = Address(
+          addressLine1 = "1 Example Street",
+          postcode = Some("AA1 1AA"),
+          addressValidated = false
+        )
+
+        val json = Address.auditWrites.writes(address)
+
+        (json \ "uprn").asOpt[String] must not be defined
       }
     }
 
@@ -527,6 +560,18 @@ class AddressSpec extends AnyFreeSpec with Matchers with EitherValues with Optio
         val normalized = completeAddress.normalise()
 
         normalized mustEqual completeAddress
+      }
+
+      "must preserve uprn when normalising" in {
+        val address = Address(
+          addressLine1 = "  Test Street  ",
+          postcode = Some("  AA1 1AA  "),
+          uprn = Some("GB990091234524")
+        )
+
+        val result = address.normalise()
+
+        result.uprn mustBe Some("GB990091234524")
       }
     }
 

@@ -329,7 +329,7 @@ object IndividualSubcontractorDetails {
 
 case class AmendSubcontractorAuditEventModel(
   cisId: Option[String],
-  subbieResourceRef: Option[Long],
+  subcontractorResourceRef: Option[Long],
   typeOfSubcontractor: String,
   updatedDetails: IndividualSubcontractorDetails
 ) extends AuditEvent {
@@ -341,7 +341,7 @@ object AmendSubcontractorAuditEventModel {
     val base      = Json.obj("typeOfSubcontractor" -> model.typeOfSubcontractor) ++
       Json.obj("updatedDetails" -> Json.toJson(model.updatedDetails))
     val withCisId = model.cisId.fold(base)(id => Json.obj("cisId" -> id) ++ base)
-    model.subbieResourceRef.fold(withCisId)(ref => withCisId ++ Json.obj("subcontractorResourceRef" -> ref))
+    model.subcontractorResourceRef.fold(withCisId)(ref => withCisId ++ Json.obj("subcontractorResourceRef" -> ref))
   }
 }
 
@@ -387,7 +387,7 @@ object CompanySubcontractorDetails {
 
 case class AmendCompanySubcontractorAuditEventModel(
   cisId: Option[String],
-  subbieResourceRef: Option[Long],
+  subcontractorResourceRef: Option[Long],
   typeOfSubcontractor: String,
   updatedDetails: CompanySubcontractorDetails
 ) extends AuditEvent {
@@ -399,7 +399,7 @@ object AmendCompanySubcontractorAuditEventModel {
     val base      = Json.obj("typeOfSubcontractor" -> model.typeOfSubcontractor) ++
       Json.obj("updatedDetails" -> Json.toJson(model.updatedDetails))
     val withCisId = model.cisId.fold(base)(id => Json.obj("cisId" -> id) ++ base)
-    model.subbieResourceRef.fold(withCisId)(ref => withCisId ++ Json.obj("subcontractorResourceRef" -> ref))
+    model.subcontractorResourceRef.fold(withCisId)(ref => withCisId ++ Json.obj("subcontractorResourceRef" -> ref))
   }
 }
 
@@ -455,7 +455,7 @@ object PartnershipSubcontractorDetails {
 
 case class AmendPartnershipSubcontractorAuditEventModel(
   cisId: Option[String],
-  subbieResourceRef: Option[Long],
+  subcontractorResourceRef: Option[Long],
   typeOfSubcontractor: String,
   updatedDetails: PartnershipSubcontractorDetails
 ) extends AuditEvent {
@@ -467,7 +467,7 @@ object AmendPartnershipSubcontractorAuditEventModel {
     val base      = Json.obj("typeOfSubcontractor" -> model.typeOfSubcontractor) ++
       Json.obj("updatedDetails" -> Json.toJson(model.updatedDetails))
     val withCisId = model.cisId.fold(base)(id => Json.obj("cisId" -> id) ++ base)
-    model.subbieResourceRef.fold(withCisId)(ref => withCisId ++ Json.obj("subcontractorResourceRef" -> ref))
+    model.subcontractorResourceRef.fold(withCisId)(ref => withCisId ++ Json.obj("subcontractorResourceRef" -> ref))
   }
 }
 
@@ -509,7 +509,7 @@ object TrustSubcontractorDetails {
 
 case class AmendTrustSubcontractorAuditEventModel(
   cisId: Option[String],
-  subbieResourceRef: Option[Long],
+  subcontractorResourceRef: Option[Long],
   typeOfSubcontractor: String,
   updatedDetails: TrustSubcontractorDetails
 ) extends AuditEvent {
@@ -521,6 +521,6 @@ object AmendTrustSubcontractorAuditEventModel {
     val base      = Json.obj("typeOfSubcontractor" -> model.typeOfSubcontractor) ++
       Json.obj("updatedDetails" -> Json.toJson(model.updatedDetails))
     val withCisId = model.cisId.fold(base)(id => Json.obj("cisId" -> id) ++ base)
-    model.subbieResourceRef.fold(withCisId)(ref => withCisId ++ Json.obj("subcontractorResourceRef" -> ref))
+    model.subcontractorResourceRef.fold(withCisId)(ref => withCisId ++ Json.obj("subcontractorResourceRef" -> ref))
   }
 }
