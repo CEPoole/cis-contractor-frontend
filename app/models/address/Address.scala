@@ -33,7 +33,8 @@ case class Address(
   addressLine5: Option[String] = None,
   postcode: Option[String] = None,
   country: Option[Country] = None,
-  addressValidated: Boolean = false
+  addressValidated: Boolean = false,
+  uprn: Option[String] = None
 ) {
 
   val id: String =
@@ -60,7 +61,8 @@ case class Address(
             Some(Country(code = optCode, name = optName))
         }
       },
-      this.addressValidated
+      this.addressValidated,
+      this.uprn
     )
 }
 
@@ -75,6 +77,7 @@ object Address {
       address.postcode.fold(Json.obj())(v => Json.obj("postcode" -> v)) ++
       address.country.flatMap(_.code).fold(Json.obj())(v => Json.obj("countryCode" -> v)) ++
       address.country.flatMap(_.name).fold(Json.obj())(v => Json.obj("countryName" -> v)) ++
+      address.uprn.fold(Json.obj())(v => Json.obj("uprn" -> v)) ++
       Json.obj("addressValidated" -> address.addressValidated)
   }
 
@@ -93,6 +96,7 @@ object Address {
       val lineMap          = (address \ "lines").as[List[String]].zipWithIndex.map(_.swap).toMap
       val country          = (address \ "country").asOpt[Country]
       val addressValidated = (json \ "id").isDefined
+      val uprn             = (json \ "id").asOpt[String]
 
       if (postcode.isEmpty && country.isEmpty) {
         JsError(JsonValidationError("Neither postcode nor country were defined"))
@@ -108,7 +112,8 @@ object Address {
             lineMap.get(4),
             postcode,
             country,
-            addressValidated
+            addressValidated,
+            uprn
           )
         )
       }

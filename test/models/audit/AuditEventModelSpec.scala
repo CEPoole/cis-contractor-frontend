@@ -64,7 +64,8 @@ class AuditEventModelSpec extends SpecBase {
     addressLine3 = Some("Anytown"),
     postcode = Some("ZZ1 1ZZ"),
     country = Some(Country(Some("GB"), Some("United Kingdom"))),
-    addressValidated = true
+    addressValidated = true,
+    uprn = Some("GB990091234524")
   )
 
   "AddSubcontractorAuditEventModel" - {
@@ -424,7 +425,7 @@ class AuditEventModelSpec extends SpecBase {
     "must serialise updatedDetails in full" in {
       val model = AmendSubcontractorAuditEventModel(
         cisId = Some("1"),
-        subbieResourceRef = None,
+        subcontractorResourceRef = None,
         typeOfSubcontractor = "soletrader",
         updatedDetails = baseIndividualDetails
       )
@@ -436,7 +437,7 @@ class AuditEventModelSpec extends SpecBase {
     "must omit cisId when absent" in {
       val model = AmendSubcontractorAuditEventModel(
         cisId = None,
-        subbieResourceRef = None,
+        subcontractorResourceRef = None,
         typeOfSubcontractor = "soletrader",
         updatedDetails = baseIndividualDetails
       )
@@ -446,7 +447,7 @@ class AuditEventModelSpec extends SpecBase {
     "must include subcontractorResourceRef in JSON when present" in {
       val model = AmendSubcontractorAuditEventModel(
         cisId = Some("1"),
-        subbieResourceRef = Some(42L),
+        subcontractorResourceRef = Some(42L),
         typeOfSubcontractor = "soletrader",
         updatedDetails = baseIndividualDetails
       )
@@ -456,7 +457,7 @@ class AuditEventModelSpec extends SpecBase {
     "must omit subcontractorResourceRef when absent" in {
       val model = AmendSubcontractorAuditEventModel(
         cisId = None,
-        subbieResourceRef = None,
+        subcontractorResourceRef = None,
         typeOfSubcontractor = "soletrader",
         updatedDetails = baseIndividualDetails
       )
@@ -466,7 +467,7 @@ class AuditEventModelSpec extends SpecBase {
     "must have auditType AmendSubcontractor" in {
       AmendSubcontractorAuditEventModel(
         cisId = None,
-        subbieResourceRef = None,
+        subcontractorResourceRef = None,
         typeOfSubcontractor = "soletrader",
         updatedDetails = baseIndividualDetails
       ).auditType mustBe "AmendSubcontractor"
@@ -478,7 +479,7 @@ class AuditEventModelSpec extends SpecBase {
     "must serialise updatedDetails in full" in {
       val model = AmendCompanySubcontractorAuditEventModel(
         cisId = None,
-        subbieResourceRef = None,
+        subcontractorResourceRef = None,
         typeOfSubcontractor = "company",
         updatedDetails = baseCompanyDetails
       )
@@ -490,7 +491,7 @@ class AuditEventModelSpec extends SpecBase {
     "must include subcontractorResourceRef in JSON when present" in {
       val model = AmendCompanySubcontractorAuditEventModel(
         cisId = None,
-        subbieResourceRef = Some(7L),
+        subcontractorResourceRef = Some(7L),
         typeOfSubcontractor = "company",
         updatedDetails = baseCompanyDetails
       )
@@ -500,7 +501,7 @@ class AuditEventModelSpec extends SpecBase {
     "must have auditType AmendSubcontractor" in {
       AmendCompanySubcontractorAuditEventModel(
         cisId = None,
-        subbieResourceRef = None,
+        subcontractorResourceRef = None,
         typeOfSubcontractor = "company",
         updatedDetails = baseCompanyDetails
       ).auditType mustBe "AmendSubcontractor"
@@ -512,7 +513,7 @@ class AuditEventModelSpec extends SpecBase {
     "must serialise updatedDetails in full" in {
       val model = AmendPartnershipSubcontractorAuditEventModel(
         cisId = None,
-        subbieResourceRef = None,
+        subcontractorResourceRef = None,
         typeOfSubcontractor = "partnership",
         updatedDetails = basePartnershipDetails
       )
@@ -524,7 +525,7 @@ class AuditEventModelSpec extends SpecBase {
     "must include subcontractorResourceRef in JSON when present" in {
       val model = AmendPartnershipSubcontractorAuditEventModel(
         cisId = None,
-        subbieResourceRef = Some(3L),
+        subcontractorResourceRef = Some(3L),
         typeOfSubcontractor = "partnership",
         updatedDetails = basePartnershipDetails
       )
@@ -534,7 +535,7 @@ class AuditEventModelSpec extends SpecBase {
     "must have auditType AmendSubcontractor" in {
       AmendPartnershipSubcontractorAuditEventModel(
         cisId = None,
-        subbieResourceRef = None,
+        subcontractorResourceRef = None,
         typeOfSubcontractor = "partnership",
         updatedDetails = basePartnershipDetails
       ).auditType mustBe "AmendSubcontractor"
@@ -546,7 +547,7 @@ class AuditEventModelSpec extends SpecBase {
     "must serialise updatedDetails in full" in {
       val model = AmendTrustSubcontractorAuditEventModel(
         cisId = None,
-        subbieResourceRef = None,
+        subcontractorResourceRef = None,
         typeOfSubcontractor = "trust",
         updatedDetails = baseTrustDetails
       )
@@ -558,7 +559,7 @@ class AuditEventModelSpec extends SpecBase {
     "must include subcontractorResourceRef in JSON when present" in {
       val model = AmendTrustSubcontractorAuditEventModel(
         cisId = None,
-        subbieResourceRef = Some(99L),
+        subcontractorResourceRef = Some(99L),
         typeOfSubcontractor = "trust",
         updatedDetails = baseTrustDetails
       )
@@ -568,7 +569,7 @@ class AuditEventModelSpec extends SpecBase {
     "must have auditType AmendSubcontractor" in {
       AmendTrustSubcontractorAuditEventModel(
         cisId = None,
-        subbieResourceRef = None,
+        subcontractorResourceRef = None,
         typeOfSubcontractor = "trust",
         updatedDetails = baseTrustDetails
       ).auditType mustBe "AmendSubcontractor"
