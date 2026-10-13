@@ -15,10 +15,11 @@ site.signIn                                             =  Mewngofnodi
 site.govuk                                              =  GOV.UK
 site.saveAndContinue                                    =  Cadw a pharhau
 site.unknown                                            =  Anhysbys
+site.pagination.goToPage                                =  Ewch i dudalen {0}
 site.pagination.previous                                =  Blaenorol
 site.pagination.next                                    =  Nesaf
 site.pagination.landmark                                =  Rhifo tudalennau
-site.pagination.pageTitle                               =  xxxxxxxxxxxxxxxxxxxx
+site.pagination.pageTitle                               =  (tudalen {0} o {1})
 
 date.day                                                =  Diwrnod
 date.month                                              =  Mis
@@ -38,22 +39,22 @@ error.title.prefix                                      =  Gwall:
 error.prefix                                            =  Gwall
 error.summary.title                                     =  Mae problem
 
-checkYourAnswers.title                                  =  xxxxxxxxxxxxxxxxxxxx
+checkYourAnswers.title                                  =  Gwiriwch eich atebion
 checkYourAnswers.heading                                =  Gwiriwch eich atebion cyn ychwanegu’r unigolyn hwn
 checkYourAnswers.heading.sub.h2                         =  Manylion yr is-gontractwr
 checkYourAnswers.heading.h2                             =  Nawr ychwanegwch yr is-gontractwr hwn
 checkYourAnswers.p1                                     =  Drwy ychwanegu’r is-gontractwr hwn, rydych chi’n cadarnhau, hyd eithaf eich gwybodaeth, bod y manylion a roddir gennych yn gywir.
 checkYourAnswers.addSubcontractor                       =  Derbyn a chyflwyno
 
-index.title                                             =  xxxxxxxxxxxxxxxxxxxx
-index.heading                                           =  xxxxxxxxxxxxxxxxxxxx
-index.guidance                                          =  xxxxxxxxxxxxxxxxxxxx
+index.title                                             =  Cynllun y Diwydiant Adeiladu
+index.heading                                           =  Cynllun y Diwydiant Adeiladu
+index.guidance                                          =  Croeso i cis-contractor-frontend. Gweler y ffeil README am arweiniad ynghylch sut i ddechrau arni.
 
-journeyRecovery.continue.title                          =  xxxxxxxxxxxxxxxxxxxx
-journeyRecovery.continue.heading                        =  xxxxxxxxxxxxxxxxxxxx
-journeyRecovery.continue.guidance.p1                    =  xxxxxxxxxxxxxxxxxxxx
-journeyRecovery.continue.guidance.link                  =  xxxxxxxxxxxxxxxxxxxx
-journeyRecovery.continue.guidance.p2                    =  xxxxxxxxxxxxxxxxxxxx
+journeyRecovery.continue.title                          =  Mae’n ddrwg gennym – mae problem gyda’r gwasanaeth hwn
+journeyRecovery.continue.heading                        =  Mae’n ddrwg gennym – mae problem gyda’r gwasanaeth hwn
+journeyRecovery.continue.guidance.p1                    =  Mae problem gyda’r gwasanaeth hwn. Gallwch ddychwelyd er mwyn
+journeyRecovery.continue.guidance.link                  =  Cynllun y Diwydiant Adeiladu
+journeyRecovery.continue.guidance.p2                    =  neu rhowch gynnig arall arni yn nes ymlaen.
 journeyRecovery.startAgain.title                        =  Mae yna broblem gyda’r gwasanaeth hwn
 journeyRecovery.startAgain.heading                      =  Mae’n ddrwg gennym – mae problem gyda’r gwasanaeth hwn
 journeyRecovery.startAgain.guidance.p1                  =  Rhowch gynnig arall arni yn nes ymlaen.
@@ -63,9 +64,9 @@ journeyRecovery.startAgain.guidance.contactHMRC.suffix  =  i gael rhagor o help.
 journeyRecovery.startAgain.guidance.cisAccount.prefix   =  Yn ôl i
 journeyRecovery.startAgain.guidance.cisAccount.link     =  Rheoli’ch cyfrif CIS
 
-signedOut.title                                         =  xxxxxxxxxxxxxxxxxxxx
-signedOut.heading                                       =  xxxxxxxxxxxxxxxxxxxx
-signedOut.guidance                                      =  xxxxxxxxxxxxxxxxxxxx
+signedOut.title                                         =  Er eich diogelwch, gwnaethom eich allgofnodi
+signedOut.heading                                       =  Er eich diogelwch, gwnaethom eich allgofnodi
+signedOut.guidance                                      =  Ni wnaethom gadw’ch atebion.
 
 # Errors & Auth
 pageNotFound.title                       =  Heb ddod o hyd i’r dudalen
@@ -137,19 +138,19 @@ tradingNameOfSubcontractor.error.length                                         
 tradingNameOfSubcontractor.change.hidden                                              =  enw masnachu
 tradingNameOfSubcontractor.error.invalidCharacters                                    =  Nodwch enw masnachu, fel Adeiladu ABC Cyf
 
-subAddressYesNo.title                                                                 =  xxxxxxxxxxxxxxxxxxxx
+subAddressYesNo.title                                                                 =  Ydych chi am ychwanegu cyfeiriad ar gyfer yr is-gontractwr hwn?
 subAddressYesNo.heading                                                               =  Ydych chi am ychwanegu cyfeiriad ar gyfer {0}?
 subAddressYesNo.hint                                                                  =  Gallwch ychwanegu’r wybodaeth hon nes ymlaen os yw’n well gennych
 subAddressYesNo.checkYourAnswersLabel                                                 =  Ychwanegu manylion cysylltu?
 subAddressYesNo.error.required                                                        =  Dewiswch p’un a ydych chi am ychwanegu cyfeiriad ar gyfer yr is-gontractwr hwn
-subAddressYesNo.change.hidden                                                         =  xxxxxxxxxxxxxxxxxxxx
+subAddressYesNo.change.hidden                                                         =  ychwanegu cyfeiriad yr is-gontractwr?
 
-nationalInsuranceNumberYesNo.title                                                    =  xxxxxxxxxxxxxxxxxxxx
+nationalInsuranceNumberYesNo.title                                                    =  Ydych chi’n gwybod beth yw rhif Yswiriant Gwladol yr is-gontractwr hwn?
 nationalInsuranceNumberYesNo.heading                                                  =  Ydych chi’n gwybod beth yw rhif Yswiriant Gwladol {0}?
 nationalInsuranceNumberYesNo.hint                                                     =  Defnyddir yr wybodaeth hon i’w ddilysu fel is-gontractwr
 nationalInsuranceNumberYesNo.checkYourAnswersLabel                                    =  Ychwanegu rhif Yswiriant Gwladol?
 nationalInsuranceNumberYesNo.error.required                                           =  Dewiswch p’un a ydych chi’n gwybod beth yw rhif Yswiriant Gwladol yr is-gontractwr hwn
-nationalInsuranceNumberYesNo.change.hidden                                            =  xxxxxxxxxxxxxxxxxxxx
+nationalInsuranceNumberYesNo.change.hidden                                            =  ychwanegu rhif Yswiriant Gwladol?
 
 subcontractorName.title                                                               =  Beth yw enw’r is-gontractwr?
 subcontractorName.heading                                                             =  Beth yw enw’r is-gontractwr?
@@ -168,23 +169,23 @@ subcontractorName.lastName.error.invalidCharacters                              
 subcontractorName.lastName.error.firstChar                                            =  Nodwch enw olaf.  Rhaid i’r cymeriad cyntaf fod yn llythyren
 subcontractorName.lastName.error.length                                               =  Nodwch enw olaf hyd at 35 o gymeriadau
 subcontractorName.checkYourAnswersLabel                                               =  Enw’r is-gontractwr
-subcontractorName.change.hidden                                                       =  xxxxxxxxxxxxxxxxxxxx
+subcontractorName.change.hidden                                                       =  enw’r is-gontractwr
 
-uniqueTaxpayerReferenceYesNo.title                                                    =  xxxxxxxxxxxxxxxxxxxx
+uniqueTaxpayerReferenceYesNo.title                                                    =  Ydych chi’n gwybod beth yw Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer yr is-gontractwr hwn?
 uniqueTaxpayerReferenceYesNo.heading                                                  =  Ydych chi’n gwybod beth yw Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer {0}?
 uniqueTaxpayerReferenceYesNo.hint                                                     =  Defnyddir yr wybodaeth hon i’w ddilysu fel is-gontractwr
 uniqueTaxpayerReferenceYesNo.checkYourAnswersLabel                                    =  Ychwanegu UTR?
 uniqueTaxpayerReferenceYesNo.error.required                                           =  Dewiswch p’un a ydych chi’n gwybod beth yw Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer yr is-gontractwr hwn
-uniqueTaxpayerReferenceYesNo.change.hidden                                            =  xxxxxxxxxxxxxxxxxxxx
+uniqueTaxpayerReferenceYesNo.change.hidden                                            =  ychwanegu UTR?
 
-worksReferenceNumberYesNo.title                                                       =  xxxxxxxxxxxxxxxxxxxx
+worksReferenceNumberYesNo.title                                                       =  Oes cyfeirnod y gwaith yn gysylltiedig â’r is-gontractwr hwn?
 worksReferenceNumberYesNo.heading                                                     =  Oes cyfeirnod y gwaith yn gysylltiedig â {0}?
 worksReferenceNumberYesNo.hint                                                        =  Dyma’r cyfeirnod a ddefnyddir i adnabod gwaith neu brosiect is-gontractwr. Gall hwn gynnwys llythrennau a rhifau.
 worksReferenceNumberYesNo.checkYourAnswersLabel                                       =  Ychwanegu cyfeirnod y gwaith?
 worksReferenceNumberYesNo.error.required                                              =  Dewiswch p’un a oes cyfeirnod y gwaith gan yr is-gontractwr hwn
-worksReferenceNumberYesNo.change.hidden                                               =  xxxxxxxxxxxxxxxxxxxx
+worksReferenceNumberYesNo.change.hidden                                               =  ychwanegu cyfeirnod y gwaith?
 
-subNationalInsuranceNumber.title                                                      =  xxxxxxxxxxxxxxxxxxxx
+subNationalInsuranceNumber.title                                                      =  Beth yw rhif Yswiriant Gwladol yr is-gontractwr hwn?
 subNationalInsuranceNumber.heading                                                    =  Beth yw rhif Yswiriant Gwladol {0}?
 subNationalInsuranceNumber.hint                                                       =  Gellir dod o hyd i rifau Yswiriant Gwladol ar slipiau cyflog, P60s a dogfennau treth eraill. Er enghraifft, ‘QQ 12 34 56 C’
 subNationalInsuranceNumber.checkYourAnswersLabel                                      =  Rhif Yswiriant Gwladol
@@ -193,28 +194,28 @@ subNationalInsuranceNumber.error.length                                         
 subNationalInsuranceNumber.error.invalidCharacters                                    =  Nodwch rif Yswiriant Gwladol dilys, fel QQ 12 34 56 C
 subNationalInsuranceNumber.change.hidden                                              =  Rhif Yswiriant Gwladol
 
-worksReferenceNumber.title                                                            =  xxxxxxxxxxxxxxxxxxxx
+worksReferenceNumber.title                                                            =  Beth yw cyfeirnod y gwaith sy’n gysylltiedig â’r is-gontractwr hwn?
 worksReferenceNumber.heading                                                          =  Beth yw cyfeirnod y gwaith sy’n gysylltiedig â {0}?
 worksReferenceNumber.hint                                                             =  Mae hwn yn unigryw i’r prosiect neu’r gwaith adeiladu.
 worksReferenceNumber.checkYourAnswersLabel                                            =  Cyfeirnod y gwaith
 worksReferenceNumber.error.required                                                   =  Nodwch gyfeirnod y gwaith
 worksReferenceNumber.error.invalid                                                    =  Nodwch gyfeirnod y gwaith dilys
 worksReferenceNumber.error.length                                                     =  Nodwch gyfeirnod y gwaith, hyd at 20 o gymeriadau
-worksReferenceNumber.change.hidden                                                    =  xxxxxxxxxxxxxxxxxxxx
+worksReferenceNumber.change.hidden                                                    =  cyfeirnod y gwaith
 
 addressOfSubcontractor.checkYourAnswersLabel                                          =  Cyfeiriad
 addressOfSubcontractor.change.hidden                                                  =  cyfeiriad
 
-addressLookup.individualQuestionsAddress.lookupPage.title                             =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.individualQuestionsAddress.lookupPage.title                             =  Dod o hyd i gyfeiriad ar gyfer yr is-gontractwr hwn
 addressLookup.individualQuestionsAddress.lookupPage.heading                           =  Chwiliwch am y cyfeiriad ar gyfer {0}
 addressLookup.individualQuestionsAddress.lookupPage.filterLabel                       =  Enw neu rif yr eiddo (dewisol)
 addressLookup.individualQuestionsAddress.lookupPage.submitLabel                       =  Parhau
 addressLookup.individualQuestionsAddress.lookupPage.manualAddressLinkText             =  Nodwch y cyfeiriad â llaw
-addressLookup.individualQuestionsAddress.selectPage.title                             =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.individualQuestionsAddress.selectPage.title                             =  Dewiswch y cyfeiriad ar gyfer yr is-gontractwr hwn
 addressLookup.individualQuestionsAddress.selectPage.heading                           =  Dewiswch y cyfeiriad ar gyfer {0}
 addressLookup.individualQuestionsAddress.selectPage.editAddressLinkText               =  Nodwch y cyfeiriad â llaw
 addressLookup.individualQuestionsAddress.selectPage.submitLabel                       =  Parhau
-addressLookup.individualQuestionsAddress.editPage.title                               =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.individualQuestionsAddress.editPage.title                               =  Beth yw’r cyfeiriad ar gyfer yr is-gontractwr hwn?
 addressLookup.individualQuestionsAddress.editPage.heading                             =  Beth yw’r cyfeiriad ar gyfer {0}?
 addressLookup.individualQuestionsAddress.editPage.line1Label                          =  Cyfeiriad – llinell 1
 addressLookup.individualQuestionsAddress.editPage.line2Label                          =  Cyfeiriad – llinell 2
@@ -222,12 +223,12 @@ addressLookup.individualQuestionsAddress.editPage.line3Label                    
 addressLookup.individualQuestionsAddress.editPage.postcodeLabel                       =  Cod post
 addressLookup.individualQuestionsAddress.editPage.countryLabel                        =  Gwlad
 addressLookup.individualQuestionsAddress.editPage.submitLabel                         =  Parhau
-addressLookup.individualQuestionsAddress.confirmPage.title                            =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.individualQuestionsAddress.confirmPage.title                            =  Adolygwch y cyfeiriad ar gyfer yr is-gontractwr hwn
 addressLookup.individualQuestionsAddress.confirmPage.heading                          =  Adolygwch y cyfeiriad ar gyfer {0}
 addressLookup.individualQuestionsAddress.confirmPage.changeLinkText                   =  Golygwch y cyfeiriad hwn
 addressLookup.individualQuestionsAddress.confirmPage.submitLabel                      =  Parhau
 addressLookup.individualQuestionsAddress.countryPicker.title                          =  Pa wlad neu diriogaeth sy’n ymddangos yng nghyfeiriad yr is-gontractwr hwn?
-addressLookup.individualQuestionsAddress.countryPicker.heading                        =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.individualQuestionsAddress.countryPicker.heading                        =  Pa wlad neu diriogaeth sy’n ymddangos yn y cyfeiriad ar gyfer {0}?
 addressLookup.individualQuestionsAddress.countryPicker.countryLabel                   =  Dewiswch y wlad neu’r diriogaeth
 
 subcontractorsUniqueTaxpayerReference.title                                           =  Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer Hunanasesiad
@@ -243,7 +244,7 @@ subcontractorsUniqueTaxpayerReference.error.length                              
 subcontractorsUniqueTaxpayerReference.error.duplicate                                 =  Rydych chi eisoes wedi defnyddio Cyfeirnod Unigryw y Trethdalwr (UTR) hwn ar gyfer is-gontractwr presennol
 subcontractorsUniqueTaxpayerReference.change.hidden                                   =  UTR
 
-subcontractorAdded.title                                                              =  xxxxxxxxxxxxxxxxxxxx
+subcontractorAdded.title                                                              =  {0} is-gontractwr wedi'i ychwanegu
 subcontractorAdded.heading                                                            =  Wedi ychwanegu’r is-gontractwr
 subcontractorAdded.p1                                                                 =  Erbyn hyn, mae {0} i’w weld ar eich rhestr o is-gontractwyr.
 subcontractorAdded.nextSteps.h2                                                       =  Camau nesaf
@@ -260,30 +261,30 @@ subcontractorAdded.beforeYouGo.h2                                               
 subcontractorAdded.beforeYouGo.p1                                                     =  Mae’ch adborth yn ein helpu i wella ein gwasanaeth.
 subcontractorAdded.beforeYouGo.takeAShortSurvey                                       =  Llenwch arolwg byr
 subcontractorAdded.beforeYouGo.shareFeedback                                          =  i rannu’ch adborth ar y gwasanaeth hwn.
-subcontractorAdded.individual                                                         =  xxxxxxxxxxxxxxxxxxxx
-subcontractorAdded.company                                                            =  xxxxxxxxxxxxxxxxxxxx
+subcontractorAdded.individual                                                         =  Unigolyn
+subcontractorAdded.company                                                            =  Cwmni
 subcontractorAdded.partnership                                                        =  Partneriaeth
 subcontractorAdded.trust                                                              =  Ymddiriedolaeth
 
-individualMobileNumber.title                                                          =  xxxxxxxxxxxxxxxxxxxx
+individualMobileNumber.title                                                          =  Beth yw’r rhif ffôn symudol ar gyfer yr is-gontractwr hwn?
 individualMobileNumber.heading                                                        =  Beth yw’r rhif ffôn symudol ar gyfer {0}?
 individualMobileNumber.hint                                                           =  Ni fydd CThEF yn defnyddio’r rhif ffôn symudol hwn i gysylltu â’r is-gontractwr hwn ar unrhyw adeg
 individualMobileNumber.checkYourAnswersLabel                                          =  Rhif ffôn symudol
 individualMobileNumber.error.required                                                 =  Nodwch rif ffôn symudol
 individualMobileNumber.error.length                                                   =  Nodwch rif ffôn symudol dilys, fel 07700 900 982 neu +44 07700 900 999
 individualMobileNumber.error.invalid                                                  =  Nodwch rif ffôn symudol dilys, fel 07700 900 982 neu +44 07700 900 999
-individualMobileNumber.change.hidden                                                  =  xxxxxxxxxxxxxxxxxxxx
+individualMobileNumber.change.hidden                                                  =  rhif ffôn symudol
 
-individualPhoneNumber.title                                                           =  xxxxxxxxxxxxxxxxxxxx
+individualPhoneNumber.title                                                           =  Beth yw’r rhif ffôn ar gyfer yr is-gontractwr hwn?
 individualPhoneNumber.heading                                                         =  Beth yw’r rhif ffôn ar gyfer {0}?
 individualPhoneNumber.hint                                                            =  Ni fydd CThEF yn defnyddio’r rhif ffôn hwn i gysylltu â’r is-gontractwr hwn ar unrhyw adeg
 individualPhoneNumber.checkYourAnswersLabel                                           =  Rhif ffôn
 individualPhoneNumber.error.required                                                  =  Nodwch rif ffôn
 individualPhoneNumber.error.length                                                    =  Nodwch rif ffôn dilys, fel 01632 960 001 Ar gyfer rhifau rhyngwladol, dylech gynnwys cod y wlad.
 individualPhoneNumber.error.invalid                                                   =  Nodwch rif ffôn dilys, fel 01632 960 001 Ar gyfer rhifau rhyngwladol, dylech gynnwys cod y wlad.
-individualPhoneNumber.change.hidden                                                   =  xxxxxxxxxxxxxxxxxxxx
+individualPhoneNumber.change.hidden                                                   =  rhif ffôn
 
-individualEmailAddress.title                                                          =  xxxxxxxxxxxxxxxxxxxx
+individualEmailAddress.title                                                          =  Beth yw’r cyfeiriad e-bost ar gyfer yr is-gontractwr hwn?
 individualEmailAddress.heading                                                        =  Beth yw’r cyfeiriad e-bost ar gyfer {0}?
 individualEmailAddress.hintText                                                       =  Ni fydd CThEF yn defnyddio’r cyfeiriad e-bost hwn i gysylltu â’r is-gontractwr hwn ar unrhyw adeg
 individualEmailAddress.checkYourAnswersLabel                                          =  Cyfeiriad e-bost
@@ -292,33 +293,33 @@ individualEmailAddress.error.length                                             
 individualEmailAddress.error.invalid                                                  =  Nodwch gyfeiriad e-bost dilys yn y fformat cywir, fel enw@enghraifft.com
 individualEmailAddress.change.hidden                                                  =  cyfeiriad e-bost
 
-individualChooseContactDetails.title                                                  =  xxxxxxxxxxxxxxxxxxxx
-individualChooseContactDetails.heading                                                =  xxxxxxxxxxxxxxxxxxxx
-individualChooseContactDetails.hint                                                   =  xxxxxxxxxxxxxxxxxxxx
-individualChooseContactDetails.email                                                  =  xxxxxxxxxxxxxxxxxxxx
-individualChooseContactDetails.phone                                                  =  xxxxxxxxxxxxxxxxxxxx
-individualChooseContactDetails.mobile                                                 =  xxxxxxxxxxxxxxxxxxxx
-individualChooseContactDetails.or                                                     =  xxxxxxxxxxxxxxxxxxxx
-individualChooseContactDetails.noDetails                                              =  xxxxxxxxxxxxxxxxxxxx
-individualChooseContactDetails.cya.noDetails                                          =  xxxxxxxxxxxxxxxxxxxx
-individualChooseContactDetails.error.required                                         =  xxxxxxxxxxxxxxxxxxxx
-individualChooseContactDetails.checkYourAnswersLabel                                  =  xxxxxxxxxxxxxxxxxxxx
-individualChooseContactDetails.change.hidden                                          =  xxxxxxxxxxxxxxxxxxxx
+individualChooseContactDetails.title                                                  =  A ydych am ychwanegu manylion cyswllt?
+individualChooseContactDetails.heading                                                =  Beth yw'r manylion cyswllt ar gyfer {0}?
+individualChooseContactDetails.hint                                                   =  Dewiswch pa ddull cyswllt yr hoffech ei ychwanegu ar gyfer yr is-gontractwr hwn. Mae’r manylion cysylltu ar gyfer eich cofnodion chi yn unig.
+individualChooseContactDetails.email                                                  =  Cyfeiriad e-bost
+individualChooseContactDetails.phone                                                  =  rhif ffôn
+individualChooseContactDetails.mobile                                                 =  rhif ffôn symudol
+individualChooseContactDetails.or                                                     =  neu
+individualChooseContactDetails.noDetails                                              =  Peidiwch ag ychwanegu manylion cysylltu ar gyfer yr is-gontractwr hwn
+individualChooseContactDetails.cya.noDetails                                          =  None
+individualChooseContactDetails.error.required                                         =  Dewiswch a ydych am ychwanegu manylion cysylltu ar gyfer yr is-gontractwr hwn
+individualChooseContactDetails.checkYourAnswersLabel                                  =  Dull o gysylltu
+individualChooseContactDetails.change.hidden                                          =  Dull o gysylltu
 
-addressLookup.common.editPage.addressLine1.maxLength                                  =  xxxxxxxxxxxxxxxxxxxx
-addressLookup.common.editPage.addressLine2.maxLength                                  =  xxxxxxxxxxxxxxxxxxxx
-addressLookup.common.editPage.addressLine3.maxLength                                  =  xxxxxxxxxxxxxxxxxxxx
-addressLookup.common.editPage.town.maxLength                                          =  xxxxxxxxxxxxxxxxxxxx
-addressLookup.companyQuestionsAddress.lookupPage.title                                =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.common.editPage.addressLine1.maxLength                                  =  Nodwch linell gyntaf y cyfeiriad gan ddefnyddio {0} o gymeriadau neu lai
+addressLookup.common.editPage.addressLine2.maxLength                                  =  Nodwch ail linell y cyfeiriad gan ddefnyddio {0} o gymeriadau neu lai
+addressLookup.common.editPage.addressLine3.maxLength                                  =  Nodwch drydedd linell y cyfeiriad gan ddefnyddio {0} o gymeriadau neu lai
+addressLookup.common.editPage.town.maxLength                                          =  Nodwch dref neu ddinas gan ddefnyddio {0} o gymeriadau neu lai
+addressLookup.companyQuestionsAddress.lookupPage.title                                =  Dod o hyd i gyfeiriad ar gyfer yr is-gontractwr hwn
 addressLookup.companyQuestionsAddress.lookupPage.heading                              =  Chwiliwch am y cyfeiriad ar gyfer {0}
 addressLookup.companyQuestionsAddress.lookupPage.filterLabel                          =  Enw neu rif yr eiddo (dewisol)
 addressLookup.companyQuestionsAddress.lookupPage.submitLabel                          =  Parhau
 addressLookup.companyQuestionsAddress.lookupPage.manualAddressLinkText                =  Nodwch y cyfeiriad â llaw
-addressLookup.companyQuestionsAddress.selectPage.title                                =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.companyQuestionsAddress.selectPage.title                                =  Dewiswch y cyfeiriad ar gyfer yr is-gontractwr hwn
 addressLookup.companyQuestionsAddress.selectPage.heading                              =  Dewiswch y cyfeiriad ar gyfer {0}
 addressLookup.companyQuestionsAddress.selectPage.editAddressLinkText                  =  Nodwch y cyfeiriad â llaw
 addressLookup.companyQuestionsAddress.selectPage.submitLabel                          =  Parhau
-addressLookup.companyQuestionsAddress.editPage.title                                  =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.companyQuestionsAddress.editPage.title                                  =  Beth yw’r cyfeiriad ar gyfer yr is-gontractwr hwn?
 addressLookup.companyQuestionsAddress.editPage.heading                                =  Beth yw’r cyfeiriad ar gyfer {0}?
 addressLookup.companyQuestionsAddress.editPage.line1Label                             =  Cyfeiriad – llinell 1
 addressLookup.companyQuestionsAddress.editPage.line2Label                             =  Cyfeiriad – llinell 2
@@ -326,23 +327,23 @@ addressLookup.companyQuestionsAddress.editPage.line3Label                       
 addressLookup.companyQuestionsAddress.editPage.postcodeLabel                          =  Cod post
 addressLookup.companyQuestionsAddress.editPage.countryLabel                           =  Gwlad
 addressLookup.companyQuestionsAddress.editPage.submitLabel                            =  Parhau
-addressLookup.companyQuestionsAddress.confirmPage.title                               =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.companyQuestionsAddress.confirmPage.title                               =  Adolygwch y cyfeiriad ar gyfer yr is-gontractwr hwn
 addressLookup.companyQuestionsAddress.confirmPage.heading                             =  Adolygwch y cyfeiriad ar gyfer {0}
 addressLookup.companyQuestionsAddress.confirmPage.changeLinkText                      =  Golygwch y cyfeiriad hwn
 addressLookup.companyQuestionsAddress.confirmPage.submitLabel                         =  Parhau
 addressLookup.companyQuestionsAddress.countryPicker.title                             =  Pa wlad neu diriogaeth sy’n ymddangos yng nghyfeiriad yr is-gontractwr hwn?
-addressLookup.companyQuestionsAddress.countryPicker.heading                           =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.companyQuestionsAddress.countryPicker.heading                           =  Pa wlad neu diriogaeth sy’n ymddangos yn y cyfeiriad ar gyfer {0}?
 addressLookup.companyQuestionsAddress.countryPicker.countryLabel                      =  Dewiswch y wlad neu’r diriogaeth
-addressLookup.partnershipQuestionsAddress.lookupPage.title                            =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.partnershipQuestionsAddress.lookupPage.title                            =  Dod o hyd i gyfeiriad ar gyfer yr is-gontractwr hwn
 addressLookup.partnershipQuestionsAddress.lookupPage.heading                          =  Chwiliwch am y cyfeiriad ar gyfer {0}
 addressLookup.partnershipQuestionsAddress.lookupPage.filterLabel                      =  Enw neu rif yr eiddo (dewisol)
 addressLookup.partnershipQuestionsAddress.lookupPage.submitLabel                      =  Parhau
 addressLookup.partnershipQuestionsAddress.lookupPage.manualAddressLinkText            =  Nodwch y cyfeiriad â llaw
-addressLookup.partnershipQuestionsAddress.selectPage.title                            =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.partnershipQuestionsAddress.selectPage.title                            =  Dewiswch y cyfeiriad ar gyfer yr is-gontractwr hwn
 addressLookup.partnershipQuestionsAddress.selectPage.heading                          =  Dewiswch y cyfeiriad ar gyfer {0}
 addressLookup.partnershipQuestionsAddress.selectPage.editAddressLinkText              =  Nodwch y cyfeiriad â llaw
 addressLookup.partnershipQuestionsAddress.selectPage.submitLabel                      =  Parhau
-addressLookup.partnershipQuestionsAddress.editPage.title                              =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.partnershipQuestionsAddress.editPage.title                              =  Beth yw’r cyfeiriad ar gyfer yr is-gontractwr hwn?
 addressLookup.partnershipQuestionsAddress.editPage.heading                            =  Beth yw’r cyfeiriad ar gyfer {0}?
 addressLookup.partnershipQuestionsAddress.editPage.line1Label                         =  Cyfeiriad – llinell 1
 addressLookup.partnershipQuestionsAddress.editPage.line2Label                         =  Cyfeiriad – llinell 2
@@ -350,23 +351,23 @@ addressLookup.partnershipQuestionsAddress.editPage.line3Label                   
 addressLookup.partnershipQuestionsAddress.editPage.postcodeLabel                      =  Cod post
 addressLookup.partnershipQuestionsAddress.editPage.countryLabel                       =  Gwlad
 addressLookup.partnershipQuestionsAddress.editPage.submitLabel                        =  Parhau
-addressLookup.partnershipQuestionsAddress.confirmPage.title                           =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.partnershipQuestionsAddress.confirmPage.title                           =  Adolygwch y cyfeiriad ar gyfer yr is-gontractwr hwn
 addressLookup.partnershipQuestionsAddress.confirmPage.heading                         =  Adolygwch y cyfeiriad ar gyfer {0}
 addressLookup.partnershipQuestionsAddress.confirmPage.changeLinkText                  =  Golygwch y cyfeiriad hwn
 addressLookup.partnershipQuestionsAddress.confirmPage.submitLabel                     =  Parhau
 addressLookup.partnershipQuestionsAddress.countryPicker.title                         =  Pa wlad neu diriogaeth sy’n ymddangos yng nghyfeiriad yr is-gontractwr hwn?
-addressLookup.partnershipQuestionsAddress.countryPicker.heading                       =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.partnershipQuestionsAddress.countryPicker.heading                       = Pa wlad neu diriogaeth sy’n ymddangos yn y cyfeiriad ar gyfer {0}?
 addressLookup.partnershipQuestionsAddress.countryPicker.countryLabel                  =  Dewiswch y wlad neu’r diriogaeth
-addressLookup.trustQuestionsAddress.lookupPage.title                                  =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.trustQuestionsAddress.lookupPage.title                                  =  Dod o hyd i gyfeiriad ar gyfer yr is-gontractwr hwn
 addressLookup.trustQuestionsAddress.lookupPage.heading                                =  Chwiliwch am y cyfeiriad ar gyfer {0}
 addressLookup.trustQuestionsAddress.lookupPage.filterLabel                            =  Enw neu rif yr eiddo (dewisol)
 addressLookup.trustQuestionsAddress.lookupPage.submitLabel                            =  Parhau
 addressLookup.trustQuestionsAddress.lookupPage.manualAddressLinkText                  =  Nodwch y cyfeiriad â llaw
-addressLookup.trustQuestionsAddress.selectPage.title                                  =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.trustQuestionsAddress.selectPage.title                                  =  Dod o hyd i gyfeiriad ar gyfer yr is-gontractwr hwn
 addressLookup.trustQuestionsAddress.selectPage.heading                                =  Dewiswch y cyfeiriad ar gyfer {0}
 addressLookup.trustQuestionsAddress.selectPage.editAddressLinkText                    =  Nodwch y cyfeiriad â llaw
 addressLookup.trustQuestionsAddress.selectPage.submitLabel                            =  Parhau
-addressLookup.trustQuestionsAddress.editPage.title                                    =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.trustQuestionsAddress.editPage.title                                    =  Beth yw’r cyfeiriad ar gyfer yr is-gontractwr hwn?
 addressLookup.trustQuestionsAddress.editPage.heading                                  =  Beth yw’r cyfeiriad ar gyfer {0}?
 addressLookup.trustQuestionsAddress.editPage.line1Label                               =  Cyfeiriad – llinell 1
 addressLookup.trustQuestionsAddress.editPage.line2Label                               =  Cyfeiriad – llinell 2
@@ -374,21 +375,21 @@ addressLookup.trustQuestionsAddress.editPage.line3Label                         
 addressLookup.trustQuestionsAddress.editPage.postcodeLabel                            =  Cod post
 addressLookup.trustQuestionsAddress.editPage.countryLabel                             =  Gwlad
 addressLookup.trustQuestionsAddress.editPage.submitLabel                              =  Parhau
-addressLookup.trustQuestionsAddress.confirmPage.title                                 =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.trustQuestionsAddress.confirmPage.title                                 =  Adolygwch y cyfeiriad ar gyfer yr is-gontractwr hwn
 addressLookup.trustQuestionsAddress.confirmPage.heading                               =  Adolygwch y cyfeiriad ar gyfer {0}
 addressLookup.trustQuestionsAddress.confirmPage.changeLinkText                        =  Golygwch y cyfeiriad hwn
 addressLookup.trustQuestionsAddress.confirmPage.submitLabel                           =  Parhau
 addressLookup.trustQuestionsAddress.countryPicker.title                               =  Pa wlad neu diriogaeth sy’n ymddangos yng nghyfeiriad yr is-gontractwr hwn?
-addressLookup.trustQuestionsAddress.countryPicker.heading                             =  xxxxxxxxxxxxxxxxxxxx
+addressLookup.trustQuestionsAddress.countryPicker.heading                             =  Pa wlad neu diriogaeth sy’n ymddangos yn y cyfeiriad ar gyfer {0}?
 addressLookup.trustQuestionsAddress.countryPicker.countryLabel                        =  Dewiswch y wlad neu’r diriogaeth
 
-addIndividualContactMethodsYesNo.title                                                =  xxxxxxxxxxxxxxxxxxxx
+addIndividualContactMethodsYesNo.title                                                =  A ydych am ychwanegu manylion cysylltu ar gyfer yr is-gontractwr hwn?
 addIndividualContactMethodsYesNo.heading                                              =  Ydych chi am ychwanegu manylion cysylltu ar gyfer {0}?
 addIndividualContactMethodsYesNo.error.required                                       =  Dewiswch ‘Iawn’ os ydych am ychwanegu manylion cysylltu ar gyfer yr is-gontractwr hwn
 addIndividualContactMethodsYesNo.checkYourAnswersLabel                                =  Ychwanegu manylion cysylltu?
-addIndividualContactMethodsYesNo.change.hidden                                        =  xxxxxxxxxxxxxxxxxxxx
+addIndividualContactMethodsYesNo.change.hidden                                        =  ychwanegu manylion cysylltu?
 
-individualContactMethodOptions.title                                                  =  xxxxxxxxxxxxxxxxxxxx
+individualContactMethodOptions.title                                                  =  Pa fanylion cysylltu ydych chi am eu hychwanegu ar gyfer yr is-gontractwr hwn?
 individualContactMethodOptions.heading                                                =  Pa fanylion cysylltu ydych chi am eu hychwanegu ar gyfer {0}?
 individualContactMethodOptions.email                                                  =  Cyfeiriad e-bost
 individualContactMethodOptions.phone                                                  =  Rhif ffôn
@@ -396,16 +397,16 @@ individualContactMethodOptions.mobile                                           
 individualContactMethodOptions.checkYourAnswersLabel                                  =  Dulliau o gysylltu
 individualContactMethodOptions.hint                                                   =  Mae’r manylion cysylltu ar gyfer eich cofnodion chi yn unig
 individualContactMethodOptions.error.required                                         =  Dewiswch y dulliau o gysylltu rydych chi am eu hychwanegu ar gyfer yr is-gontractwr hwn
-individualContactMethodOptions.change.hidden                                          =  xxxxxxxxxxxxxxxxxxxx
+individualContactMethodOptions.change.hidden                                          =  dulliau o gysylltu
 
-amendCompanyRemoveDetailYesNo.title                                                   =  xxxxxxxxxxxxxxxxxxxx
-amendCompanyRemoveDetailYesNo.heading                                                 =  xxxxxxxxxxxxxxxxxxxx
-amendCompanyRemoveDetailYesNo.error.required                                          =  xxxxxxxxxxxxxxxxxxxx
-amendCompanyRemoveDetailYesNo.detail.address                                          =  xxxxxxxxxxxxxxxxxxxx
-amendCompanyRemoveDetailYesNo.detail.contactDetails                                   =  xxxxxxxxxxxxxxxxxxxx
-amendCompanyRemoveDetailYesNo.detail.utr                                              =  xxxxxxxxxxxxxxxxxxxx
-amendCompanyRemoveDetailYesNo.detail.companyRegistrationNumber                        =  xxxxxxxxxxxxxxxxxxxx
-amendCompanyRemoveDetailYesNo.detail.worksReferenceNumber                             =  xxxxxxxxxxxxxxxxxxxx
+amendCompanyRemoveDetailYesNo.title                                                   =  Ydych chi’n siŵr eich bod chi am dynnu’r wybodaeth hon o gofnod yr is-gontractwr hwn?
+amendCompanyRemoveDetailYesNo.heading                                                 =  A ydych yn siŵr eich bod am dynnu'r {1} ar gyfer {0}?
+amendCompanyRemoveDetailYesNo.error.required                                          =  Dewiswch p’un a ydych chi am dynnu’r wybodaeth hon o gofnod yr is-gontractwr hwn
+amendCompanyRemoveDetailYesNo.detail.address                                          =  cyfeiriad
+amendCompanyRemoveDetailYesNo.detail.contactDetails                                   =  manylion cysylltu
+amendCompanyRemoveDetailYesNo.detail.utr                                              =  UTR
+amendCompanyRemoveDetailYesNo.detail.companyRegistrationNumber                        =  rhif cofrestru’r cwmni
+amendCompanyRemoveDetailYesNo.detail.worksReferenceNumber                             =  cyfeirnod y gwaith
 
 amendCheckYourAnswers.title                                                           =  Gwybodaeth am yr is-gontractwr
 amendCheckYourAnswers.heading.subcontractorInformation.h2                             =  Gwybodaeth am yr is-gontractwr
@@ -430,15 +431,15 @@ amendConfirmation.beforeYouGo.shareFeedback                                     
 amendConfirmation.table.content.none                                                  =  Heb roi un
 amendConfirmation.table.selectContent.none                                            =  Heb ddewis un
 
-amendTrustRemoveDetailYesNo.title                                                     =  xxxxxxxxxxxxxxxxxxxx
-amendTrustRemoveDetailYesNo.heading                                                   =  xxxxxxxxxxxxxxxxxxxx
-amendTrustRemoveDetailYesNo.error.required                                            =  xxxxxxxxxxxxxxxxxxxx
-amendTrustRemoveDetailYesNo.detail.address                                            =  xxxxxxxxxxxxxxxxxxxx
-amendTrustRemoveDetailYesNo.detail.contactDetails                                     =  xxxxxxxxxxxxxxxxxxxx
-amendTrustRemoveDetailYesNo.detail.utr                                                =  xxxxxxxxxxxxxxxxxxxx
-amendTrustRemoveDetailYesNo.detail.worksReferenceNumber                               =  xxxxxxxxxxxxxxxxxxxx
+amendTrustRemoveDetailYesNo.title                                                     =  Ydych chi’n siŵr eich bod chi am dynnu’r wybodaeth hon o gofnod yr is-gontractwr hwn?
+amendTrustRemoveDetailYesNo.heading                                                   =  A ydych yn siŵr eich bod am dynnu'r {1} ar gyfer {0}?
+amendTrustRemoveDetailYesNo.error.required                                            =  Dewiswch p’un a ydych chi am dynnu’r wybodaeth hon o gofnod yr is-gontractwr hwn
+amendTrustRemoveDetailYesNo.detail.address                                            =  cyfeiriad
+amendTrustRemoveDetailYesNo.detail.contactDetails                                     =  manylion cysylltu
+amendTrustRemoveDetailYesNo.detail.utr                                                =  UTR
+amendTrustRemoveDetailYesNo.detail.worksReferenceNumber                               =  cyfeirnod y gwaith
 
-amendPartnershipRemoveDetailYesNo.title                                               =  xxxxxxxxxxxxxxxxxxxx
+amendPartnershipRemoveDetailYesNo.title                                               =  Ydych chi’n siŵr eich bod chi am dynnu’r wybodaeth hon o gofnod yr is-gontractwr hwn?
 amendPartnershipRemoveDetailYesNo.heading                                             =  Ydych chi’n siŵr eich bod chi am dynnu’r {0} o gofnod {1}?
 amendPartnershipRemoveDetailYesNo.error.required                                      =  Dewiswch p’un a ydych chi am dynnu’r wybodaeth hon o gofnod yr is-gontractwr hwn
 amendPartnershipRemoveDetailYesNo.detail.address                                      =  cyfeiriad
@@ -449,60 +450,60 @@ amendPartnershipRemoveDetailYesNo.detail.nominatedPartnerUtr                    
 amendPartnershipRemoveDetailYesNo.detail.nominatedPartnerNino                         =  rhif Yswiriant Gwladol y partner enwebedig
 amendPartnershipRemoveDetailYesNo.detail.nominatedPartnerCompanyRegistrationNumber    =  rhif cofrestru’r cwmni y partner enwebedig
 
-amendIndividualRemoveDetailYesNo.title                                                =  xxxxxxxxxxxxxxxxxxxx
-amendIndividualRemoveDetailYesNo.heading                                              =  xxxxxxxxxxxxxxxxxxxx
-amendIndividualRemoveDetailYesNo.error.required                                       =  xxxxxxxxxxxxxxxxxxxx
-amendIndividualRemoveDetailYesNo.detail.tradingName                                   =  xxxxxxxxxxxxxxxxxxxx
-amendIndividualRemoveDetailYesNo.detail.subcontractorName                             =  xxxxxxxxxxxxxxxxxxxx
-amendIndividualRemoveDetailYesNo.detail.address                                       =  xxxxxxxxxxxxxxxxxxxx
-amendIndividualRemoveDetailYesNo.detail.contactDetails                                =  xxxxxxxxxxxxxxxxxxxx
-amendIndividualRemoveDetailYesNo.detail.utr                                           =  xxxxxxxxxxxxxxxxxxxx
-amendIndividualRemoveDetailYesNo.detail.nationalInsuranceNumber                       =  xxxxxxxxxxxxxxxxxxxx
-amendIndividualRemoveDetailYesNo.detail.worksReferenceNumber                          =  xxxxxxxxxxxxxxxxxxxx
+amendIndividualRemoveDetailYesNo.title                                                =  Ydych chi’n siŵr eich bod chi am dynnu’r wybodaeth hon o gofnod yr is-gontractwr hwn?
+amendIndividualRemoveDetailYesNo.heading                                              =  A ydych yn siŵr eich bod am dynnu'r {1} ar gyfer {0}?
+amendIndividualRemoveDetailYesNo.error.required                                       =  Dewiswch p’un a ydych chi am dynnu’r wybodaeth hon o gofnod yr is-gontractwr hwn
+amendIndividualRemoveDetailYesNo.detail.tradingName                                   =  enw masnachu
+amendIndividualRemoveDetailYesNo.detail.subcontractorName                             =  enw’r is-gontractwr
+amendIndividualRemoveDetailYesNo.detail.address                                       =  cyfeiriad
+amendIndividualRemoveDetailYesNo.detail.contactDetails                                =  manylion cysylltu
+amendIndividualRemoveDetailYesNo.detail.utr                                           =  UTR
+amendIndividualRemoveDetailYesNo.detail.nationalInsuranceNumber                       =  rhif Yswiriant Gwladol
+amendIndividualRemoveDetailYesNo.detail.worksReferenceNumber                          =  cyfeirnod y gwaith
 
-unmatched.unmatchedSubcontractorDetailsUpdated.title                                  =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.heading                                =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.p1                                     =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.updatesMade.h2                         =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.table.hdr.details                      =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.table.hdr.previous                     =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.table.hdr.updated                      =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.noneProvided                           =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.noneSelected                           =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.cannotVerifyAllSubcontractors          =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.beforeYouGo.h2                         =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.beforeYouGo.p1                         =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.beforeYouGo.takeAShortSurvey           =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.beforeYouGo.shareFeedback              =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.reviewUnmatchedSubcontractors          =  xxxxxxxxxxxxxxxxxxxx
-unmatched.unmatchedSubcontractorDetailsUpdated.yourSubcontractors                     =  xxxxxxxxxxxxxxxxxxxx
+unmatched.unmatchedSubcontractorDetailsUpdated.title                                  =  Manylion yr is-gontractwr wedi’u diweddaru
+unmatched.unmatchedSubcontractorDetailsUpdated.heading                                =  Manylion yr is-gontractwr wedi’u diweddaru
+unmatched.unmatchedSubcontractorDetailsUpdated.p1                                     =  Rydych wedi diweddaru manylion yr is-gontractwr ar gyfer {0}.
+unmatched.unmatchedSubcontractorDetailsUpdated.updatesMade.h2                         =  Wedi’u diweddaru
+unmatched.unmatchedSubcontractorDetailsUpdated.table.hdr.details                      =  Manylion
+unmatched.unmatchedSubcontractorDetailsUpdated.table.hdr.previous                     =  Blaenorol
+unmatched.unmatchedSubcontractorDetailsUpdated.table.hdr.updated                      =  Wedi’i ddiweddaru
+unmatched.unmatchedSubcontractorDetailsUpdated.noneProvided                           =  Heb roi un
+unmatched.unmatchedSubcontractorDetailsUpdated.noneSelected                           =  Heb ddewis un
+unmatched.unmatchedSubcontractorDetailsUpdated.cannotVerifyAllSubcontractors          =  Ni ellir dilysu pob is-gontractwr
+unmatched.unmatchedSubcontractorDetailsUpdated.beforeYouGo.h2                         =  Cyn i chi fynd
+unmatched.unmatchedSubcontractorDetailsUpdated.beforeYouGo.p1                         =  Mae’ch adborth yn ein helpu i wella ein gwasanaeth.
+unmatched.unmatchedSubcontractorDetailsUpdated.beforeYouGo.takeAShortSurvey           =  Llenwch arolwg byr
+unmatched.unmatchedSubcontractorDetailsUpdated.beforeYouGo.shareFeedback              =  i rannu’ch adborth ar y gwasanaeth hwn.
+unmatched.unmatchedSubcontractorDetailsUpdated.reviewUnmatchedSubcontractors          =  Adolygiad o is-gontractwyr sydd heb eu paru
+unmatched.unmatchedSubcontractorDetailsUpdated.yourSubcontractors                     =  Eich is-gontractwyr
 
-insufficientSubcontractorDetailsUpdated.title                                         =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.p1                                            =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.updatesMade.h2                                =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.table.hdr.details                             =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.table.hdr.previous                            =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.table.hdr.updated                             =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.noneProvided                                  =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.noneSelected                                  =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.noName                                        =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.beforeYouGo.h2                                =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.beforeYouGo.p1                                =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.beforeYouGo.takeAShortSurvey                  =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.beforeYouGo.shareFeedback                     =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.reviewUnmatchedSubcontractors                 =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.yourSubcontractors                            =  xxxxxxxxxxxxxxxxxxxx
-insufficientSubcontractorDetailsUpdated.cannotVerifyAllSubcontractors                 =  xxxxxxxxxxxxxxxxxxxx
+insufficientSubcontractorDetailsUpdated.title                                         =  Manylion yr is-gontractwr wedi’u diweddaru
+insufficientSubcontractorDetailsUpdated.p1                                            =  Rydych wedi diweddaru manylion yr is-gontractwr ar gyfer {0}.
+insufficientSubcontractorDetailsUpdated.updatesMade.h2                                =  Wedi’u diweddaru
+insufficientSubcontractorDetailsUpdated.table.hdr.details                             =  Manylion
+insufficientSubcontractorDetailsUpdated.table.hdr.previous                            =  Blaenorol
+insufficientSubcontractorDetailsUpdated.table.hdr.updated                             =  Wedi’i ddiweddaru
+insufficientSubcontractorDetailsUpdated.noneProvided                                  =  Heb roi un
+insufficientSubcontractorDetailsUpdated.noneSelected                                  =  Heb ddewis un
+insufficientSubcontractorDetailsUpdated.noName                                        =  Dim enw wedi'i roi
+insufficientSubcontractorDetailsUpdated.beforeYouGo.h2                                =  Cyn i chi fynd
+insufficientSubcontractorDetailsUpdated.beforeYouGo.p1                                =  Mae’ch adborth yn ein helpu i wella ein gwasanaeth.
+insufficientSubcontractorDetailsUpdated.beforeYouGo.takeAShortSurvey                  =  Llenwch arolwg byr
+insufficientSubcontractorDetailsUpdated.beforeYouGo.shareFeedback                     =  i rannu’ch adborth ar y gwasanaeth hwn.
+insufficientSubcontractorDetailsUpdated.reviewUnmatchedSubcontractors                 =  Adolygiad o is-gontractwyr sydd heb eu paru
+insufficientSubcontractorDetailsUpdated.yourSubcontractors                            =  Eich is-gontractwyr
+insufficientSubcontractorDetailsUpdated.cannotVerifyAllSubcontractors                 =  Ni ellir dilysu pob is-gontractwr
 
 proceedInsufficientSubcontractorNameYesNo.title                                       =  A ydych yn siŵr eich bod am barhau gyda chynnwys yr is-gontractwr hwn yn y cais hwn am ddilysiad
 proceedInsufficientSubcontractorNameYesNo.heading                                     =  A ydych yn siŵr eich bod am barhau gyda chynnwys {0} yn y cais hwn am ddilysiad?
 proceedInsufficientSubcontractorNameYesNo.hint                                        =  Bydd hyn yn rhoi’r driniaeth dreth ar y gyfradd uwch i’r is-gontractwr hwn.
-proceedInsufficientSubcontractorNameYesNo.error.required                              =  xxxxxxxxxxxxxxxxxxxx
+proceedInsufficientSubcontractorNameYesNo.error.required                              =  Dewiswch ‘Iawn’ os ydych am fwrw ymlaen â chynnwys yr is-gontractwr hwn yn y cais hwn am ddilysiad
 
 removeInsufficientSubcontractorNameYesNo.title                                        =  A ydych yn siŵr eich bod am ddileu’r is-gontractwr hwn o’r cais hwn am ddilysiad?
 removeInsufficientSubcontractorNameYesNo.heading                                      =  A ydych yn siŵr eich bod am ddileu {0} o’r cais hwn am ddilysiad?
 removeInsufficientSubcontractorNameYesNo.hint                                         =  Bydd hyn yn golygu y byddant yn parhau i fod heb eu dilysu, felly ni chewch wneud unrhyw daliad iddynt.
-removeInsufficientSubcontractorNameYesNo.error.required                               =  xxxxxxxxxxxxxxxxxxxx
+removeInsufficientSubcontractorNameYesNo.error.required                               =  Dewiswch ‘Iawn’ os ydych am ddileu’r is-gontractwr hwn o’r cais hwn am ddilysiad
 
 noUnmatchedSubcontractors.title                                                       =  Dim is-gontractwyr sydd heb eu paru
 noUnmatchedSubcontractors.heading                                                     =  Dim is-gontractwyr sydd heb eu paru
@@ -522,18 +523,18 @@ unmatched.proceedSubcontractorVerifyRequest.error.required                      
 info.CheckYourAnswers.cannotVerifyAllSubcontractors                                   =  Ni ellir dilysu pob is-gontractwr.
 info.CheckYourAnswers.reviewUnmatchedSubcontractors                                   =  Adolygiad o is-gontractwyr sydd heb eu paru
 
-agent.agentLostAccess.title                                                           =  xxxxxxxxxxxxxxxxxxxx
-agent.agentLostAccess.heading                                                         =  xxxxxxxxxxxxxxxxxxxx
-agent.agentLostAccess.p1                                                              =  xxxxxxxxxxxxxxxxxxxx
-agent.agentLostAccess.h2                                                              =  xxxxxxxxxxxxxxxxxxxx
-agent.agentLostAccess.bullet.title                                                    =  xxxxxxxxxxxxxxxxxxxx
-agent.agentLostAccess.bullet.item.1.prefix                                            =  xxxxxxxxxxxxxxxxxxxx
-agent.agentLostAccess.bullet.item.1.link                                              =  xxxxxxxxxxxxxxxxxxxx
-agent.agentLostAccess.bullet.item.2.prefix                                            =  xxxxxxxxxxxxxxxxxxxx
-agent.agentLostAccess.bullet.item.2.link                                              =  xxxxxxxxxxxxxxxxxxxx
-agent.agentLostAccess.bullet.item.2.suffix                                            =  xxxxxxxxxxxxxxxxxxxx
-agent.agentLostAccess.p2                                                              =  xxxxxxxxxxxxxxxxxxxx
-agent.agentLostAccess.return.link                                                     =  xxxxxxxxxxxxxxxxxxxx
+agent.agentLostAccess.title                                                           =  Mae’n ddrwg gennym, ond does dim modd i chi ddefnyddio’r gwasanaeth hwn
+agent.agentLostAccess.heading                                                         =  Mae’n ddrwg gennym, ond does dim modd i chi ddefnyddio’r gwasanaeth hwn
+agent.agentLostAccess.p1                                                              =  Nid ydych yn awdurdodedig mwyach.
+agent.agentLostAccess.h2                                                              =  Yr hyn y mae angen i chi ei wneud
+agent.agentLostAccess.bullet.title                                                    =  Gofynnwch i’ch cleient eich awdurdodi. Gall eich cleient wneud hyn drwy naill ai:
+agent.agentLostAccess.bullet.item.1.prefix                                            =  eich awdurdodi trwy ei
+agent.agentLostAccess.bullet.item.1.link                                              =  gyfrif ar-lein CThEF
+agent.agentLostAccess.bullet.item.2.prefix                                            =  lawrlwytho a chwblhau
+agent.agentLostAccess.bullet.item.2.link                                              =  ffurflen 648
+agent.agentLostAccess.bullet.item.2.suffix                                            =  eich awdurdodi drwy'r post
+agent.agentLostAccess.p2                                                              =  Gall gymryd hyd at 5 diwrnod gwaith i awdurdodiadau newydd ymddangos yn eich cyfrif.
+agent.agentLostAccess.return.link                                                     =  Dychwelyd i’r rhestr o gleientiaid
 
 unmatchedSubcontractors.title                                                         =  Mae gennych is-gontractwyr sydd heb eu paru
 unmatchedSubcontractors.heading                                                       =  Mae gennych is-gontractwyr sydd heb eu paru
@@ -575,10 +576,11 @@ finalvalidations.updateSubcontractorDetails.phoneNumber                         
 finalvalidations.updateSubcontractorDetails.mobilePhoneNumber                         =  Rhif ffôn symudol
 finalvalidations.updateSubcontractorDetails.addWorksReferenceNumber                   =  Ychwanegu cyfeirnod y gwaith?
 finalvalidations.updateSubcontractorDetails.worksReferenceNumber                      =  Cyfeirnod y gwaith
+finalvalidations.updateSubcontractorDetails.noNameProvided                            =  Dim enw wedi'i roi
 finalvalidations.updateSubcontractorDetails.soleTrader.subcontractorName              =  Enw’r is-gontractwr
 finalvalidations.updateSubcontractorDetails.soleTrader.tradingName                    =  Enw masnachu
-finalvalidations.updateSubcontractorDetails.soleTrader.names                          =  xxxxxxxxxxxxxxxxxxxx
-finalvalidations.updateSubcontractorDetails.soleTrader.names.noneSelected             =  xxxxxxxxxxxxxxxxxxxx
+finalvalidations.updateSubcontractorDetails.soleTrader.names                          =  Enwau
+finalvalidations.updateSubcontractorDetails.soleTrader.names.noneSelected             =  Heb ddewis un
 finalvalidations.updateSubcontractorDetails.soleTrader.addAddress                     =  Ychwanegu cyfeiriad yr is-gontractwr?
 finalvalidations.updateSubcontractorDetails.soleTrader.addUtr                         =  Ychwanegu UTR?
 finalvalidations.updateSubcontractorDetails.soleTrader.utr                            =  UTR
@@ -606,31 +608,29 @@ finalvalidations.updateSubcontractorDetails.partnership.partnerNino             
 finalvalidations.updateSubcontractorDetails.partnership.addPartnerCrn                 =  Ychwanegu rhif cofrestru’r cwmni ar gyfer y partner enwebedig?
 finalvalidations.updateSubcontractorDetails.partnership.partnerCrn                    =  Rhif cofrestru’r cwmni ar gyfer y partner enwebedig
 
-individualNamesOptions.title                                                          =  xxxxxxxxxxxxxxxxxxxx
-individualNamesOptions.heading                                                        =  xxxxxxxxxxxxxxxxxxxx
+individualNamesOptions.title                                                          =  Pa enwau rydych am eu hychwanegu ar gyfer yr is-gontractwr hwn?
+individualNamesOptions.heading                                                        =  Pa enwau rydych am eu hychwanegu ar gyfer yr is-gontractwr hwn?
 individualNamesOptions.subcontractorName                                              =  Enw’r is-gontractwr
 individualNamesOptions.tradingName                                                    =  Enw masnachu
-individualNamesOptions.noSelection                                                    =  xxxxxxxxxxxxxxxxxxxx
-individualNamesOptions.hint                                                           =  xxxxxxxxxxxxxxxxxxxx
-individualNamesOptions.error.required                                                 =  xxxxxxxxxxxxxxxxxxxx
-individualNamesOptions.checkYourAnswersLabel                                          =  xxxxxxxxxxxxxxxxxxxx
-individualNamesOptions.change.hidden                                                  =  xxxxxxxxxxxxxxxxxxxx
-
-finalvalidations.updateSubcontractorDetails.noNameProvided                            =  xxxxxxxxxxxxxxxxxxxx
+individualNamesOptions.noSelection                                                    =  Heb ddewis un
+individualNamesOptions.hint                                                           =  Gallwch ychwanegu enw person, enw masnachu neu'r ddau
+individualNamesOptions.error.required                                                 =  Dewiswch pa enwau rydych am eu hychwanegu ar gyfer yr is-gontractwr hwn.
+individualNamesOptions.checkYourAnswersLabel                                          =  Enwau
+individualNamesOptions.change.hidden                                                  =  Enwau
 
 # Partnership
-addPartnershipContactMethodsYesNo.title                            =  xxxxxxxxxxxxxxxxxxxx
+addPartnershipContactMethodsYesNo.title                            =  A ydych am ychwanegu manylion cysylltu ar gyfer y bartneriaeth hon?
 addPartnershipContactMethodsYesNo.heading                          =  Ydych chi am ychwanegu manylion cysylltu ar gyfer {0}?
 addPartnershipContactMethodsYesNo.error.required                   =  Dewiswch ‘Iawn’ os ydych chi am ychwanegu manylion cysylltu ar gyfer y bartneriaeth hon
 addPartnershipContactMethodsYesNo.checkYourAnswersLabel            =  Ychwanegu manylion cysylltu?
-addPartnershipContactMethodsYesNo.change.hidden                    =  xxxxxxxxxxxxxxxxxxxx
+addPartnershipContactMethodsYesNo.change.hidden                    =  ychwanegu manylion cysylltu?
 
-partnershipWorksReferenceNumberYesNo.title                         =  xxxxxxxxxxxxxxxxxxxx
+partnershipWorksReferenceNumberYesNo.title                         =  Oes cyfeirnod y gwaith yn gysylltiedig â’r bartneriaeth hon?
 partnershipWorksReferenceNumberYesNo.heading                       =  Oes cyfeirnod y gwaith yn gysylltiedig â {0}?
 partnershipWorksReferenceNumberYesNo.hint                          =  Dyma’r cyfeirnod a ddefnyddir i adnabod gwaith neu brosiect is-gontractwr. Gall hwn gynnwys llythrennau neu rifau.
 partnershipWorksReferenceNumberYesNo.checkYourAnswersLabel         =  Ychwanegu cyfeirnod y gwaith?
-partnershipWorksReferenceNumberYesNo.error.required                =  xxxxxxxxxxxxxxxxxxxx
-partnershipWorksReferenceNumberYesNo.change.hidden                 =  xxxxxxxxxxxxxxxxxxxx
+partnershipWorksReferenceNumberYesNo.error.required                =  Dewiswch p’un a oes cyfeirnod y gwaith gan y bartneriaeth hon
+partnershipWorksReferenceNumberYesNo.change.hidden                 =  ychwanegu cyfeirnod y gwaith?
 
 partnershipName.title                                              =  Beth yw enw’r bartneriaeth?
 partnershipName.heading                                            =  Beth yw enw’r bartneriaeth?
@@ -639,16 +639,16 @@ partnershipName.error.required                                     =  Nodwch enw
 partnershipName.error.length                                       =  Rhaid i enw’r bartneriaeth fod yn 56 o gymeriadau neu lai
 partnershipName.error.invalidCharacters                            =  Nodwch enw dilys ar gyfer y bartneriaeth
 partnershipName.checkYourAnswersLabel                              =  Enw’r bartneriaeth
-partnershipName.change.hidden                                      =  xxxxxxxxxxxxxxxxxxxx
+partnershipName.change.hidden                                      =  enw’r bartneriaeth
 
-partnershipWorksReferenceNumber.title                              =  xxxxxxxxxxxxxxxxxxxx
+partnershipWorksReferenceNumber.title                              =  Beth yw cyfeirnod y gwaith sy’n gysylltiedig â’r bartneriaeth hon?
 partnershipWorksReferenceNumber.heading                            =  Beth yw cyfeirnod y gwaith sy’n gysylltiedig â {0}?
 partnershipWorksReferenceNumber.hint                               =  Mae hwn yn unigryw i’r prosiect neu’r gwaith adeiladu. Efallai eich bod wedi cael hwn gan y contractwr.
 partnershipWorksReferenceNumber.checkYourAnswersLabel              =  Cyfeirnod y gwaith
 partnershipWorksReferenceNumber.error.required                     =  Nodwch gyfeirnod y gwaith
 partnershipWorksReferenceNumber.error.invalid                      =  Nodwch gyfeirnod y gwaith dilys
 partnershipWorksReferenceNumber.error.length                       =  Nodwch gyfeirnod y gwaith, hyd at 20 o gymeriadau
-partnershipWorksReferenceNumber.change.hidden                      =  xxxxxxxxxxxxxxxxxxxx
+partnershipWorksReferenceNumber.change.hidden                      =  cyfeirnod y gwaith
 
 partnershipUniqueTaxpayerReference.title                           =  Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer y bartneriaeth
 partnershipUniqueTaxpayerReference.heading                         =  Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer y bartneriaeth
@@ -661,20 +661,20 @@ partnershipUniqueTaxpayerReference.error.invalid                   =  Nodwch Gyf
 partnershipUniqueTaxpayerReference.error.length                    =  Nodwch Gyfeirnod Unigryw y Trethdalwr (UTR) dilys gan ddefnyddio 10 rhif, fel 1234567890
 partnershipUniqueTaxpayerReference.error.duplicate                 =  Rydych chi eisoes wedi defnyddio Cyfeirnod Unigryw y Trethdalwr (UTR) hwn ar gyfer is-gontractwr presennol
 partnershipUniqueTaxpayerReference.checkYourAnswersLabel           =  UTR ar gyfer y bartneriaeth
-partnershipUniqueTaxpayerReference.change.hidden                   =  xxxxxxxxxxxxxxxxxxxx
+partnershipUniqueTaxpayerReference.change.hidden                   =  UTR ar gyfer y bartneriaeth
 partnershipUniqueTaxpayerReference.verified.checkYourAnswersLabel  =  UTR ar gyfer y bartneriaeth
 
-partnershipHasUtrYesNo.title                                       =  xxxxxxxxxxxxxxxxxxxx
+partnershipHasUtrYesNo.title                                       =  Beth yw Cyfeirnod Unigryw y Trethdalwr yr is-gontractwr?
 partnershipHasUtrYesNo.heading                                     =  Ydych chi’n gwybod beth yw Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer {0}?
 partnershipHasUtrYesNo.hint                                        =  Defnyddir yr wybodaeth hon i ddilysu’r bartneriaeth fel is-gontractwr
 partnershipHasUtrYesNo.checkYourAnswersLabel                       =  Ychwanegu UTR?
 partnershipHasUtrYesNo.error.required                              =  Dewiswch p’un a oes Cyfeirnod Unigryw y Trethdalwr (UTR) gan y bartneriaeth hon
-partnershipHasUtrYesNo.change.hidden                               =  xxxxxxxxxxxxxxxxxxxx
+partnershipHasUtrYesNo.change.hidden                               =  ychwanegu UTR?
 
 partnershipAddress.checkYourAnswersLabel                           =  Cyfeiriad
 partnershipAddress.change.hidden                                   =  cyfeiriad
 
-partnershipNominatedPartnerNino.title                              =  xxxxxxxxxxxxxxxxxxxx
+partnershipNominatedPartnerNino.title                              =  Beth yw rhif Yswiriant Gwladol y partner enwebedig?
 partnershipNominatedPartnerNino.heading                            =  Beth yw rhif Yswiriant Gwladol {0}?
 partnershipNominatedPartnerNino.hint                               =  Gellir dod o hyd i rifau Yswiriant Gwladol ar slipiau cyflog, P60s a dogfennau treth eraill. Er enghraifft, ‘QQ 12 34 56 C’
 partnershipNominatedPartnerNino.error.required                     =  Nodwch rif Yswiriant Gwladol
@@ -683,54 +683,54 @@ partnershipNominatedPartnerNino.error.length                       =  Nodwch rif
 partnershipNominatedPartnerNino.checkYourAnswersLabel              =  Rhif Yswiriant Gwladol ar gyfer y partner enwebedig
 partnershipNominatedPartnerNino.change.hidden                      =  Rhif Yswiriant Gwladol ar gyfer y partner enwebedig
 
-partnershipAddressYesNo.title                                      =  xxxxxxxxxxxxxxxxxxxx
+partnershipAddressYesNo.title                                      =  A ydych am ychwanegu cyfeiriad ar gyfer y bartneriaeth hon?
 partnershipAddressYesNo.heading                                    =  Ydych chi am ychwanegu cyfeiriad ar gyfer {0}?
 partnershipAddressYesNo.hint                                       =  Gallwch ychwanegu’r wybodaeth hon nes ymlaen os yw’n well gennych
 partnershipAddressYesNo.checkYourAnswersLabel                      =  Ychwanegu cyfeiriad y bartneriaeth?
 partnershipAddressYesNo.error.required                             =  Dewiswch p’un a ydych chi am ychwanegu cyfeiriad ar gyfer y bartneriaeth hon
-partnershipAddressYesNo.change.hidden                              =  xxxxxxxxxxxxxxxxxxxx
+partnershipAddressYesNo.change.hidden                              =  ychwanegu cyfeiriad y bartneriaeth?
 
-partnershipNominatedPartnerNinoYesNo.title                         =  xxxxxxxxxxxxxxxxxxxx
+partnershipNominatedPartnerNinoYesNo.title                         =  Ydych chi’n gwybod beth yw rhif Yswiriant Gwladol y partner enwebedig hwn?
 partnershipNominatedPartnerNinoYesNo.heading                       =  Ydych chi’n gwybod beth yw rhif Yswiriant Gwladol {0}?
 partnershipNominatedPartnerNinoYesNo.hint                          =  Defnyddir yr wybodaeth hon i’w ddilysu fel is-gontractwr
 partnershipNominatedPartnerNinoYesNo.checkYourAnswersLabel         =  Ychwanegu rhif Yswiriant Gwladol ar gyfer y partner enwebedig?
 partnershipNominatedPartnerNinoYesNo.error.required                =  Dewiswch p’un a ydych chi’n gwybod beth yw rhif Yswiriant Gwladol y partner enwebedig hwn
-partnershipNominatedPartnerNinoYesNo.change.hidden                 =  xxxxxxxxxxxxxxxxxxxx
+partnershipNominatedPartnerNinoYesNo.change.hidden                 =  ychwanegu rhif Yswiriant Gwladol ar gyfer y partner enwebedig?
 
-partnershipNominatedPartnerName.title                              =  xxxxxxxxxxxxxxxxxxxx
+partnershipNominatedPartnerName.title                              =  Pwy yw’r partner enwebedig ar gyfer y bartneriaeth hon?
 partnershipNominatedPartnerName.heading                            =  Pwy yw’r partner enwebedig ar gyfer {0}?
 partnershipNominatedPartnerName.hint                               =  Y partner enwebedig sy’n gyfrifol am gadw trefn ar faterion treth y bartneriaeth.
 partnershipNominatedPartnerName.label                              =  Enw llawn
-partnershipNominatedPartnerName.checkYourAnswersLabel              =  xxxxxxxxxxxxxxxxxxxx
+partnershipNominatedPartnerName.checkYourAnswersLabel              =  Partner enwebedig
 partnershipNominatedPartnerName.error.required                     =  Nodwch enw llawn dilys
 partnershipNominatedPartnerName.error.invalid                      =  Nodwch enw llawn gan ddefnyddio’r llythrennau a-z, rhifau, collnodau, symbolau ampersand, comas, cysylltnodau, atalnodau llawn, blaenslaesau a bylchau
 partnershipNominatedPartnerName.error.length                       =  Nodwch enw llawn hyd at 56 o gymeriadau
-partnershipNominatedPartnerName.change.hidden                      =  xxxxxxxxxxxxxxxxxxxx
+partnershipNominatedPartnerName.change.hidden                      =  Partner enwebedig
 
-partnershipNominatedPartnerCrn.title                               =  xxxxxxxxxxxxxxxxxxxx
+partnershipNominatedPartnerCrn.title                               =  Beth yw rhif cofrestru’r cwmni ar gyfer y partner enwebedig hwn?
 partnershipNominatedPartnerCrn.heading                             =  Beth yw rhif cofrestru’r cwmni ar gyfer {0}?
 partnershipNominatedPartnerCrn.hint                                =  Mae pob rhif cofrestru’r cwmni yn 8 o gymeriadau. Gall hyn fod yn 8 digid (01234567), neu 2 lythyren a 6 digid (AC012345). Gallwch chi ddod o hyd i rif cwmni ar gofrestr Tŷ’r Cwmnïau.
 partnershipNominatedPartnerCrn.error.required                      =  Nodwch rif cofrestru’r cwmni
 partnershipNominatedPartnerCrn.error.length                        =  Nodwch rif cofrestru cwmni dilys
 partnershipNominatedPartnerCrn.error.invalidCharacters             =  Nodwch rif cofrestru cwmni dilys
 partnershipNominatedPartnerCrn.checkYourAnswersLabel               =  Rhif cofrestru’r cwmni ar gyfer y partner enwebedig
-partnershipNominatedPartnerCrn.change.hidden                       =  xxxxxxxxxxxxxxxxxxxx
+partnershipNominatedPartnerCrn.change.hidden                       =  rhif cofrestru’r cwmni ar gyfer y partner enwebedig
 
-partnershipNominatedPartnerCrnYesNo.title                          =  xxxxxxxxxxxxxxxxxxxx
+partnershipNominatedPartnerCrnYesNo.title                          =  Oes gan y partner enwebedig hwn rif cofrestru’r cwmni?
 partnershipNominatedPartnerCrnYesNo.heading                        =  Oes rhif cofrestru’r cwmni gan {0}?
 partnershipNominatedPartnerCrnYesNo.hint                           =  Mae hyn yn berthnasol dim ond os yw’n bartner corfforaethol neu’n gyfarwyddwr cwmni. Defnyddir yr wybodaeth hon i’w ddilysu fel is-gontractwr.
 partnershipNominatedPartnerCrnYesNo.checkYourAnswersLabel          =  Ychwanegu rhif cofrestru’r cwmni ar gyfer y partner enwebedig?
 partnershipNominatedPartnerCrnYesNo.error.required                 =  Dewiswch p’un a oes rhif cofrestru’r cwmni gan y partner enwebedig hwn
-partnershipNominatedPartnerCrnYesNo.change.hidden                  =  xxxxxxxxxxxxxxxxxxxx
+partnershipNominatedPartnerCrnYesNo.change.hidden                  =  ychwanegu rhif cofrestru’r cwmni ar gyfer y partner enwebedig?
 
-partnershipNominatedPartnerUtrYesNo.title                          =  xxxxxxxxxxxxxxxxxxxx
+partnershipNominatedPartnerUtrYesNo.title                          =  Ydych chi’n gwybod beth yw Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer y partner enwebedig?
 partnershipNominatedPartnerUtrYesNo.heading                        =  Ydych chi’n gwybod beth yw Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer {0}?
 partnershipNominatedPartnerUtrYesNo.hint                           =  Defnyddir yr wybodaeth hon i’w ddilysu fel is-gontractwr
 partnershipNominatedPartnerUtrYesNo.checkYourAnswersLabel          =  Ychwanegu UTR ar gyfer y partner enwebedig?
 partnershipNominatedPartnerUtrYesNo.error.required                 =  Dewiswch p’un a ydych chi’n gwybod beth yw Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer y partner enwebedig
-partnershipNominatedPartnerUtrYesNo.change.hidden                  =  xxxxxxxxxxxxxxxxxxxx
+partnershipNominatedPartnerUtrYesNo.change.hidden                  =  ychwanegu UTR ar gyfer y partner enwebedig?
 
-partnershipNominatedPartnerUtr.title                               =  xxxxxxxxxxxxxxxxxxxx
+partnershipNominatedPartnerUtr.title                               =  Cyfeirnod Unigryw y Trethdalwr (UTR) Hunanasesiad y partner enwebedig
 partnershipNominatedPartnerUtr.heading                             =  Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer Hunanasesiad
 partnershipNominatedPartnerUtr.paragraph                           =  Bydd yr UTR i’w weld ar Ffurflenni Treth a dogfennau eraill gan CThEF. Efallai y cyfeirir ato gan ddefnyddio’r geiriau ‘cyfeirnod’, ‘UTR’ neu ‘defnydd swyddogol’.
 partnershipNominatedPartnerUtr.linkText                            =  Cael rhagor o help i ddod o hyd i UTR (yn agor tab newydd)
@@ -740,10 +740,10 @@ partnershipNominatedPartnerUtr.checkYourAnswersLabel               =  UTR ar gyf
 partnershipNominatedPartnerUtr.error.required                      =  Nodwch Gyfeirnod Unigryw y Trethdalwr (UTR) dilys, fel 1234567890
 partnershipNominatedPartnerUtr.error.length                        =  Nodwch Gyfeirnod Unigryw y Trethdalwr (UTR) dilys gan ddefnyddio 10 digid
 partnershipNominatedPartnerUtr.error.invalid                       =  Nodwch Gyfeirnod Unigryw y Trethdalwr (UTR) dilys gan ddefnyddio 10 digid
-partnershipNominatedPartnerUtr.change.hidden                       =  xxxxxxxxxxxxxxxxxxxx
-partnershipNominatedPartnerUtr.verified.checkYourAnswersLabel      =  xxxxxxxxxxxxxxxxxxxx
+partnershipNominatedPartnerUtr.change.hidden                       =  UTR ar gyfer y partner enwebedig
+partnershipNominatedPartnerUtr.verified.checkYourAnswersLabel      =  UTR y partner enwebedig
 
-partnershipEmailAddress.title                                      =  xxxxxxxxxxxxxxxxxxxx
+partnershipEmailAddress.title                                      =  Beth yw’r cyfeiriad e-bost ar gyfer y bartneriaeth hon?
 partnershipEmailAddress.heading                                    =  Beth yw’r cyfeiriad e-bost ar gyfer {0}?
 partnershipEmailAddress.hint                                       =  Ni fydd CThEF yn defnyddio’r cyfeiriad e-bost hwn i gysylltu â’r is-gontractwr hwn ar unrhyw adeg
 partnershipEmailAddress.checkYourAnswersLabel                      =  Cyfeiriad e-bost
@@ -752,14 +752,14 @@ partnershipEmailAddress.error.invalid                              =  Nodwch gyf
 partnershipEmailAddress.error.length                               =  Nodwch gyfeiriad e-bost dilys yn y fformat cywir, fel enw@enghraifft.com, hyd at 254 o gymeriadau
 partnershipEmailAddress.change.hidden                              =  cyfeiriad e-bost
 
-partnershipPhoneNumber.title                                       =  xxxxxxxxxxxxxxxxxxxx
+partnershipPhoneNumber.title                                       =  Beth yw’r rhif ffôn ar gyfer y bartneriaeth hon?
 partnershipPhoneNumber.heading                                     =  Beth yw’r rhif ffôn ar gyfer {0}?
 partnershipPhoneNumber.hint                                        =  Ni fydd CThEF yn defnyddio’r rhif ffôn hwn i gysylltu â’r is-gontractwr hwn ar unrhyw adeg
 partnershipPhoneNumber.checkYourAnswersLabel                       =  Rhif ffôn
 partnershipPhoneNumber.error.required                              =  Nodwch rif ffôn
 partnershipPhoneNumber.error.length                                =  Nodwch rif ffôn dilys, fel 01632 960 001 Ar gyfer rhifau rhyngwladol, dylech gynnwys cod y wlad.
 partnershipPhoneNumber.error.invalid                               =  Nodwch rif ffôn dilys, fel 01632 960 001 Ar gyfer rhifau rhyngwladol, dylech gynnwys cod y wlad.
-partnershipPhoneNumber.change.hidden                               =  xxxxxxxxxxxxxxxxxxxx
+partnershipPhoneNumber.change.hidden                               =  rhif ffôn
 
 partnershipCheckYourAnswers.title                                  =  Gwiriwch eich atebion cyn ychwanegu’r bartneriaeth hon
 partnershipCheckYourAnswers.heading                                =  Gwiriwch eich atebion cyn ychwanegu’r bartneriaeth hon
@@ -768,16 +768,16 @@ partnershipCheckYourAnswers.trailHeading                           =  Nawr ychwa
 partnershipCheckYourAnswers.trailText                              =  Drwy ychwanegu’r is-gontractwr hwn, rydych chi’n cadarnhau, hyd eithaf eich gwybodaeth, bod y manylion a roddir gennych yn gywir.
 partnershipCheckYourAnswers.continue                               =  Derbyn a chyflwyno
 
-partnershipMobileNumber.title                                      =  xxxxxxxxxxxxxxxxxxxx
+partnershipMobileNumber.title                                      =  Beth yw’r rhif ffôn symudol ar gyfer y bartneriaeth hon?
 partnershipMobileNumber.heading                                    =  Beth yw’r rhif ffôn symudol ar gyfer {0}?
 partnershipMobileNumber.hint                                       =  Ni fydd CThEF yn defnyddio’r rhif ffôn symudol hwn i gysylltu â’r is-gontractwr hwn ar unrhyw adeg
 partnershipMobileNumber.error.required                             =  Nodwch rif ffôn symudol
 partnershipMobileNumber.error.length                               =  Nodwch rif ffôn symudol dilys, fel 07700 900 982 neu +44 07700 900 999
 partnershipMobileNumber.error.invalid                              =  Nodwch rif ffôn symudol dilys, fel 07700 900 982 neu +44 07700 900 999
 partnershipMobileNumber.checkYourAnswersLabel                      =  Rhif ffôn symudol
-partnershipMobileNumber.change.hidden                              =  xxxxxxxxxxxxxxxxxxxx
+partnershipMobileNumber.change.hidden                              =  rhif ffôn symudol
 
-partnershipContactMethodOptions.title                              =  xxxxxxxxxxxxxxxxxxxx
+partnershipContactMethodOptions.title                              =  Pa fanylion cysylltu ydych chi am eu hychwanegu ar gyfer y bartneriaeth hon?
 partnershipContactMethodOptions.heading                            =  Pa fanylion cysylltu ydych chi am eu hychwanegu ar gyfer {0}?
 partnershipContactMethodOptions.hint                               =  Mae’r manylion cysylltu ar gyfer eich cofnodion chi yn unig
 partnershipContactMethodOptions.email                              =  Cyfeiriad e-bost
@@ -785,10 +785,10 @@ partnershipContactMethodOptions.phone                              =  Rhif ffôn
 partnershipContactMethodOptions.mobile                             =  Rhif ffôn symudol
 partnershipContactMethodOptions.error.required                     =  Dewiswch y dulliau o gysylltu rydych chi am eu hychwanegu ar gyfer y bartneriaeth hon
 partnershipContactMethodOptions.checkYourAnswersLabel              =  Dulliau o gysylltu
-partnershipContactMethodOptions.change.hidden                      =  xxxxxxxxxxxxxxxxxxxx
+partnershipContactMethodOptions.change.hidden                      =  dulliau o gysylltu
 
 # Company
-addCompanyContactMethodsYesNo.title                  =  xxxxxxxxxxxxxxxxxxxx
+addCompanyContactMethodsYesNo.title                  =  A ydych am ychwanegu manylion cysylltu ar gyfer y cwmni hwn?
 addCompanyContactMethodsYesNo.heading                =  Ydych chi am ychwanegu manylion cysylltu ar gyfer {0}?
 addCompanyContactMethodsYesNo.error.required         =  Dewiswch ‘Iawn’ os ydych am ychwanegu manylion cysylltu ar gyfer y cwmni hwn
 addCompanyContactMethodsYesNo.checkYourAnswersLabel  =  Ychwanegu manylion cysylltu?
@@ -801,19 +801,19 @@ companyName.checkYourAnswersLabel                    =  Enw’r cwmni
 companyName.error.required                           =  Nodwch enw cwmni, fel Adeiladu ABC Cyf
 companyName.error.length                             =  Nodwch enw cwmni hyd at 56 o gymeriadau
 companyName.error.invalidCharacters                  =  Nodwch enw cwmni gan ddefnyddio’r llythrennau a-z, rhifau, collnodau, symbolau ampersand, comas, cysylltnodau, atalnodau llawn, blaenslaesau a bylchau
-companyName.change.hidden                            =  xxxxxxxxxxxxxxxxxxxx
+companyName.change.hidden                            =  enw’r cwmni
 
-companyAddressYesNo.title                            =  xxxxxxxxxxxxxxxxxxxx
+companyAddressYesNo.title                            =  A ydych am ychwanegu cyfeiriad ar gyfer y cwmni hwn?
 companyAddressYesNo.heading                          =  Ydych chi am ychwanegu cyfeiriad ar gyfer {0}?
 companyAddressYesNo.hint                             =  Gallwch ychwanegu’r wybodaeth hon nes ymlaen os yw’n well gennych
 companyAddressYesNo.checkYourAnswersLabel            =  Ychwanegu cyfeiriad y cwmni?
 companyAddressYesNo.error.required                   =  Dewiswch p’un a ydych am ychwanegu cyfeiriad ar gyfer y cwmni hwn
-companyAddressYesNo.change.hidden                    =  xxxxxxxxxxxxxxxxxxxx
+companyAddressYesNo.change.hidden                    =  ychwanegu cyfeiriad y cwmni?
 
 companyAddress.checkYourAnswersLabel                 =  Cyfeiriad
 companyAddress.change.hidden                         =  cyfeiriad
 
-companyEmailAddress.title                            =  xxxxxxxxxxxxxxxxxxxx
+companyEmailAddress.title                            =  Beth yw’r cyfeiriad e-bost ar gyfer y cwmni hwn?
 companyEmailAddress.heading                          =  Beth yw’r cyfeiriad e-bost ar gyfer {0}?
 companyEmailAddress.hintText                         =  Ni fydd CThEF yn defnyddio’r cyfeiriad e-bost hwn i gysylltu â’r is-gontractwr hwn ar unrhyw adeg
 companyEmailAddress.checkYourAnswersLabel            =  Cyfeiriad e-bost
@@ -822,7 +822,7 @@ companyEmailAddress.error.invalid                    =  Nodwch gyfeiriad e-bost 
 companyEmailAddress.error.length                     =  Nodwch gyfeiriad e-bost dilys yn y fformat cywir, fel enw@enghraifft.com, hyd at 254 o gymeriadau
 companyEmailAddress.change.hidden                    =  cyfeiriad e-bost
 
-companyPhoneNumber.title                             =  xxxxxxxxxxxxxxxxxxxx
+companyPhoneNumber.title                             =  Beth yw’r rhif ffôn ar gyfer y cwmni hwn?
 companyPhoneNumber.heading                           =  Beth yw’r rhif ffôn ar gyfer {0}?
 companyPhoneNumber.hint                              =  Ni fydd CThEF yn defnyddio’r rhif ffôn hwn i gysylltu â’r is-gontractwr hwn ar unrhyw adeg
 companyPhoneNumber.error.required                    =  Nodwch rif ffôn
@@ -831,7 +831,7 @@ companyPhoneNumber.error.length                      =  Nodwch rif ffôn dilys, 
 companyPhoneNumber.checkYourAnswersLabel             =  Rhif ffôn
 companyPhoneNumber.change.hidden                     =  rhif ffôn
 
-companyMobileNumber.title                            =  xxxxxxxxxxxxxxxxxxxx
+companyMobileNumber.title                            =  Beth yw’r rhif ffôn symudol ar gyfer y cwmni hwn?
 companyMobileNumber.heading                          =  Beth yw’r rhif ffôn symudol ar gyfer {0}?
 companyMobileNumber.hintText                         =  Ni fydd CThEF yn defnyddio’r rhif ffôn symudol hwn i gysylltu â’r is-gontractwr hwn ar unrhyw adeg
 companyMobileNumber.checkYourAnswersLabel            =  Rhif ffôn symudol
@@ -840,7 +840,7 @@ companyMobileNumber.error.invalid                    =  Nodwch rif ffôn symudol
 companyMobileNumber.error.length                     =  Nodwch rif ffôn symudol dilys, fel 07700 900 982 neu +44 07700 900 999
 companyMobileNumber.change.hidden                    =  rhif ffôn symudol
 
-companyUtrYesNo.title                                =  xxxxxxxxxxxxxxxxxxxx
+companyUtrYesNo.title                                =  A ydych yn gwybod beth yw Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer y cwmni hwn?
 companyUtrYesNo.heading                              =  Ydych chi’n gwybod beth yw Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer {0}?
 companyUtrYesNo.hint                                 =  Defnyddir yr wybodaeth hon i ddilysu’r cwmni fel is-gontractwr
 companyUtrYesNo.checkYourAnswersLabel                =  Ychwanegu UTR?
@@ -858,32 +858,32 @@ companyUtr.error.invalid                             =  Nodwch Gyfeirnod Unigryw
 companyUtr.error.duplicate                           =  Rydych chi eisoes wedi defnyddio Cyfeirnod Unigryw y Trethdalwr (UTR) hwn ar gyfer is-gontractwr presennol
 companyUtr.checkYourAnswersLabel                     =  UTR ar gyfer Treth Gorfforaeth
 companyUtr.verified.checkYourAnswersLabel            =  UTR
-companyUtr.change.hidden                             =  xxxxxxxxxxxxxxxxxxxx
+companyUtr.change.hidden                             =  UTR ar gyfer Treth Gorfforaeth
 
-companyCrnYesNo.title                                =  xxxxxxxxxxxxxxxxxxxx
+companyCrnYesNo.title                                =  Oes gan y cwmni hwn rif cofrestru’r cwmni?
 companyCrnYesNo.heading                              =  Oes gan {0} rif cofrestru’r cwmni?
 companyCrnYesNo.hint                                 =  Defnyddir yr wybodaeth hon i ddilysu’r cwmni fel is-gontractwr
 companyCrnYesNo.error.required                       =  Dewiswch p’un a oes gan y cwmni hwn rif cofrestru’r cwmni
 companyCrnYesNo.checkYourAnswersLabel                =  Ychwanegu rhif cofrestru’r cwmni?
-companyCrnYesNo.change.hidden                        =  xxxxxxxxxxxxxxxxxxxx
+companyCrnYesNo.change.hidden                        =  ychwanegu rhif cofrestru’r cwmni?
 
-companyCrn.title                                     =  xxxxxxxxxxxxxxxxxxxx
+companyCrn.title                                     =  Beth yw rhif cofrestru’r cwmni ar gyfer y cwmni hwn?
 companyCrn.heading                                   =  Beth yw rhif cofrestru’r cwmni ar gyfer {0}?
 companyCrn.hint                                      =  Mae pob rhif cofrestru’r cwmni yn 8 o gymeriadau. Gall hyn fod yn 8 digid (01234567), neu 2 lythyren a 6 digid (AC012345). Gallwch ddod o hyd i rif cwmni ar gofrestr Tŷ’r Cwmnïau.
 companyCrn.error.required                            =  Nodwch rif cofrestru’r cwmni
 companyCrn.error.length                              =  Nodwch rif cofrestru cwmni dilys
 companyCrn.error.invalid                             =  Nodwch rif cofrestru cwmni dilys
 companyCrn.checkYourAnswersLabel                     =  Rhif cofrestru’r cwmni
-companyCrn.change.hidden                             =  xxxxxxxxxxxxxxxxxxxx
+companyCrn.change.hidden                             =  rhif cofrestru’r cwmni
 
-companyWorksReferenceYesNo.title                     =  xxxxxxxxxxxxxxxxxxxx
+companyWorksReferenceYesNo.title                     =  Oes cyfeirnod y gwaith yn gysylltiedig â’r cwmni hwn?
 companyWorksReferenceYesNo.heading                   =  Oes cyfeirnod y gwaith yn gysylltiedig â {0}?
 companyWorksReferenceYesNo.hint                      =  Dyma’r cyfeirnod a ddefnyddir i adnabod gwaith neu brosiect is-gontractwr. Gall hwn gynnwys llythrennau a rhifau.
 companyWorksReferenceYesNo.checkYourAnswersLabel     =  Ychwanegu cyfeirnod y gwaith?
 companyWorksReferenceYesNo.error.required            =  Dewiswch p’un a oes cyfeirnod y gwaith yn gysylltiedig â’r cwmni hwn.
-companyWorksReferenceYesNo.change.hidden             =  xxxxxxxxxxxxxxxxxxxx
+companyWorksReferenceYesNo.change.hidden             =  ychwanegu cyfeirnod y gwaith?
 
-companyWorksReference.title                          =  xxxxxxxxxxxxxxxxxxxx
+companyWorksReference.title                          =  Beth yw cyfeirnod y gwaith sy’n gysylltiedig â’r cwmni hwn?
 companyWorksReference.heading                        =  Beth yw cyfeirnod y gwaith sy’n gysylltiedig â {0}?
 companyWorksReference.hintText                       =  Mae hwn yn unigryw i’r prosiect neu’r gwaith adeiladu.
 companyWorksReference.checkYourAnswersLabel          =  Cyfeirnod y gwaith
@@ -899,21 +899,21 @@ companyCheckYourAnswers.trailHeading                 =  Nawr ychwanegwch yr is-g
 companyCheckYourAnswers.trailText                    =  Drwy ychwanegu’r is-gontractwr hwn, rydych chi’n cadarnhau, hyd eithaf eich gwybodaeth, bod y manylion a roddir gennych yn gywir.
 companyCheckYourAnswers.continue                     =  Derbyn a chyflwyno
 
-companyAdded.title                                   =  xxxxxxxxxxxxxxxxxxxx
-companyAdded.heading                                 =  xxxxxxxxxxxxxxxxxxxx
-companyAdded.p1                                      =  xxxxxxxxxxxxxxxxxxxx
-companyAdded.nextSteps.h2                            =  xxxxxxxxxxxxxxxxxxxx
-companyAdded.nextSteps.p1                            =  xxxxxxxxxxxxxxxxxxxx
-companyAdded.nextSteps.p2                            =  xxxxxxxxxxxxxxxxxxxx
-companyAdded.nextSteps.list.l1                       =  xxxxxxxxxxxxxxxxxxxx
-companyAdded.nextSteps.list.l2                       =  xxxxxxxxxxxxxxxxxxxx
-companyAdded.nextSteps.list.l3                       =  xxxxxxxxxxxxxxxxxxxx
-companyAdded.nextSteps.link                          =  xxxxxxxxxxxxxxxxxxxx
-companyAdded.helpAndSupport.h2                       =  xxxxxxxxxxxxxxxxxxxx
-companyAdded.helpAndSupport.p1                       =  xxxxxxxxxxxxxxxxxxxx
-companyAdded.helpAndSupport.p1.link                  =  xxxxxxxxxxxxxxxxxxxx
+companyAdded.title                                   =  Is-gontractwr cwmni wedi'i ychwanegu
+companyAdded.heading                                 =  Wedi ychwanegu’r is-gontractwr
+companyAdded.p1                                      =  Erbyn hyn, mae {0} i’w weld ar eich rhestr o is-gontractwyr.
+companyAdded.nextSteps.h2                            =  Camau nesaf
+companyAdded.nextSteps.p1                            =  Cyn i chi allu gwneud unrhyw daliadau i’r is-gontractwr hwn, bydd angen i chi ei ddilysu.
+companyAdded.nextSteps.p2                            =  Unwaith y bydd wedi’i ddilysu gyda CThEF, byddwch yn gallu:
+companyAdded.nextSteps.list.l1                       =  gwneud didyniadau CIS ar y gyfradd gywir
+companyAdded.nextSteps.list.l2                       =  cynnwys yr is-gontractwr ar ddatganiad misol
+companyAdded.nextSteps.list.l3                       =  rhoi cyfriflenni talu a didynnu iddo
+companyAdded.nextSteps.link                          =  Rheoli’ch is-gontractwyr
+companyAdded.helpAndSupport.h2                       =  Help a chymorth
+companyAdded.helpAndSupport.p1                       =  Os oes angen help arnoch chi gyda Chynllun y Diwydiant Adeiladu (CIS), a’r hyn y mae’n ei olygu i chi,
+companyAdded.helpAndSupport.p1.link                  =  mae arweiniad ar gael ar GOV.UK.
 
-companyContactMethodOptions.title                    =  xxxxxxxxxxxxxxxxxxxx
+companyContactMethodOptions.title                    =  Pa fanylion cysylltu ydych chi am eu hychwanegu ar gyfer y cwmni hwn?
 companyContactMethodOptions.heading                  =  Pa fanylion cysylltu ydych chi am eu hychwanegu ar gyfer {0}?
 companyContactMethodOptions.hint                     =  Mae’r manylion cysylltu ar gyfer eich cofnodion chi yn unig
 companyContactMethodOptions.email                    =  Cyfeiriad e-bost
@@ -921,14 +921,14 @@ companyContactMethodOptions.phone                    =  Rhif ffôn
 companyContactMethodOptions.mobile                   =  Rhif ffôn symudol
 companyContactMethodOptions.error.required           =  Dewiswch y dulliau o gysylltu rydych chi am eu hychwanegu ar gyfer y cwmni hwn
 companyContactMethodOptions.checkYourAnswersLabel    =  Dulliau o gysylltu
-companyContactMethodOptions.change.hidden            =  xxxxxxxxxxxxxxxxxxxx
+companyContactMethodOptions.change.hidden            =  dulliau o gysylltu
 
 # Trust
-addTrustContactMethodsYesNo.title                  =  xxxxxxxxxxxxxxxxxxxx
+addTrustContactMethodsYesNo.title                  =  A ydych am ychwanegu manylion cysylltu ar gyfer yr ymddiriedolaeth hon?
 addTrustContactMethodsYesNo.heading                =  Ydych chi am ychwanegu manylion cysylltu ar gyfer {0}?
 addTrustContactMethodsYesNo.error.required         =  Dewiswch ‘Iawn’ os ydych chi am ychwanegu manylion cysylltu ar gyfer yr ymddiriedolaeth hon
 addTrustContactMethodsYesNo.checkYourAnswersLabel  =  Ychwanegu manylion cysylltu?
-addTrustContactMethodsYesNo.change.hidden          =  xxxxxxxxxxxxxxxxxxxx
+addTrustContactMethodsYesNo.change.hidden          =  ychwanegu manylion cysylltu?
 
 trustName.title                                    =  Beth yw enw’r ymddiriedolaeth?
 trustName.heading                                  =  Beth yw enw’r ymddiriedolaeth?
@@ -937,19 +937,19 @@ trustName.checkYourAnswersLabel                    =  Enw’r ymddiriedolaeth
 trustName.error.required                           =  Nodwch enw ymddiriedolaeth, fel Adeiladu ABC Cyf
 trustName.error.length                             =  Nodwch enw ymddiriedolaeth hyd at 56 o gymeriadau
 trustName.error.invalidCharacters                  =  Nodwch enw ymddiriedolaeth gan ddefnyddio’r llythrennau a-z, rhifau, collnodau, symbolau ampersand, comas, cysylltnodau, atalnodau llawn, blaenslaesau a bylchau
-trustName.change.hidden                            =  xxxxxxxxxxxxxxxxxxxx
+trustName.change.hidden                            =  enw’r ymddiriedolaeth
 
-trustAddressYesNo.title                            =  xxxxxxxxxxxxxxxxxxxx
+trustAddressYesNo.title                            =  A ydych am ychwanegu cyfeiriad ar gyfer yr ymddiriedolaeth hon?
 trustAddressYesNo.heading                          =  Ydych chi am ychwanegu cyfeiriad ar gyfer {0}?
 trustAddressYesNo.hint                             =  Gallwch ychwanegu’r wybodaeth hon nes ymlaen os yw’n well gennych
 trustAddressYesNo.error.required                   =  Dewiswch p’un a ydych chi am ychwanegu cyfeiriad ar gyfer yr ymddiriedolaeth hon
 trustAddressYesNo.checkYourAnswersLabel            =  Ychwanegu cyfeiriad yr ymddiriedolaeth?
-trustAddressYesNo.change.hidden                    =  xxxxxxxxxxxxxxxxxxxx
+trustAddressYesNo.change.hidden                    =  ychwanegu cyfeiriad yr ymddiriedolaeth?
 
 trustAddress.checkYourAnswersLabel                 =  Cyfeiriad
 trustAddress.change.hidden                         =  cyfeiriad
 
-trustEmailAddress.title                            =  xxxxxxxxxxxxxxxxxxxx
+trustEmailAddress.title                            =  Beth yw’r cyfeiriad e-bost ar gyfer yr ymddiriedolaeth hon?
 trustEmailAddress.heading                          =  Beth yw’r cyfeiriad e-bost ar gyfer {0}?
 trustEmailAddress.hint                             =  Ni fydd CThEF yn defnyddio’r cyfeiriad e-bost hwn i gysylltu â’r is-gontractwr hwn ar unrhyw adeg
 trustEmailAddress.checkYourAnswersLabel            =  Cyfeiriad e-bost
@@ -958,30 +958,30 @@ trustEmailAddress.error.length                     =  Nodwch gyfeiriad e-bost di
 trustEmailAddress.error.invalid                    =  Nodwch gyfeiriad e-bost dilys yn y fformat cywir, fel enw@enghraifft.com
 trustEmailAddress.change.hidden                    =  cyfeiriad e-bost
 
-trustPhoneNumber.title                             =  xxxxxxxxxxxxxxxxxxxx
+trustPhoneNumber.title                             =  Beth yw’r rhif ffôn ar gyfer yr ymddiriedolaeth hon?
 trustPhoneNumber.heading                           =  Beth yw’r rhif ffôn ar gyfer {0}?
 trustPhoneNumber.hint                              =  Ni fydd CThEF yn defnyddio’r rhif ffôn hwn i gysylltu â’r is-gontractwr hwn ar unrhyw adeg
 trustPhoneNumber.checkYourAnswersLabel             =  Rhif ffôn
 trustPhoneNumber.error.required                    =  Nodwch rif ffôn
 trustPhoneNumber.error.invalid                     =  Nodwch rif ffôn dilys, fel 01632 960 001 Ar gyfer rhifau rhyngwladol, dylech gynnwys cod y wlad.
 trustPhoneNumber.error.length                      =  Nodwch rif ffôn dilys, fel 01632 960 001 Ar gyfer rhifau rhyngwladol, dylech gynnwys cod y wlad.
-trustPhoneNumber.change.hidden                     =  xxxxxxxxxxxxxxxxxxxx
+trustPhoneNumber.change.hidden                     =  rhif ffôn
 
-trustMobileNumber.title                            =  xxxxxxxxxxxxxxxxxxxx
+trustMobileNumber.title                            =  Beth yw’r rhif ffôn symudol ar gyfer yr ymddiriedolaeth hon?
 trustMobileNumber.heading                          =  Beth yw’r rhif ffôn symudol ar gyfer {0}?
 trustMobileNumber.hint                             =  Ni fydd CThEF yn defnyddio’r rhif ffôn symudol hwn i gysylltu â’r is-gontractwr hwn ar unrhyw adeg
 trustMobileNumber.checkYourAnswersLabel            =  Rhif ffôn symudol
 trustMobileNumber.error.required                   =  Nodwch rif ffôn symudol
 trustMobileNumber.error.invalid                    =  Nodwch rif ffôn symudol dilys, fel 07700 900 982 neu +44 7700 900 999
 trustMobileNumber.error.length                     =  Nodwch rif ffôn symudol dilys, fel 07700 900 982 neu +44 7700 900 999
-trustMobileNumber.change.hidden                    =  xxxxxxxxxxxxxxxxxxxx
+trustMobileNumber.change.hidden                    =  rhif ffôn symudol
 
-trustUtrYesNo.title                                =  xxxxxxxxxxxxxxxxxxxx
+trustUtrYesNo.title                                =  A ydych yn gwybod beth yw Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer yr ymddiriedolaeth hon?
 trustUtrYesNo.heading                              =  Ydych chi’n gwybod beth yw Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer {0}?
 trustUtrYesNo.hint                                 =  Defnyddir yr wybodaeth hon i ddilysu’r ymddiriedolaeth fel is-gontractwr
 trustUtrYesNo.checkYourAnswersLabel                =  Ychwanegu UTR?
 trustUtrYesNo.error.required                       =  Dewiswch p’un a ydych chi’n gwybod beth yw Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer yr ymddiriedolaeth hon
-trustUtrYesNo.change.hidden                        =  xxxxxxxxxxxxxxxxxxxx
+trustUtrYesNo.change.hidden                        =  ychwanegu UTR?
 
 trustUtr.title                                     =  Cyfeirnod Trethdalwr Unigryw (UTR) yr ymddiriedolaeth
 trustUtr.heading                                   =  Cyfeirnod Trethdalwr Unigryw (UTR) yr ymddiriedolaeth
@@ -989,29 +989,29 @@ trustUtr.p1                                        =  Bydd yr UTR i’w weld ar 
 trustUtr.linkText                                  =  Cael rhagor o help i ddod o hyd i UTR (yn agor tab newydd)
 trustUtr.label                                     =  Beth yw’r UTR ar gyfer {0}?
 trustUtr.hint                                      =  Rhif 10 digid yw UTR
-trustUtr.checkYourAnswersLabel                     =  xxxxxxxxxxxxxxxxxxxx
+trustUtr.checkYourAnswersLabel                     =  UTR Ymddiriedolaeth
 trustUtr.verified.checkYourAnswersLabel            =  UTR
 trustUtr.error.required                            =  Nodwch Gyfeirnod Unigryw y Trethdalwr (UTR) dilys
 trustUtr.error.length                              =  Nodwch Gyfeirnod Unigryw y Trethdalwr (UTR) dilys
 trustUtr.error.invalid                             =  Nodwch Gyfeirnod Unigryw y Trethdalwr (UTR) dilys
 trustUtr.error.duplicate                           =  Rydych chi eisoes wedi defnyddio Cyfeirnod Unigryw y Trethdalwr (UTR) hwn ar gyfer is-gontractwr presennol
-trustUtr.change.hidden                             =  xxxxxxxxxxxxxxxxxxxx
+trustUtr.change.hidden                             =  UTR Ymddiriedolaeth
 
-trustWorksReferenceYesNo.title                     =  xxxxxxxxxxxxxxxxxxxx
+trustWorksReferenceYesNo.title                     =  Oes cyfeirnod y gwaith yn gysylltiedig â’r ymddiriedolaeth hon?
 trustWorksReferenceYesNo.heading                   =  Oes cyfeirnod y gwaith yn gysylltiedig â {0}?
 trustWorksReferenceYesNo.hint                      =  Dyma’r cyfeirnod a ddefnyddir i adnabod gwaith neu brosiect is-gontractwr. Gall hwn gynnwys llythrennau a rhifau.
 trustWorksReferenceYesNo.checkYourAnswersLabel     =  Ychwanegu cyfeirnod y gwaith?
 trustWorksReferenceYesNo.error.required            =  Dewiswch p’un a oes cyfeirnod y gwaith yn gysylltiedig â’r ymddiriedolaeth hon
-trustWorksReferenceYesNo.change.hidden             =  xxxxxxxxxxxxxxxxxxxx
+trustWorksReferenceYesNo.change.hidden             =  ychwanegu cyfeirnod y gwaith?
 
-trustWorksReference.title                          =  xxxxxxxxxxxxxxxxxxxx
+trustWorksReference.title                          =  Beth yw cyfeirnod y gwaith sy’n gysylltiedig â’r ymddiriedolaeth hon?
 trustWorksReference.heading                        =  Beth yw cyfeirnod y gwaith sy’n gysylltiedig â {0}?
 trustWorksReference.hint                           =  Mae hwn yn unigryw i’r prosiect neu’r gwaith adeiladu.
 trustWorksReference.checkYourAnswersLabel          =  Cyfeirnod y gwaith
 trustWorksReference.error.required                 =  Nodwch gyfeirnod y gwaith
 trustWorksReference.error.invalid                  =  Nodwch gyfeirnod y gwaith dilys
 trustWorksReference.error.length                   =  Nodwch gyfeirnod y gwaith, hyd at 20 o gymeriadau
-trustWorksReference.change.hidden                  =  xxxxxxxxxxxxxxxxxxxx
+trustWorksReference.change.hidden                  =  cyfeirnod y gwaith
 
 trustCheckYourAnswers.title                        =  Gwiriwch eich atebion cyn ychwanegu’r ymddiriedolaeth hon
 trustCheckYourAnswers.heading                      =  Gwiriwch eich atebion cyn ychwanegu’r ymddiriedolaeth hon
@@ -1020,7 +1020,7 @@ trustCheckYourAnswers.trailHeading                 =  Nawr ychwanegwch yr is-gon
 trustCheckYourAnswers.trailText                    =  Drwy ychwanegu’r is-gontractwr hwn, rydych chi’n cadarnhau, hyd eithaf eich gwybodaeth, bod y manylion a roddir gennych yn gywir.
 trustCheckYourAnswers.continue                     =  Derbyn a chyflwyno
 
-trustContactMethodOptions.title                    =  xxxxxxxxxxxxxxxxxxxx
+trustContactMethodOptions.title                    =  Pa fanylion cysylltu ydych chi am eu hychwanegu ar gyfer yr ymddiriedolaeth hon?
 trustContactMethodOptions.heading                  =  Pa fanylion cysylltu ydych chi am eu hychwanegu ar gyfer {0}?
 trustContactMethodOptions.hint                     =  Mae’r manylion cysylltu ar gyfer eich cofnodion chi yn unig
 trustContactMethodOptions.email                    =  Cyfeiriad e-bost
@@ -1028,7 +1028,7 @@ trustContactMethodOptions.phone                    =  Rhif ffôn
 trustContactMethodOptions.mobile                   =  Rhif ffôn symudol
 trustContactMethodOptions.error.required           =  Dewiswch y dulliau o gysylltu rydych chi am eu hychwanegu ar gyfer yr ymddiriedolaeth hon
 trustContactMethodOptions.checkYourAnswersLabel    =  Dulliau o gysylltu
-trustContactMethodOptions.change.hidden            =  xxxxxxxxxxxxxxxxxxxx
+trustContactMethodOptions.change.hidden            =  dulliau o gysylltu
 
 # Verify
 verify.verificationRequestInProgress.title                                         =  Cais dilysu ar y gweill
@@ -1055,8 +1055,8 @@ verify.noSubcontractorsSelectedWarning.cancel                                   
 verify.contractorEmailConfirmationNotStored.title                                  =  A hoffech gael e-bost cadarnhau ar gyfer y cais dilysu hwn?
 verify.contractorEmailConfirmationNotStored.heading                                =  A hoffech gael e-bost cadarnhau ar gyfer y cais dilysu hwn?
 verify.contractorEmailConfirmationNotStored.error.required                         =  Dewiswch ‘Iawn’ os hoffech gael e-bost cadarnhau ar gyfer y cais dilysu hwn
-verify.contractorEmailConfirmationNotStored.checkYourAnswersLabel                  =  xxxxxxxxxxxxxxxxxxxx
-verify.contractorEmailConfirmationNotStored.change.hidden                          =  xxxxxxxxxxxxxxxxxxxx
+verify.contractorEmailConfirmationNotStored.checkYourAnswersLabel                  =  A ydych am gael cadarnhad drwy e-bost?
+verify.contractorEmailConfirmationNotStored.change.hidden                          =  A ydych am gael cadarnhad drwy e-bost?
 
 verify.emailAddress.title                                                          =  Pa gyfeiriad e-bost y dylai CThEF ei ddefnyddio i anfon y cadarnhad hwn?
 verify.emailAddress.heading                                                        =  Pa gyfeiriad e-bost y dylai CThEF ei ddefnyddio i anfon y cadarnhad hwn?
@@ -1065,7 +1065,7 @@ verify.emailAddress.hint.notStored                                              
 verify.emailAddress.error.required                                                 =  Nodwch gyfeiriad e-bost yn y fformat cywir, fel enw@enghraifft.com
 verify.emailAddress.error.length                                                   =  Nodwch gyfeiriad e-bost dilys yn y fformat cywir, fel enw@enghraifft.com, hyd at 254 o gymeriadau
 verify.emailAddress.error.invalid                                                  =  Nodwch gyfeiriad e-bost yn y fformat cywir, fel enw@enghraifft.com
-verify.emailAddress.checkYourAnswersLabel                                          =  xxxxxxxxxxxxxxxxxxxx
+verify.emailAddress.checkYourAnswersLabel                                          =  Cyfeiriad e-bost
 verify.emailAddress.change.hidden                                                  =  cyfeiriad e-bost
 
 verify.contractorEmailConfirmationStored.title                                     =  A hoffech gael e-bost cadarnhau ar gyfer y cais dilysu hwn?
@@ -1076,8 +1076,8 @@ verify.contractorEmailConfirmationStored.differentEmail                         
 verify.contractorEmailConfirmationStored.or                                        =  neu
 verify.contractorEmailConfirmationStored.doNotSend                                 =  Peidiwch ag anfon e-bost cadarnhau
 verify.contractorEmailConfirmationStored.error.required                            =  Dewiswch p’un a ydych am gael e-bost cadarnhau ar gyfer y cais dilysu hwn
-verify.contractorEmailConfirmationStored.checkYourAnswersLabel                     =  xxxxxxxxxxxxxxxxxxxx
-verify.contractorEmailConfirmationStored.change.hidden                             =  xxxxxxxxxxxxxxxxxxxx
+verify.contractorEmailConfirmationStored.checkYourAnswersLabel                     =  A ydych am gael cadarnhad drwy e-bost?
+verify.contractorEmailConfirmationStored.change.hidden                             =  A ydych am gael cadarnhad drwy e-bost?
 
 verify.verifyCheckYourAnswers.title                                                =  Gwirio’ch atebion cyn cyflwyno’ch cais dilysu
 verify.verifyCheckYourAnswers.heading                                              =  Gwirio’ch atebion cyn cyflwyno’ch cais dilysu
@@ -1089,8 +1089,8 @@ verify.verificationDeclaration.p1                                               
 verify.verificationDeclaration.list.l1                                             =  mae trefniant ffurfiol ar waith (er enghraifft, tendr wedi’i dderbyn, contract a gytunwyd arno, archeb wedi’i gosod) ar gyfer dilysu pob un o’r is-gontractwyr yn y cais hwn.
 verify.verificationDeclaration.list.l2                                             =  bod yr wybodaeth a roddwyd ar y cais dilysu hwn yn gywir ac yn gyflawn hyd eithaf eich gwybodaeth a’ch cred.
 verify.verificationDeclaration.warningText                                         =  Os byddwch yn rhoi unrhyw wybodaeth ffug, efallai y byddwch yn wynebu cosbau ariannol ac erlyniad.
-verify.verificationDeclaration.title                                               =  xxxxxxxxxxxxxxxxxxxx
-verify.verificationDeclaration.confirm                                             =  xxxxxxxxxxxxxxxxxxxx
+verify.verificationDeclaration.title                                               =  Datganiad dilysu
+verify.verificationDeclaration.confirm                                             =  Cadarnhau
 
 verify.submissionSending.title                                                     =  Cyflwyno’ch cais dilysu
 verify.submissionSending.heading                                                   =  Mae’ch cais dilysu yn cael ei anfon at CThEF
@@ -1122,10 +1122,10 @@ verify.selectSubcontractor.heading                                              
 verify.selectSubcontractor.hint                                                    =  Dewiswch yr is-gontractwyr sydd heb eu dilysu rydych am eu hychwanegu at y cais dilysu hwn.
 verify.selectSubcontractor.error.required                                          =  Dewiswch o leiaf un is-gontractwr i’w ddilysu
 verify.selectSubcontractor.error.maxSelected                                       =  xxxxxxxxxxxxxxxxxxxx
-verify.selectSubcontractor.checkYourAnswersLabel                                   =  xxxxxxxxxxxxxxxxxxxx
-verify.selectSubcontractor.showingResults                                          =  xxxxxxxxxxxxxxxxxxxx
-verify.selectSubcontractor.change.hidden                                           =  xxxxxxxxxxxxxxxxxxxx
-verify.selectSubcontractor.display.noneSelected                                    =  xxxxxxxxxxxxxxxxxxxx
+verify.selectSubcontractor.checkYourAnswersLabel                                   =  Is-gontractwyr i’w dilysu
+verify.selectSubcontractor.showingResults                                          =  Yn dangos canlyniad {0} i {1} allan o {2}
+verify.selectSubcontractor.change.hidden                                           =  Is-gontractwyr i’w dilysu
+verify.selectSubcontractor.display.noneSelected                                    =  Heb ddewis un
 
 verify.reverifyExistingSubcontractorsYesNo.title                                   =  Dilysu is-gontractwyr presennol eto
 verify.reverifyExistingSubcontractorsYesNo.heading                                 =  Dilysu is-gontractwyr presennol eto
@@ -1135,9 +1135,9 @@ verify.reverifyExistingSubcontractorsYesNo.list.l1                              
 verify.reverifyExistingSubcontractorsYesNo.list.l2                                 =  nid ydyn nhw wedi cael eu cynnwys ar Ffurflen Dreth yn ddiweddar ac wedi colli eu statws dilysu
 verify.reverifyExistingSubcontractorsYesNo.list.l3                                 =  ar fin colli eu statws dilysedig
 verify.reverifyExistingSubcontractorsYesNo.error.required                          =  Dewiswch ‘Iawn’ os ydych am ychwanegu is-gontractwyr presennol at y cais dilysu hwn
-verify.reverifyExistingSubcontractorsYesNo.subHeading                              =  xxxxxxxxxxxxxxxxxxxx
-verify.reverifyExistingSubcontractorsYesNo.checkYourAnswersLabel                   =  xxxxxxxxxxxxxxxxxxxx
-verify.reverifyExistingSubcontractorsYesNo.change.hidden                           =  xxxxxxxxxxxxxxxxxxxx
+verify.reverifyExistingSubcontractorsYesNo.subHeading                              =  A ydych m ail-ddilysu unrhyw is-gontractwyr presennol?
+verify.reverifyExistingSubcontractorsYesNo.checkYourAnswersLabel                   =  A ydych m ail-ddilysu unrhyw is-gontractwyr presennol?
+verify.reverifyExistingSubcontractorsYesNo.change.hidden                           =  A ydych m ail-ddilysu unrhyw is-gontractwyr presennol?
 
 verify.selectSubcontractorsToReverify.title                                        =  Pa is-gontractwyr ydych chi am ddilysu eto?
 verify.selectSubcontractorsToReverify.heading                                      =  Pa is-gontractwyr ydych chi am ddilysu eto?
@@ -1154,10 +1154,10 @@ verify.selectSubcontractorsToReverify.taxTreatment.net                          
 verify.selectSubcontractorsToReverify.taxTreatment.unmatched                       =  Cyfradd uwch
 verify.selectSubcontractorsToReverify.taxTreatment.gross                           =  Gros
 verify.selectSubcontractorsToReverify.error.maxSelected                            =  xxxxxxxxxxxxxxxxxxxx
-verify.selectSubcontractorsToReverify.checkYourAnswersLabel                        =  xxxxxxxxxxxxxxxxxxxx
-verify.selectSubcontractorsToReverify.change.hidden                                =  xxxxxxxxxxxxxxxxxxxx
-verify.selectSubcontractorsToReverify.showingResults                               =  xxxxxxxxxxxxxxxxxxxx
-verify.selectSubcontractorsToReverify.display.noneSelected                         =  xxxxxxxxxxxxxxxxxxxx
+verify.selectSubcontractorsToReverify.checkYourAnswersLabel                        =  Is-gontractwyr i’w dilysu eto
+verify.selectSubcontractorsToReverify.change.hidden                                =  Is-gontractwyr i’w dilysu eto
+verify.selectSubcontractorsToReverify.showingResults                               =  Yn dangos canlyniad {0} i {1} allan o {2}
+verify.selectSubcontractorsToReverify.display.noneSelected                         =  Heb ddewis un
 
 verify.verifyYourSubcontractorsYesNo.title                                         =  Dim is-gontractwyr newydd i’w dilysu
 verify.verifyYourSubcontractorsYesNo.heading                                       =  Dilysu’ch is-gontractwyr
@@ -1168,7 +1168,7 @@ verify.verifyYourSubcontractorsYesNo.list.l1                                    
 verify.verifyYourSubcontractorsYesNo.list.l2                                       =  nid ydyn nhw wedi cael eu cynnwys ar Ffurflen Dreth yn ddiweddar ac wedi colli eu statws dilysu
 verify.verifyYourSubcontractorsYesNo.list.l3                                       =  ar fin colli eu statws dilysedig
 verify.verifyYourSubcontractorsYesNo.error.required                                =  Dewiswch ‘Iawn’ os ydych am ychwanegu is-gontractwyr presennol at y cais dilysu hwn
-verify.verifyYourSubcontractorsYesNo.heading2                                      =  xxxxxxxxxxxxxxxxxxxx
+verify.verifyYourSubcontractorsYesNo.heading2                                      =  A ydych m ail-ddilysu unrhyw is-gontractwyr presennol?
 
 verify.noSubcontractorsAdded.title                                                 =  Heb ychwanegu is-gontractwr
 verify.noSubcontractorsAdded.heading                                               =  Dilysu’ch is-gontractwyr
@@ -1211,7 +1211,7 @@ verify.verifyDepartmentalErrorSubmitAgainController.p1                          
 verify.verifyDepartmentalErrorSubmitAgainController.p2                             =  I ddilysu’r is-gontractwyr hyn, mae angen i chi ddechrau eto gyda chais dilysu newydd.
 verify.verifyDepartmentalErrorSubmitAgainController.manageYourSubcontractors.link  =  Rheoli’ch is-gontractwyr
 
-verify.noName                                                                      =  xxxxxxxxxxxxxxxxxxxx
+verify.noName                                                                      =  Dim enw wedi'i roi
 
 verify.reviewInsufficientInfo.title                                                =  Ni ellir dilysu pob is-gontractwr
 verify.reviewInsufficientInfo.heading                                              =  Ni ellir dilysu pob is-gontractwr
@@ -1225,15 +1225,15 @@ verify.reviewInsufficientInfo.missing.subheading                                
 verify.reviewInsufficientInfo.ready.subheading                                     =  Yn barod am ddilysiad
 verify.reviewInsufficientInfo.name                                                 =  Enw
 verify.reviewInsufficientInfo.utr                                                  =  UTR
-verify.reviewInsufficientInfo.noneProvided                                         =  xxxxxxxxxxxxxxxxxxxx
+verify.reviewInsufficientInfo.noneProvided                                         =  Heb roi un
 verify.reviewInsufficientInfo.actions                                              =  Camau
 verify.reviewInsufficientInfo.action.edit                                          =  Golygu
 verify.reviewInsufficientInfo.action.proceed                                       =  Parhau
 verify.reviewInsufficientInfo.action.remove                                        =  Dileu
-verify.reviewInsufficientInfo.hidden.subcontractor                                 =  xxxxxxxxxxxxxxxxxxxx
-verify.reviewInsufficientInfo.action.edit.hidden                                   =  xxxxxxxxxxxxxxxxxxxx
-verify.reviewInsufficientInfo.action.proceed.hidden                                =  xxxxxxxxxxxxxxxxxxxx
-verify.reviewInsufficientInfo.action.remove.hidden                                 =  xxxxxxxxxxxxxxxxxxxx
+verify.reviewInsufficientInfo.hidden.subcontractor                                 =  Bwrw golwg dros fanylion yr is-gontractwr hwn
+verify.reviewInsufficientInfo.action.edit.hidden                                   =  y manylion ar gyfer {0}
+verify.reviewInsufficientInfo.action.proceed.hidden                                =  i ddilysu {0}
+verify.reviewInsufficientInfo.action.remove.hidden                                 =  {0} o gais dilysu
 
 verify.verificationResults.title                                                   =  Canlyniadau dilysu
 verify.verificationResults.heading                                                 =  Canlyniadau dilysu
@@ -1244,11 +1244,11 @@ verify.verificationResults.taxTreatment                                         
 verify.verificationResults.verificationNumber                                      =  Rhif dilysu
 verify.verificationResults.reviewUnmatchedSubcontractors.button                    =  Adolygiad o is-gontractwyr sydd heb eu paru
 verify.verificationResults.manageYourSubcontractors.link                           =  Rheoli’ch is-gontractwyr
-verify.verificationResults.status.matched                                          =  xxxxxxxxxxxxxxxxxxxx
-verify.verificationResults.status.unmatched                                        =  xxxxxxxxxxxxxxxxxxxx
-verify.verificationResults.taxTreatment.net                                        =  xxxxxxxxxxxxxxxxxxxx
-verify.verificationResults.taxTreatment.gross                                      =  xxxxxxxxxxxxxxxxxxxx
-verify.verificationResults.taxTreatment.unmatched                                  =  xxxxxxxxxxxxxxxxxxxx
+verify.verificationResults.status.matched                                          =  Wedi’i ddilysu
+verify.verificationResults.status.unmatched                                        =  Heb eu paru
+verify.verificationResults.taxTreatment.net                                        =  Cyfradd safonol
+verify.verificationResults.taxTreatment.gross                                      =  Gros
+verify.verificationResults.taxTreatment.unmatched                                  =  Cyfradd uwch
 
 verify.reviewUnmatched.title                                                       =  Adolygiad o is-gontractwyr sydd heb eu paru
 verify.reviewUnmatched.heading                                                     =  Adolygiad o is-gontractwyr sydd heb eu paru
@@ -1262,16 +1262,16 @@ verify.reviewUnmatched.unmatched.subheading                                     
 verify.reviewUnmatched.ready.subheading                                            =  Yn barod am ddilysiad
 verify.reviewUnmatched.name                                                        =  Enw
 verify.reviewUnmatched.utr                                                         =  UTR
-verify.reviewUnmatched.noneProvided                                                =  xxxxxxxxxxxxxxxxxxxx
+verify.reviewUnmatched.noneProvided                                                =  Heb roi un
 verify.reviewUnmatched.actions                                                     =  Camau
 verify.reviewUnmatched.action.edit                                                 =  Golygu
 verify.reviewUnmatched.action.proceed                                              =  Parhau
 verify.reviewUnmatched.action.remove                                               =  Dileu
 verify.reviewUnmatched.backToResults.link                                          =  Ganlyniadau dilysu
-verify.reviewUnmatched.action.edit.hidden                                          =  xxxxxxxxxxxxxxxxxxxx
-verify.reviewUnmatched.action.proceed.hidden                                       =  xxxxxxxxxxxxxxxxxxxx
-verify.reviewUnmatched.action.remove.hidden                                        =  xxxxxxxxxxxxxxxxxxxx
-verify.reviewUnmatched.name.hidden                                                 =  xxxxxxxxxxxxxxxxxxxx
+verify.reviewUnmatched.action.edit.hidden                                          =  y manylion ar gyfer {0}
+verify.reviewUnmatched.action.proceed.hidden                                       =  i ddilysu {0}
+verify.reviewUnmatched.action.remove.hidden                                        =  {0} o gais dilysu
+verify.reviewUnmatched.name.hidden                                                 =  Bwrw golwg dros fanylion yr is-gontractwr hwn
 
 # Contractor Details
 contractordetails.contractorDetailsIndex.title                                 =  Manylion y contractwr
@@ -1288,7 +1288,7 @@ contractordetails.contractorUtr.error.required                                 =
 contractordetails.contractorUtr.error.invalid                                  =  Nodwch Gyfeirnod Trethdalwr Unigryw (UTR) dilys sy’n 10 digid
 contractordetails.contractorUtr.checkYourAnswersLabel                          =  Cyfeirnod Unigryw y Trethdalwr
 contractordetails.contractorUtr.change.hidden                                  =  Cyfeirnod Unigryw y Trethdalwr
-contractordetails.contractorUtr.error.length                                   =  xxxxxxxxxxxxxxxxxxxx
+contractordetails.contractorUtr.error.length                                   =  Nodwch Gyfeirnod Unigryw y Trethdalwr (UTR) dilys gan ddefnyddio 10 rhif, fel 1234567890
 
 contractordetails.addSchemeNameYesNo.title                                     =  A ydych am nodi enw cynllun y contractwr?
 contractordetails.addSchemeNameYesNo.heading                                   =  A ydych am nodi enw cynllun y contractwr?
