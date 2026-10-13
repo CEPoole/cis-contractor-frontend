@@ -29,6 +29,7 @@ case class ChrisVerificationRequest(
   verificationBatchId: String,
   verificationBatchResourceRef: String,
   emailRecipient: Option[String],
+  language: Option[String],
   subcontractors: Seq[SubcontractorCurrentVerification],
   verifications: Seq[VerificationDetails]
 )

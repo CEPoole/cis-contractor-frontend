@@ -33,6 +33,7 @@ case class CreateSubmissionForVerificationRequest(
   verificationBatchId: Long,
   verificationBatchResourceRef: Long,
   emailRecipient: Option[String],
+  language: Option[String] = None,
   irMarkGenerated: Option[String] = None,
   verifications: Seq[VerificationToUpdate],
   agentId: Option[String] = None
@@ -52,9 +53,14 @@ object CreateSubmissionForVerificationRequest {
         "verifications"                -> request.verifications
       )
 
+      val withLanguage =
+        request.language.fold(baseJson) { lang =>
+          baseJson + ("language" -> Json.toJson(lang))
+        }
+
       val withIrMark =
-        request.irMarkGenerated.fold(baseJson) { irMark =>
-          baseJson + ("irMarkGenerated" -> Json.toJson(irMark))
+        request.irMarkGenerated.fold(withLanguage) { irMark =>
+          withLanguage + ("irMarkGenerated" -> Json.toJson(irMark))
         }
 
       request.agentId.fold(withIrMark) { agentId =>

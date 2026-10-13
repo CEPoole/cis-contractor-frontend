@@ -62,6 +62,7 @@ class ChrisVerificationRequestSpec extends SpecBase {
         verificationBatchId = "1001",
         verificationBatchResourceRef = "2001",
         emailRecipient = Some("test@test.com"),
+        language = None,
         subcontractors = Seq.empty,
         verifications = Seq(
           VerificationDetails(

@@ -1140,6 +1140,7 @@ final class VerificationServiceSpec extends SpecBase with MockitoSugar with Mode
           verificationBatchId = "999",
           verificationBatchResourceRef = "7777",
           emailRecipient = Some("test@test.com"),
+          language = None,
           subcontractors = Seq.empty,
           verifications = Seq.empty
         )
