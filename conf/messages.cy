@@ -301,7 +301,7 @@ individualChooseContactDetails.phone                                            
 individualChooseContactDetails.mobile                                                 =  rhif ffôn symudol
 individualChooseContactDetails.or                                                     =  neu
 individualChooseContactDetails.noDetails                                              =  Peidiwch ag ychwanegu manylion cysylltu ar gyfer yr is-gontractwr hwn
-individualChooseContactDetails.cya.noDetails                                          =  None
+individualChooseContactDetails.cya.noDetails                                          =  xxxxxxxxxxxxxxxxxxxx
 individualChooseContactDetails.error.required                                         =  Dewiswch a ydych am ychwanegu manylion cysylltu ar gyfer yr is-gontractwr hwn
 individualChooseContactDetails.checkYourAnswersLabel                                  =  Dull o gysylltu
 individualChooseContactDetails.change.hidden                                          =  Dull o gysylltu
@@ -363,7 +363,7 @@ addressLookup.trustQuestionsAddress.lookupPage.heading                          
 addressLookup.trustQuestionsAddress.lookupPage.filterLabel                            =  Enw neu rif yr eiddo (dewisol)
 addressLookup.trustQuestionsAddress.lookupPage.submitLabel                            =  Parhau
 addressLookup.trustQuestionsAddress.lookupPage.manualAddressLinkText                  =  Nodwch y cyfeiriad â llaw
-addressLookup.trustQuestionsAddress.selectPage.title                                  =  Dod o hyd i gyfeiriad ar gyfer yr is-gontractwr hwn
+addressLookup.trustQuestionsAddress.selectPage.title                                  =  Dewiswch y cyfeiriad ar gyfer yr is-gontractwr hwn
 addressLookup.trustQuestionsAddress.selectPage.heading                                =  Dewiswch y cyfeiriad ar gyfer {0}
 addressLookup.trustQuestionsAddress.selectPage.editAddressLinkText                    =  Nodwch y cyfeiriad â llaw
 addressLookup.trustQuestionsAddress.selectPage.submitLabel                            =  Parhau
