@@ -294,19 +294,6 @@ individualEmailAddress.error.length                                             
 individualEmailAddress.error.invalid                                                  =  Enter a valid email address in the correct format, like name@example.com
 individualEmailAddress.change.hidden                                                  =  email address
 
-individualChooseContactDetails.title                                                  =  Do you want to add contact details?
-individualChooseContactDetails.heading                                                =  What are the contact details for {0}?
-individualChooseContactDetails.hint                                                   =  Choose which method of contact you would like to add for this subcontractor. Contact details are only for your own records.
-individualChooseContactDetails.email                                                  =  Email address
-individualChooseContactDetails.phone                                                  =  Phone number
-individualChooseContactDetails.mobile                                                 =  Mobile number
-individualChooseContactDetails.or                                                     =  or
-individualChooseContactDetails.noDetails                                              =  Do not add any contact details for this subcontractor
-individualChooseContactDetails.cya.noDetails                                          =  None
-individualChooseContactDetails.error.required                                         =  Select whether you want to add contact details for this subcontractor
-individualChooseContactDetails.checkYourAnswersLabel                                  =  Method of contact
-individualChooseContactDetails.change.hidden                                          =  method of contact
-
 addressLookup.common.editPage.addressLine1.maxLength                                  =  Enter the first line of the address using {0} characters or less
 addressLookup.common.editPage.addressLine2.maxLength                                  =  Enter the second line of the address using {0} characters or less
 addressLookup.common.editPage.addressLine3.maxLength                                  =  Enter the third line of the address using {0} characters or less

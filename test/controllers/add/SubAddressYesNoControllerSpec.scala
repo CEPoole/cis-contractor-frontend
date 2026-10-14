@@ -113,33 +113,6 @@ class SubAddressYesNoControllerSpec extends SpecBase with MockitoSugar {
       }
     }
 
-    "must redirect to the IndividualChooseContactDetailsPage page when valid data with value No is submitted" in {
-
-      val mockSessionRepository = mock[SessionRepository]
-
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
-
-      val application =
-        applicationBuilder(userAnswers = Some(uaWithName))
-          .overrides(
-            bind[SessionRepository].toInstance(mockSessionRepository)
-          )
-          .build()
-
-      running(application) {
-        val request =
-          FakeRequest(POST, subAddressYesNoRoute)
-            .withFormUrlEncodedBody(("value", "false"))
-
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual controllers.add.routes.AddIndividualContactMethodsYesNoController
-          .onPageLoad(NormalMode)
-          .url
-      }
-    }
-
     "must return a Bad Request and errors when invalid data is submitted (name present)" in {
 
       val application = applicationBuilder(userAnswers = Some(uaWithName)).build()

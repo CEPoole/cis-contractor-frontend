@@ -293,19 +293,6 @@ individualEmailAddress.error.length                                             
 individualEmailAddress.error.invalid                                                  =  Nodwch gyfeiriad e-bost dilys yn y fformat cywir, fel enw@enghraifft.com
 individualEmailAddress.change.hidden                                                  =  cyfeiriad e-bost
 
-individualChooseContactDetails.title                                                  =  A ydych am ychwanegu manylion cyswllt?
-individualChooseContactDetails.heading                                                =  Beth yw'r manylion cyswllt ar gyfer {0}?
-individualChooseContactDetails.hint                                                   =  Dewiswch pa ddull cyswllt yr hoffech ei ychwanegu ar gyfer yr is-gontractwr hwn. Mae’r manylion cysylltu ar gyfer eich cofnodion chi yn unig.
-individualChooseContactDetails.email                                                  =  Cyfeiriad e-bost
-individualChooseContactDetails.phone                                                  =  rhif ffôn
-individualChooseContactDetails.mobile                                                 =  rhif ffôn symudol
-individualChooseContactDetails.or                                                     =  neu
-individualChooseContactDetails.noDetails                                              =  Peidiwch ag ychwanegu manylion cysylltu ar gyfer yr is-gontractwr hwn
-individualChooseContactDetails.cya.noDetails                                          =  xxxxxxxxxxxxxxxxxxxx
-individualChooseContactDetails.error.required                                         =  Dewiswch a ydych am ychwanegu manylion cysylltu ar gyfer yr is-gontractwr hwn
-individualChooseContactDetails.checkYourAnswersLabel                                  =  Dull o gysylltu
-individualChooseContactDetails.change.hidden                                          =  Dull o gysylltu
-
 addressLookup.common.editPage.addressLine1.maxLength                                  =  Nodwch linell gyntaf y cyfeiriad gan ddefnyddio {0} o gymeriadau neu lai
 addressLookup.common.editPage.addressLine2.maxLength                                  =  Nodwch ail linell y cyfeiriad gan ddefnyddio {0} o gymeriadau neu lai
 addressLookup.common.editPage.addressLine3.maxLength                                  =  Nodwch drydedd linell y cyfeiriad gan ddefnyddio {0} o gymeriadau neu lai
