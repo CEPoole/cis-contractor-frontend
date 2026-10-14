@@ -16,34 +16,28 @@
 
 package config
 
-import com.google.inject.AbstractModule
-import com.google.inject.name.Names
 import controllers.actions.*
+import play.api.inject.{Binding, Module as PlayModule}
+import play.api.{Configuration, Environment}
+import uk.gov.hmrc.crypto.{Decrypter, Encrypter}
 import utils.{ReferenceGenerator, ReferenceGeneratorImpl}
 
 import java.time.{Clock, ZoneOffset}
 
-class Module extends AbstractModule {
+class Module extends PlayModule {
 
-  override def configure(): Unit = {
-
-    bind(classOf[DataRetrievalAction]).to(classOf[DataRetrievalActionImpl]).asEagerSingleton()
-    bind(classOf[DataRequiredAction]).to(classOf[DataRequiredActionImpl]).asEagerSingleton()
-    bind(classOf[CisIdRequiredAction]).to(classOf[CisIdRequiredActionImpl]).asEagerSingleton()
-    bind(classOf[FormpRdsReconcileAction]).to(classOf[FormpRdsReconcileActionImpl]).asEagerSingleton()
-    bind(classOf[ReferenceGenerator]).to(classOf[ReferenceGeneratorImpl]).asEagerSingleton()
-
+  override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[?]] = Seq(
+    bind[DataRetrievalAction].to[DataRetrievalActionImpl].eagerly(),
+    bind[DataRequiredAction].to[DataRequiredActionImpl].eagerly(),
+    bind[CisIdRequiredAction].to[CisIdRequiredActionImpl].eagerly(),
+    bind[FormpRdsReconcileAction].to[FormpRdsReconcileActionImpl].eagerly(),
+    bind[ReferenceGenerator].to[ReferenceGeneratorImpl].eagerly(),
     // For session based storage instead of cred based, change to SessionIdentifierAction
-    bind(classOf[IdentifierAction]).to(classOf[AuthenticatedIdentifierAction]).asEagerSingleton()
-    bind(classOf[IdentifierAction])
-      .annotatedWith(Names.named("ContractorIdentifier"))
-      .to(classOf[ContractorIdentifierAction])
-      .asEagerSingleton()
-    bind(classOf[IdentifierAction])
-      .annotatedWith(Names.named("AgentIdentifier"))
-      .to(classOf[AgentIdentifierAction])
-      .asEagerSingleton()
-    bind(classOf[Clock]).toInstance(Clock.systemDefaultZone.withZone(ZoneOffset.UTC))
-    bind(classOf[RedirectVerifiedSubcontractorAction]).to(classOf[RedirectVerifiedSubcontractorActionImpl])
-  }
+    bind[IdentifierAction].to[AuthenticatedIdentifierAction].eagerly(),
+    bind[IdentifierAction].qualifiedWith("ContractorIdentifier").to[ContractorIdentifierAction].eagerly(),
+    bind[IdentifierAction].qualifiedWith("AgentIdentifier").to[AgentIdentifierAction].eagerly(),
+    bind[Clock].toInstance(Clock.systemDefaultZone.withZone(ZoneOffset.UTC)),
+    bind[RedirectVerifiedSubcontractorAction].to[RedirectVerifiedSubcontractorActionImpl],
+    bind[Encrypter with Decrypter].toProvider[CryptoProvider]
+  )
 }

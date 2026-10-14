@@ -17,10 +17,11 @@
 package repositories
 
 import config.FrontendAppConfig
-import models.UserAnswers
+import models.{SensitiveWrapper, UserAnswers, UserAnswersEncrypted}
 import org.mongodb.scala.bson.conversions.Bson
 import org.mongodb.scala.model._
 import play.api.libs.json.Format
+import uk.gov.hmrc.crypto.{Decrypter, Encrypter}
 import uk.gov.hmrc.mongo.MongoComponent
 import uk.gov.hmrc.mongo.play.json.PlayMongoRepository
 import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
@@ -35,12 +36,13 @@ import scala.concurrent.{ExecutionContext, Future}
 class SessionRepository @Inject() (
   mongoComponent: MongoComponent,
   appConfig: FrontendAppConfig,
-  clock: Clock
+  clock: Clock,
+  crypto: Encrypter with Decrypter
 )(implicit ec: ExecutionContext)
-    extends PlayMongoRepository[UserAnswers](
+    extends PlayMongoRepository[UserAnswersEncrypted](
       collectionName = "user-answers",
       mongoComponent = mongoComponent,
-      domainFormat = UserAnswers.format,
+      domainFormat = UserAnswersEncrypted.format(using crypto),
       indexes = Seq(
         IndexModel(
           Indexes.ascending("lastUpdated"),
@@ -70,6 +72,9 @@ class SessionRepository @Inject() (
         collection
           .find(byId(id))
           .headOption()
+          .map { result =>
+            result.map(_.toUserAnswers)
+          }
       }
     }
 
@@ -80,7 +85,11 @@ class SessionRepository @Inject() (
     collection
       .replaceOne(
         filter = byId(updatedAnswers.id),
-        replacement = updatedAnswers,
+        replacement = UserAnswersEncrypted(
+          updatedAnswers.id,
+          SensitiveWrapper(updatedAnswers.data),
+          updatedAnswers.lastUpdated
+        ),
         options = ReplaceOptions().upsert(true)
       )
       .toFuture()
