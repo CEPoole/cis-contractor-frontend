@@ -69,7 +69,9 @@ class ConstructionIndustrySchemeConnector @Inject() (config: ServicesConfig, htt
       .get(url"$cisBaseUrl/taxpayer")
       .execute[CisTaxpayerResponse]
       .map { response =>
-        logger.info(s"[ConstructionIndustrySchemeConnector][getCisTaxpayer] Response: $response")
+        logger.info(
+          s"[ConstructionIndustrySchemeConnector][getCisTaxpayer] Response received: uniqueId=${response.uniqueId}"
+        )
         response
       }
 
@@ -85,7 +87,8 @@ class ConstructionIndustrySchemeConnector @Inject() (config: ServicesConfig, htt
     }
 
     logger.info(
-      s"[ConstructionIndustrySchemeConnector][createAndUpdateSubcontractor] Payload: $jsonPayload"
+      s"[ConstructionIndustrySchemeConnector][createAndUpdateSubcontractor] " +
+        s"subcontractorType=${payload.subcontractorType}, cisId=${payload.cisId}"
     )
 
     http
@@ -108,7 +111,9 @@ class ConstructionIndustrySchemeConnector @Inject() (config: ServicesConfig, htt
       .get(url"$cisBaseUrl/subcontractors/utr/$cisId")
       .execute[GetSubcontractorUTRsResponse]
       .map { response =>
-        logger.info(s"[ConstructionIndustrySchemeConnector][getSubcontractorUTRs] Response: $response")
+        logger.info(
+          s"[ConstructionIndustrySchemeConnector][getSubcontractorUTRs] Retrieved ${response.subcontractorUTRs.size} UTRs for cisId=$cisId"
+        )
         response
       }
   }
