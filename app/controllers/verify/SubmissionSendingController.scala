@@ -164,12 +164,16 @@ class SubmissionSendingController @Inject() (
         )
 
       case status @ (DEPARTMENTAL_ERROR | FATAL_ERROR) =>
+        logger.error(
+          "[SubmissionSendingController][redirectForInitialSubmissionResponse] - " +
+            s"terminal error status=${status.value}, correlationId=${response.correlationId.getOrElse("none")}"
+        )
         Future.successful(redirectForErrorStatus(status, response.govTalkErrorStatus))
 
       case unexpectedStatus =>
         logger.error(
           "[SubmissionSendingController][redirectForInitialSubmissionResponse] - " +
-            s"unexpected submission status=${unexpectedStatus.value}"
+            s"unexpected submission status=${unexpectedStatus.value}, correlationId=${response.correlationId.getOrElse("none")}"
         )
         Future.successful(recovery)
     }
@@ -196,21 +200,32 @@ class SubmissionSendingController @Inject() (
         )
 
       case status @ (DEPARTMENTAL_ERROR | FATAL_ERROR) =>
+        logger.error(
+          "[SubmissionSendingController][redirectForPollSubmissionResponse] - " +
+            s"terminal error status=${status.value}, correlationId=${response.correlationId}"
+        )
         Future.successful(redirectForErrorStatus(status, response.govTalkErrorStatus))
 
       case SEND_ERROR =>
+        logger.error(
+          s"[SubmissionSendingController][redirectForPollSubmissionResponse] - SEND_ERROR, correlationId=${response.correlationId}"
+        )
         Future.successful(
           Redirect(
             controllers.verify.routes.VerifySendErrorController.onPageLoad()
           )
         )
 
-      case TIMED_OUT => Future.successful(Redirect(controllers.verify.routes.VerifySendErrorController.onPageLoad()))
+      case TIMED_OUT =>
+        logger.error(
+          s"[SubmissionSendingController][redirectForPollSubmissionResponse] - TIMED_OUT, correlationId=${response.correlationId}"
+        )
+        Future.successful(Redirect(controllers.verify.routes.VerifySendErrorController.onPageLoad()))
 
       case unexpectedStatus =>
         logger.error(
           "[SubmissionSendingController][redirectForPollSubmissionResponse] - " +
-            s"unexpected poll status=${unexpectedStatus.value}"
+            s"unexpected poll status=${unexpectedStatus.value}, correlationId=${response.correlationId}"
         )
         Future.successful(recovery)
     }
