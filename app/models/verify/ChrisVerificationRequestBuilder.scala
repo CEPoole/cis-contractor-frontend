@@ -70,6 +70,7 @@ class ChrisVerificationRequestBuilder @Inject() (
       verificationBatchId = verificationBatch.verificationBatchId.toString,
       verificationBatchResourceRef = verificationBatchResourceRef.toString,
       emailRecipient = VerifyEmailResolver.resolvedEmail(ua),
+      language = Some(messages.lang.code),
       subcontractors = currentBatchSubcontractors,
       verifications = currentVerificationBatch.verifications.map(v =>
         toVerificationDetails(v, v.subcontractorId.flatMap(subsById.get))
