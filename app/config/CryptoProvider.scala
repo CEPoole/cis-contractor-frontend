@@ -31,11 +31,10 @@ class CryptoProvider @Inject() (
     .getOptional[Boolean]("mongodb.encryption.enabled")
     .getOrElse(false)
 
-  override def get(): Encrypter with Decrypter = {
+  override def get(): Encrypter with Decrypter =
     if (mongodbEncryptionEnabled) {
       SymmetricCryptoFactory.aesGcmCryptoFromConfig(baseConfigKey = "mongodb.encryption", configuration.underlying)
     } else {
       fakeEncrypterDecrypter
     }
-  }
 }
