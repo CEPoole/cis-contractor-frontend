@@ -61,7 +61,6 @@ journeyRecovery.startAgain.guidance.p1                  =  Rhowch gynnig arall a
 journeyRecovery.startAgain.guidance.p2                  =  Nid yw’r wybodaeth sydd wedi cael ei rhoi gennych wedi cael ei chadw. Pan fydd y gwasanaeth ar gael, bydd yn rhaid i chi ddechrau eto.
 journeyRecovery.startAgain.guidance.contactHMRC.link    =  Cysylltwch â CThEF
 journeyRecovery.startAgain.guidance.contactHMRC.suffix  =  i gael rhagor o help.
-journeyRecovery.startAgain.guidance.cisAccount.prefix   =  Yn ôl i
 journeyRecovery.startAgain.guidance.cisAccount.link     =  Rheoli’ch cyfrif CIS
 
 signedOut.title                                         =  Er eich diogelwch, gwnaethom eich allgofnodi
@@ -1159,7 +1158,7 @@ verify.verifyYourSubcontractorsYesNo.heading2                                   
 
 verify.noSubcontractorsAdded.title                                                 =  Heb ychwanegu is-gontractwr
 verify.noSubcontractorsAdded.heading                                               =  Dilysu’ch is-gontractwyr
-verify.noSubcontractorsAdded.p1                                                    =  Nid oes gennych unrhyw is-gontractwyr ar hyn o bryd.
+verify.noSubcontractorsAdded.p1                                                    =  Does dim is-gontractwyr gennych ar hyn o bryd.
 verify.noSubcontractorsAdded.p2                                                    =  Bydd angen i chi
 verify.noSubcontractorsAdded.p2.link                                               =  ychwanegu is-gontractwyr yn gyntaf
 verify.noSubcontractorsAdded.p2.end                                                =  cyn y gallwch greu cais dilysu neu ddatganiad misol.
