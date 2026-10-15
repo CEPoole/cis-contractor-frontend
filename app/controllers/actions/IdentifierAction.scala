@@ -20,7 +20,6 @@ import com.google.inject.Inject
 import config.FrontendAppConfig
 import connectors.RateLimitedAllowListConnector
 import controllers.routes
-import models.EmployerReference
 import models.requests.IdentifierRequest
 import play.api.Logging
 import play.api.mvc.Results.*
@@ -63,7 +62,8 @@ class AuthenticatedIdentifierAction @Inject() (
         case Some(internalId) ~ Enrolments(enrolments) ~ Some(Organisation) ~ Some(User) =>
           hasCisOrgEnrolment(enrolments)
             .map { employerReference =>
-              checkAllowList(employerReference).flatMap {
+              val identifier = s"${employerReference.taxOfficeNumber}/${employerReference.taxOfficeReference}"
+              checkAllowList(identifier).flatMap {
                 case false => Future.successful(Redirect(config.legacyCisServiceUrl))
                 case true  => block(IdentifierRequest(request, internalId, Some(employerReference), None))
               }
@@ -84,10 +84,13 @@ class AuthenticatedIdentifierAction @Inject() (
         case Some(internalId) ~ Enrolments(enrolments) ~ Some(Agent) ~ _                 =>
           hasCisAgentEnrolment(enrolments)
             .map { agentReference =>
-              val identifierRequest =
-                IdentifierRequest(request, internalId, None, Some(agentReference), true)
-
-              clientListCheckEnforcer(identifierRequest)(block)
+              checkAllowList(agentReference).flatMap {
+                case false => Future.successful(Redirect(config.legacyCisServiceUrl))
+                case true  =>
+                  val identifierRequest =
+                    IdentifierRequest(request, internalId, None, Some(agentReference), true)
+                  clientListCheckEnforcer(identifierRequest)(block)
+              }
             }
             .getOrElse(
               Future.successful(
@@ -106,12 +109,10 @@ class AuthenticatedIdentifierAction @Inject() (
     }
   }
 
-  private def checkAllowList(employerReference: EmployerReference)(implicit hc: HeaderCarrier): Future[Boolean] =
-    if (config.useRateLimitedAllowList) {
-      val identifier = s"${employerReference.taxOfficeNumber}/${employerReference.taxOfficeReference}"
+  private def checkAllowList(identifier: String)(implicit hc: HeaderCarrier): Future[Boolean] =
+    if (config.useRateLimitedAllowList)
       rateLimitedAllowListConnector.checkAllowList(config.splitterServiceName, config.splitterAllowListName, identifier)
-    } else {
+    else
       Future.successful(true)
-    }
 
 }

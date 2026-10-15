@@ -583,8 +583,8 @@ class AuthActionSpec extends SpecBase {
         }
       }
 
-      "and the user is an agent" - {
-        "must bypass the allow list check and proceed" in {
+      "and the agent is on the allow list" - {
+        "must allow the agent into the service" in {
           val enrolments = Enrolments(
             Set(
               Enrolment(
@@ -599,6 +599,8 @@ class AuthActionSpec extends SpecBase {
           )
           when(mockAuthConnector.authorise[RetrievalsType](any(), any())(any(), any()))
             .thenReturn(Future.successful(Some(id) ~ enrolments ~ Some(Agent) ~ None))
+          when(mockRateLimitedAllowListConnector.checkAllowList(any(), any(), any())(any()))
+            .thenReturn(Future.successful(true))
           running(applicationWithSplitter) {
             val authAction =
               new AuthenticatedIdentifierAction(
@@ -612,6 +614,42 @@ class AuthActionSpec extends SpecBase {
             val result     = controller.onPageLoad()(FakeRequest())
 
             status(result) mustBe OK
+          }
+        }
+      }
+
+      "and the agent is not on the allow list" - {
+        "must redirect to the legacy CIS service" in {
+          val enrolments = Enrolments(
+            Set(
+              Enrolment(
+                "IR-PAYE-AGENT",
+                Seq(
+                  EnrolmentIdentifier("IRAgentReference", "123456")
+                ),
+                "activated",
+                None
+              )
+            )
+          )
+          when(mockAuthConnector.authorise[RetrievalsType](any(), any())(any(), any()))
+            .thenReturn(Future.successful(Some(id) ~ enrolments ~ Some(Agent) ~ None))
+          when(mockRateLimitedAllowListConnector.checkAllowList(any(), any(), any())(any()))
+            .thenReturn(Future.successful(false))
+          running(applicationWithSplitter) {
+            val authAction =
+              new AuthenticatedIdentifierAction(
+                mockAuthConnector,
+                appConfigWithSplitter,
+                bodyParsers,
+                clientListCheckEnforcer,
+                mockRateLimitedAllowListConnector
+              )
+            val controller = new Harness(authAction)
+            val result     = controller.onPageLoad()(FakeRequest())
+
+            status(result) mustBe SEE_OTHER
+            redirectLocation(result).value mustBe legacyCisServiceUrl
           }
         }
       }
