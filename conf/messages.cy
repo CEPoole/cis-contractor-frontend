@@ -1107,7 +1107,7 @@ verify.selectSubcontractor.title                                                
 verify.selectSubcontractor.heading                                                 =  Pa is-gontractwyr ydych am eu dilysu?
 verify.selectSubcontractor.hint                                                    =  Dewiswch yr is-gontractwyr sydd heb eu dilysu rydych am eu hychwanegu at y cais dilysu hwn.
 verify.selectSubcontractor.error.required                                          =  Dewiswch o leiaf un is-gontractwr i’w ddilysu
-verify.selectSubcontractor.error.maxSelected                                       =  xxxxxxxxxxxxxxxxxxxx
+verify.selectSubcontractor.error.maxSelected                                       =  Gallwch gynnwys hyd at 100 o is-gontractwyr yn unig mewn cais dilysu
 verify.selectSubcontractor.checkYourAnswersLabel                                   =  Is-gontractwyr i’w dilysu
 verify.selectSubcontractor.showingResults                                          =  Yn dangos canlyniad {0} i {1} allan o {2}
 verify.selectSubcontractor.change.hidden                                           =  Is-gontractwyr i’w dilysu
@@ -1139,7 +1139,7 @@ verify.selectSubcontractorsToReverify.dateAdded                                 
 verify.selectSubcontractorsToReverify.taxTreatment.net                             =  Cyfradd safonol
 verify.selectSubcontractorsToReverify.taxTreatment.unmatched                       =  Cyfradd uwch
 verify.selectSubcontractorsToReverify.taxTreatment.gross                           =  Gros
-verify.selectSubcontractorsToReverify.error.maxSelected                            =  xxxxxxxxxxxxxxxxxxxx
+verify.selectSubcontractorsToReverify.error.maxSelected                            =  Gallwch gynnwys hyd at 100 o is-gontractwyr yn unig mewn cais dilysu
 verify.selectSubcontractorsToReverify.checkYourAnswersLabel                        =  Is-gontractwyr i’w dilysu eto
 verify.selectSubcontractorsToReverify.change.hidden                                =  Is-gontractwyr i’w dilysu eto
 verify.selectSubcontractorsToReverify.showingResults                               =  Yn dangos canlyniad {0} i {1} allan o {2}
