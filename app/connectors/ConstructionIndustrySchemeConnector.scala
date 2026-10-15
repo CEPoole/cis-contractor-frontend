@@ -69,7 +69,9 @@ class ConstructionIndustrySchemeConnector @Inject() (config: ServicesConfig, htt
       .get(url"$cisBaseUrl/taxpayer")
       .execute[CisTaxpayerResponse]
       .map { response =>
-        logger.info(s"[ConstructionIndustrySchemeConnector][getCisTaxpayer] Response: $response")
+        logger.info(
+          s"[ConstructionIndustrySchemeConnector][getCisTaxpayer] Response received: uniqueId=${response.uniqueId}"
+        )
         response
       }
 
@@ -85,7 +87,8 @@ class ConstructionIndustrySchemeConnector @Inject() (config: ServicesConfig, htt
     }
 
     logger.info(
-      s"[ConstructionIndustrySchemeConnector][createAndUpdateSubcontractor] Payload: $jsonPayload"
+      s"[ConstructionIndustrySchemeConnector][createAndUpdateSubcontractor] " +
+        s"subcontractorType=${payload.subcontractorType}, cisId=${payload.cisId}"
     )
 
     http
@@ -108,7 +111,9 @@ class ConstructionIndustrySchemeConnector @Inject() (config: ServicesConfig, htt
       .get(url"$cisBaseUrl/subcontractors/utr/$cisId")
       .execute[GetSubcontractorUTRsResponse]
       .map { response =>
-        logger.info(s"[ConstructionIndustrySchemeConnector][getSubcontractorUTRs] Response: $response")
+        logger.info(
+          s"[ConstructionIndustrySchemeConnector][getSubcontractorUTRs] Retrieved ${response.subcontractorUTRs.size} UTRs for cisId=$cisId"
+        )
         response
       }
   }
@@ -282,6 +287,13 @@ class ConstructionIndustrySchemeConnector @Inject() (config: ServicesConfig, htt
       .post(url"$cisBaseUrl/submissions/$submissionId/submit-verification-to-chris")
       .withBody(Json.toJson(request))
       .execute[ChrisSubmissionResponse]
+      .map { response =>
+        logger.info(
+          s"[ConstructionIndustrySchemeConnector][submitVerificationToChris] " +
+            s"submissionId=$submissionId, status=${response.status}, correlationId=${response.correlationId.getOrElse("none")}"
+        )
+        response
+      }
 
   def getSubmissionStatus(
     pollUrl: String,
@@ -290,6 +302,13 @@ class ConstructionIndustrySchemeConnector @Inject() (config: ServicesConfig, htt
     http
       .get(url"$cisBaseUrl/submissions/verification/poll?submissionId=$submissionId&pollUrl=$pollUrl")
       .execute[ChrisPollResponse]
+      .map { response =>
+        logger.info(
+          s"[ConstructionIndustrySchemeConnector][getSubmissionStatus] " +
+            s"submissionId=$submissionId, status=${response.status}, correlationId=${response.correlationId}"
+        )
+        response
+      }
 
   def getSubcontractor(
     cisId: String,
