@@ -20,6 +20,7 @@ import base.SpecBase
 import connectors.ConstructionIndustrySchemeConnector
 import generators.ModelGenerators
 import models.*
+import models.agent.AgentClientData
 import models.requests.*
 import models.response.*
 import models.verify.ContractorEmailConfirmationStored.DifferentEmail
@@ -1180,11 +1181,113 @@ final class VerificationServiceSpec extends SpecBase with MockitoSugar with Mode
 
       result mustBe chrisResponse
 
-      verify(mockConnector).createSubmissionForVerification(any[CreateSubmissionForVerificationRequest])(
-        any[HeaderCarrier]
-      )
+      val createRequestCaptor: ArgumentCaptor[CreateSubmissionForVerificationRequest] =
+        ArgumentCaptor.forClass(classOf[CreateSubmissionForVerificationRequest])
+
+      verify(mockConnector).createSubmissionForVerification(createRequestCaptor.capture())(any[HeaderCarrier])
+      createRequestCaptor.getValue.agentId mustBe Some("-")
       verify(mockConnector).submitVerificationToChris(eqTo(13602L), eqTo(chrisRequest))(any[HeaderCarrier])
       verify(mockRepo, times(2)).set(any[UserAnswers])
+    }
+
+    "must set agentId to the agent reference when the user is an agent" in {
+      val mockConnector      = mock[ConstructionIndustrySchemeConnector]
+      val mockRepo           = mock[SessionRepository]
+      val mockManage         = mock[CisManageService]
+      val mockRequestBuilder = mock[ChrisVerificationRequestBuilder]
+      val service            = buildService(
+        mockConnector,
+        mockRepo,
+        manageService = mockManage,
+        requestBuilder = mockRequestBuilder
+      )
+
+      val currentBatch =
+        GetCurrentVerificationBatchResponse(
+          subcontractors = Seq.empty,
+          verificationBatch = Some(
+            VerificationBatchCurrentVerification(
+              verificationBatchId = 999L,
+              verifBatchResourceRef = Some(7777L)
+            )
+          ),
+          verifications = Seq.empty
+        )
+
+      val ua =
+        emptyUserAnswers
+          .set(CisIdQuery, instanceId)
+          .success
+          .value
+          .set(CurrentVerificationBatchResponsePage, currentBatch)
+          .success
+          .value
+
+      implicit val request: DataRequest[AnyContent] =
+        DataRequest(
+          request = FakeRequest(),
+          userId = "user-id",
+          userAnswers = ua,
+          isAgent = true,
+          agentReference = Some("A12345")
+        )
+
+      val chrisRequest =
+        ChrisVerificationRequest(
+          instanceId = instanceId,
+          isAgent = true,
+          clientTaxOfficeNumber = "123",
+          clientTaxOfficeRef = "AB456",
+          contractorUTR = "1234567890",
+          contractorAORef = "AO123",
+          verificationBatchId = "999",
+          verificationBatchResourceRef = "7777",
+          emailRecipient = None,
+          language = None,
+          subcontractors = Seq.empty,
+          verifications = Seq.empty
+        )
+
+      val chrisResponse =
+        ChrisSubmissionResponse(
+          submissionId = "13602",
+          status = "ACCEPTED",
+          hmrcMarkGenerated = "hmrc-mark",
+          correlationId = Some("corr-id"),
+          responseEndPoint = Some(ResponseEndPointDto("http://localhost/poll", 5)),
+          gatewayTimestamp = Some("2026-06-15T03:30:52")
+        )
+
+      when(mockConnector.getCurrentVerificationBatch(eqTo(instanceId))(any[HeaderCarrier]))
+        .thenReturn(Future.successful(currentBatch))
+
+      when(mockManage.getAgentClient(eqTo("user-id"))(any[HeaderCarrier]))
+        .thenReturn(Future.successful(Some(AgentClientData("uid", "123", "AB456", None))))
+
+      when(
+        mockConnector.createSubmissionForVerification(any[CreateSubmissionForVerificationRequest])(any[HeaderCarrier])
+      ).thenReturn(Future.successful(CreateSubmissionForVerificationResponse(13602L)))
+
+      when(
+        mockRequestBuilder.build(any[UserAnswers], eqTo(true), eqTo(EmployerReference("123", "AB456")))(
+          any[HeaderCarrier],
+          any[Messages]
+        )
+      ).thenReturn(Future.successful(chrisRequest))
+
+      when(mockConnector.submitVerificationToChris(eqTo(13602L), eqTo(chrisRequest))(any[HeaderCarrier]))
+        .thenReturn(Future.successful(chrisResponse))
+
+      when(mockRepo.set(any[UserAnswers]))
+        .thenReturn(Future.successful(true))
+
+      service.createSubmitAndPersistVerificationSubmission.futureValue mustBe chrisResponse
+
+      val createRequestCaptor: ArgumentCaptor[CreateSubmissionForVerificationRequest] =
+        ArgumentCaptor.forClass(classOf[CreateSubmissionForVerificationRequest])
+
+      verify(mockConnector).createSubmissionForVerification(createRequestCaptor.capture())(any[HeaderCarrier])
+      createRequestCaptor.getValue.agentId mustBe Some("A12345")
     }
   }
 

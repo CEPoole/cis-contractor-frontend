@@ -26,8 +26,12 @@ import viewmodels.verify.SubcontractorDisplay
 
 object CreateSubmissionForVerificationRequestBuilder {
 
+  private val OrganisationAgentId = "-"
+
   def build(
-    ua: models.UserAnswers
+    ua: models.UserAnswers,
+    isAgent: Boolean,
+    agentReference: Option[String]
   )(implicit messages: Messages): Either[String, CreateSubmissionForVerificationRequest] =
     for {
       instanceId <- ua.get(CisIdQuery).toRight("CisIdQuery not found")
@@ -36,6 +40,7 @@ object CreateSubmissionForVerificationRequestBuilder {
       batchId  <- current.verificationBatch.map(_.verificationBatchId).toRight("verificationBatchId missing")
       batchRef <-
         current.verificationBatch.flatMap(_.verifBatchResourceRef).toRight("verificationBatchResourceRef missing")
+      agentId  <- resolveAgentId(isAgent, agentReference)
     } yield {
       val email: Option[String] = VerifyEmailResolver.resolvedEmail(ua)
 
@@ -60,8 +65,15 @@ object CreateSubmissionForVerificationRequestBuilder {
         emailRecipient = email,
         irMarkGenerated = None,
         verifications = verifications,
-        agentId = None
+        agentId = Some(agentId)
       )
+    }
+
+  private def resolveAgentId(isAgent: Boolean, agentReference: Option[String]): Either[String, String] =
+    if (isAgent) {
+      agentReference.map(_.trim).filter(_.nonEmpty).toRight("Agent reference missing")
+    } else {
+      Right(OrganisationAgentId)
     }
 
   // "Y" when the user chose to proceed without meeting the minimum data requirements (VERIFICATION.PROCEED), else "N".

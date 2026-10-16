@@ -313,7 +313,7 @@ class VerificationService @Inject() (
   ): Future[ChrisSubmissionResponse] =
     for {
       latestUa      <- getCurrentVerificationBatch(request.userAnswers)
-      createRequest <- buildCreateSubmissionRequest(latestUa)
+      createRequest <- buildCreateSubmissionRequest(latestUa, request.isAgent, request.agentReference)
       submissionId  <- createSubmissionForVerification(createRequest).map(_.submissionId)
       response      <- submitVerificationToChris(submissionId, latestUa)
       updatedUa     <- saveVerificationSubmissionDetailsToSession(latestUa, response)
@@ -384,10 +384,12 @@ class VerificationService @Inject() (
     } yield result
 
   private def buildCreateSubmissionRequest(
-    ua: UserAnswers
+    ua: UserAnswers,
+    isAgent: Boolean,
+    agentReference: Option[String]
   )(implicit messages: Messages): Future[CreateSubmissionForVerificationRequest] =
     CreateSubmissionForVerificationRequestBuilder
-      .build(ua)
+      .build(ua, isAgent, agentReference)
       .fold(
         error => Future.failed(new RuntimeException(error)),
         request => Future.successful(request)

@@ -30,85 +30,90 @@ class CreateSubmissionForVerificationRequestBuilderSpec extends SpecBase {
 
   implicit private val msgs: Messages = messages(app)
 
+  private def verificationUserAnswers: UserAnswers = {
+    val currentBatch = GetCurrentVerificationBatchResponse(
+      subcontractors = Seq(
+        SubcontractorCurrentVerification(
+          subcontractorId = 10L,
+          subbieResourceRef = Some(4001L),
+          firstName = Some("Test"),
+          secondName = None,
+          surname = Some("Subcontractor"),
+          tradingName = None,
+          utr = Some("1234567890"),
+          nino = None,
+          crn = None,
+          partnerUtr = None,
+          partnershipTradingName = None,
+          subcontractorType = Some("Individual"),
+          addressLine1 = None,
+          addressLine2 = None,
+          addressLine3 = None,
+          addressLine4 = None,
+          country = None,
+          postcode = None,
+          emailAddress = None,
+          phoneNumber = None,
+          mobilePhoneNumber = None,
+          worksReferenceNumber = None,
+          matched = None,
+          autoVerified = None,
+          verified = None,
+          verificationNumber = None,
+          taxTreatment = None,
+          verificationDate = None,
+          version = None,
+          updatedTaxTreatment = None,
+          lastMonthlyReturnDate = None,
+          pendingVerifications = None
+        )
+      ),
+      verificationBatch = Some(
+        VerificationBatchCurrentVerification(
+          verificationBatchId = 1001L,
+          verifBatchResourceRef = Some(2001L)
+        )
+      ),
+      verifications = Seq(
+        VerificationCurrentVerification(
+          verificationId = 3001L,
+          verificationBatchId = Some(1001L),
+          subcontractorId = Some(10L),
+          verificationResourceRef = Some(4001L),
+          subcontractorName = None,
+          verificationNumber = None,
+          taxTreatment = None,
+          actionIndicator = None,
+          proceed = Some("Y"),
+          matched = None
+        )
+      )
+    )
+
+    emptyUserAnswers
+      .set(CisIdQuery, "1")
+      .success
+      .value
+      .set(CurrentVerificationBatchResponsePage, currentBatch)
+      .success
+      .value
+      .set(ContractorEmailConfirmationStoredPage, DifferentEmail)
+      .success
+      .value
+      .set(EmailAddressPage, "test@test.com")
+      .success
+      .value
+  }
+
   "CreateSubmissionForVerificationRequestBuilder" - {
 
     "must build request from user answers" in {
-      val currentBatch = GetCurrentVerificationBatchResponse(
-        subcontractors = Seq(
-          SubcontractorCurrentVerification(
-            subcontractorId = 10L,
-            subbieResourceRef = Some(4001L),
-            firstName = Some("Test"),
-            secondName = None,
-            surname = Some("Subcontractor"),
-            tradingName = None,
-            utr = Some("1234567890"),
-            nino = None,
-            crn = None,
-            partnerUtr = None,
-            partnershipTradingName = None,
-            subcontractorType = Some("Individual"),
-            addressLine1 = None,
-            addressLine2 = None,
-            addressLine3 = None,
-            addressLine4 = None,
-            country = None,
-            postcode = None,
-            emailAddress = None,
-            phoneNumber = None,
-            mobilePhoneNumber = None,
-            worksReferenceNumber = None,
-            matched = None,
-            autoVerified = None,
-            verified = None,
-            verificationNumber = None,
-            taxTreatment = None,
-            verificationDate = None,
-            version = None,
-            updatedTaxTreatment = None,
-            lastMonthlyReturnDate = None,
-            pendingVerifications = None
-          )
-        ),
-        verificationBatch = Some(
-          VerificationBatchCurrentVerification(
-            verificationBatchId = 1001L,
-            verifBatchResourceRef = Some(2001L)
-          )
-        ),
-        verifications = Seq(
-          VerificationCurrentVerification(
-            verificationId = 3001L,
-            verificationBatchId = Some(1001L),
-            subcontractorId = Some(10L),
-            verificationResourceRef = Some(4001L),
-            subcontractorName = None,
-            verificationNumber = None,
-            taxTreatment = None,
-            actionIndicator = None,
-            proceed = Some("Y"),
-            matched = None
-          )
-        )
-      )
-
-      val ua =
-        emptyUserAnswers
-          .set(CisIdQuery, "1")
-          .success
-          .value
-          .set(CurrentVerificationBatchResponsePage, currentBatch)
-          .success
-          .value
-          .set(ContractorEmailConfirmationStoredPage, DifferentEmail)
-          .success
-          .value
-          .set(EmailAddressPage, "test@test.com")
-          .success
-          .value
-
       val result =
-        CreateSubmissionForVerificationRequestBuilder.build(ua) match {
+        CreateSubmissionForVerificationRequestBuilder.build(
+          verificationUserAnswers,
+          isAgent = false,
+          agentReference = None
+        ) match {
           case Right(value) => value
           case Left(error)  => fail(s"Expected Right, but got Left($error)")
         }
@@ -126,8 +131,35 @@ class CreateSubmissionForVerificationRequestBuilderSpec extends SpecBase {
             proceedVerification = "Y"
           )
         ),
-        agentId = None
+        agentId = Some("-")
       )
+    }
+
+    "must set agentId to the agent reference when the user is an agent" in {
+      val result =
+        CreateSubmissionForVerificationRequestBuilder.build(
+          verificationUserAnswers,
+          isAgent = true,
+          agentReference = Some(" A12345 ")
+        ) match {
+          case Right(value) => value
+          case Left(error)  => fail(s"Expected Right, but got Left($error)")
+        }
+
+      result.agentId mustBe Some("A12345")
+    }
+
+    "must fail when an agent has no agent reference" in {
+      Seq(None, Some("  ")).foreach { agentReference =>
+        CreateSubmissionForVerificationRequestBuilder.build(
+          verificationUserAnswers,
+          isAgent = true,
+          agentReference = agentReference
+        ) match {
+          case Left(error)  => error mustBe "Agent reference missing"
+          case Right(value) => fail(s"Expected Left, but got Right($value)")
+        }
+      }
     }
 
     "must fail when current batch is missing" in {
@@ -143,7 +175,7 @@ class CreateSubmissionForVerificationRequestBuilderSpec extends SpecBase {
           .success
           .value
 
-      CreateSubmissionForVerificationRequestBuilder.build(ua) match {
+      CreateSubmissionForVerificationRequestBuilder.build(ua, isAgent = false, agentReference = None) match {
         case Left(error) =>
           error mustBe "CurrentVerificationBatchResponsePage not found"
 
