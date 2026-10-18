@@ -18,7 +18,6 @@ package controllers.actions
 
 import com.google.inject.Inject
 import config.FrontendAppConfig
-import connectors.RateLimitedAllowListConnector
 import controllers.routes
 import models.requests.IdentifierRequest
 import play.api.Logging
@@ -44,8 +43,7 @@ class AuthenticatedIdentifierAction @Inject() (
   override val authConnector: AuthConnector,
   config: FrontendAppConfig,
   val parser: BodyParsers.Default,
-  clientListCheckEnforcer: ClientListCheckEnforcer,
-  rateLimitedAllowListConnector: RateLimitedAllowListConnector
+  clientListCheckEnforcer: ClientListCheckEnforcer
 )(implicit val executionContext: ExecutionContext)
     extends IdentifierAction
     with AuthorisedFunctions
@@ -62,11 +60,7 @@ class AuthenticatedIdentifierAction @Inject() (
         case Some(internalId) ~ Enrolments(enrolments) ~ Some(Organisation) ~ Some(User) =>
           hasCisOrgEnrolment(enrolments)
             .map { employerReference =>
-              val identifier = s"${employerReference.taxOfficeNumber}/${employerReference.taxOfficeReference}"
-              checkAllowList(identifier).flatMap {
-                case false => Future.successful(Redirect(config.legacyCisServiceUrl))
-                case true  => block(IdentifierRequest(request, internalId, Some(employerReference), None))
-              }
+              block(IdentifierRequest(request, internalId, Some(employerReference), None))
             }
             .getOrElse(
               Future.successful(
@@ -84,13 +78,9 @@ class AuthenticatedIdentifierAction @Inject() (
         case Some(internalId) ~ Enrolments(enrolments) ~ Some(Agent) ~ _                 =>
           hasCisAgentEnrolment(enrolments)
             .map { agentReference =>
-              checkAllowList(agentReference).flatMap {
-                case false => Future.successful(Redirect(config.legacyCisServiceUrl))
-                case true  =>
-                  val identifierRequest =
-                    IdentifierRequest(request, internalId, None, Some(agentReference), true)
-                  clientListCheckEnforcer(identifierRequest)(block)
-              }
+              val identifierRequest =
+                IdentifierRequest(request, internalId, None, Some(agentReference), true)
+              clientListCheckEnforcer(identifierRequest)(block)
             }
             .getOrElse(
               Future.successful(
@@ -108,11 +98,5 @@ class AuthenticatedIdentifierAction @Inject() (
         Redirect(routes.UnauthorisedController.onPageLoad())
     }
   }
-
-  private def checkAllowList(identifier: String)(implicit hc: HeaderCarrier): Future[Boolean] =
-    if (config.useRateLimitedAllowList)
-      rateLimitedAllowListConnector.checkAllowList(config.splitterServiceName, config.splitterAllowListName, identifier)
-    else
-      Future.successful(true)
 
 }
