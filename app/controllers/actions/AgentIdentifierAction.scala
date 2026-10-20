@@ -53,19 +53,19 @@ class AgentIdentifierAction @Inject() (
     authorised(defaultPredicate)
       .retrieve(
         Retrievals.internalId and Retrievals.allEnrolments
-          and Retrievals.affinityGroup and Retrievals.credentialRole and Retrievals.agentCode
+          and Retrievals.affinityGroup and Retrievals.agentCode
       ) {
-        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Organisation) ~ _ ~ _  =>
+        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Organisation) ~ _  =>
           logger.info("AgentIdentifierAction - Organisation login attempt")
           Future.successful(
             Redirect(controllers.routes.UnauthorisedController.onPageLoad())
           )
-        case Some(_) ~ _ ~ Some(Individual) ~ _ ~ _                                  =>
+        case Some(_) ~ _ ~ Some(Individual) ~ _                                  =>
           logger.info("AgentIdentifierAction - Individual login attempt")
           Future.successful(
             Redirect(controllers.routes.UnauthorisedIndividualAffinityController.onPageLoad())
           )
-        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Agent) ~ _ ~ agentCode =>
+        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Agent) ~ agentCode =>
           hasCisAgentEnrolment(enrolments)
             .map { agentReference =>
               val identifierRequest =
@@ -78,7 +78,7 @@ class AgentIdentifierAction @Inject() (
                 Redirect(controllers.routes.UnauthorisedAgentAffinityController.onPageLoad())
               )
             )
-        case _                                                                       =>
+        case _                                                                   =>
           logger.warn("AgentIdentifierAction - Unable to retrieve internal id or affinity group")
           Future.successful(Redirect(routes.UnauthorisedController.onPageLoad()))
       } recover {

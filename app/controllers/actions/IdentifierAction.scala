@@ -55,9 +55,9 @@ class AuthenticatedIdentifierAction @Inject() (
     authorised(defaultPredicate)
       .retrieve(
         Retrievals.internalId and Retrievals.allEnrolments
-          and Retrievals.affinityGroup and Retrievals.credentialRole
+          and Retrievals.affinityGroup
       ) {
-        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Organisation) ~ _ =>
+        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Organisation) =>
           hasCisOrgEnrolment(enrolments)
             .map { employerReference =>
               block(IdentifierRequest(request, internalId, Some(employerReference), None))
@@ -67,12 +67,12 @@ class AuthenticatedIdentifierAction @Inject() (
                 Redirect(controllers.routes.UnauthorisedOrganisationAffinityController.onPageLoad())
               )
             )
-        case Some(_) ~ _ ~ Some(Individual) ~ _                                 =>
+        case Some(_) ~ _ ~ Some(Individual)                                 =>
           logger.info("EnrolmentAuthIdentifierAction - Individual login attempt")
           Future.successful(
             Redirect(controllers.routes.UnauthorisedIndividualAffinityController.onPageLoad())
           )
-        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Agent) ~ _        =>
+        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Agent)        =>
           hasCisAgentEnrolment(enrolments)
             .map { agentReference =>
               val identifierRequest =
@@ -84,7 +84,7 @@ class AuthenticatedIdentifierAction @Inject() (
                 Redirect(controllers.routes.UnauthorisedAgentAffinityController.onPageLoad())
               )
             )
-        case _                                                                  =>
+        case _                                                              =>
           logger.warn("EnrolmentAuthIdentifierAction - Unable to retrieve internal id or affinity group")
           Future.successful(Redirect(routes.UnauthorisedController.onPageLoad()))
       } recover {

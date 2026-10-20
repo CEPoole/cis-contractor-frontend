@@ -46,7 +46,7 @@ class ContractorIdentificationActionSpec extends SpecBase {
   private val emptyEnrolments                  = Enrolments(Set.empty)
   private val id: String                       = UUID.randomUUID().toString
 
-  type RetrievalsType = Option[String] ~ Enrolments ~ Option[AffinityGroup] ~ Option[CredentialRole]
+  type RetrievalsType = Option[String] ~ Enrolments ~ Option[AffinityGroup]
 
   class Harness(authAction: IdentifierAction) {
     def onPageLoad(): Action[AnyContent] = authAction(_ => Results.Ok)
@@ -176,7 +176,7 @@ class ContractorIdentificationActionSpec extends SpecBase {
     "the user is logged in as an agent" - {
       "fail and redirect to unauthorised screen" in {
         when(mockAuthConnector.authorise[RetrievalsType](any(), any())(any(), any()))
-          .thenReturn(Future.successful(Some(id) ~ emptyEnrolments ~ Some(Agent) ~ None))
+          .thenReturn(Future.successful(Some(id) ~ emptyEnrolments ~ Some(Agent)))
         running(application) {
           val authAction = new ContractorIdentifierAction(mockAuthConnector, appConfig, bodyParsers)
           val controller = new Harness(authAction)
@@ -194,7 +194,7 @@ class ContractorIdentificationActionSpec extends SpecBase {
       "fail and redirect to unauthorised individual affinity screen" in {
         when(mockAuthConnector.authorise[RetrievalsType](any(), any())(any(), any()))
           .thenReturn(
-            Future.successful(Some(id) ~ emptyEnrolments ~ Some(Individual) ~ Some(Assistant))
+            Future.successful(Some(id) ~ emptyEnrolments ~ Some(Individual))
           )
         running(application) {
           val authAction = new ContractorIdentifierAction(mockAuthConnector, appConfig, bodyParsers)
@@ -205,25 +205,6 @@ class ContractorIdentificationActionSpec extends SpecBase {
           redirectLocation(
             result
           ).value mustBe controllers.routes.UnauthorisedIndividualAffinityController.onPageLoad().url
-        }
-      }
-    }
-
-    "the user is logged in as an organisation assistant" - {
-      "ignore the credential role and redirect to unauthorised organisation affinity screen when there is no CIS enrolment" in {
-        when(mockAuthConnector.authorise[RetrievalsType](any(), any())(any(), any()))
-          .thenReturn(
-            Future.successful(Some(id) ~ emptyEnrolments ~ Some(Organisation) ~ Some(Assistant))
-          )
-        running(application) {
-          val authAction = new ContractorIdentifierAction(mockAuthConnector, appConfig, bodyParsers)
-          val controller = new Harness(authAction)
-          val result     = controller.onPageLoad()(FakeRequest())
-
-          status(result) mustBe SEE_OTHER
-          redirectLocation(result).value mustBe controllers.routes.UnauthorisedOrganisationAffinityController
-            .onPageLoad()
-            .url
         }
       }
     }
@@ -247,34 +228,7 @@ class ContractorIdentificationActionSpec extends SpecBase {
             )
             when(mockAuthConnector.authorise[RetrievalsType](any(), any())(any(), any()))
               .thenReturn(
-                Future.successful(Some(id) ~ enrolments ~ Some(Organisation) ~ Some(User))
-              )
-            running(application) {
-              val authAction = new ContractorIdentifierAction(mockAuthConnector, appConfig, bodyParsers)
-              val controller = new Harness(authAction)
-              val result     = controller.onPageLoad()(FakeRequest())
-
-              status(result) mustBe OK
-            }
-          }
-
-          "when an organisation assistant has a HMRC-CIS-ORG enrolment with the correct activated identifiers" in {
-            val enrolments = Enrolments(
-              Set(
-                Enrolment(
-                  "HMRC-CIS-ORG",
-                  Seq(
-                    EnrolmentIdentifier("TaxOfficeNumber", "754"),
-                    EnrolmentIdentifier("TaxOfficeReference", "EZ00047")
-                  ),
-                  "activated",
-                  None
-                )
-              )
-            )
-            when(mockAuthConnector.authorise[RetrievalsType](any(), any())(any(), any()))
-              .thenReturn(
-                Future.successful(Some(id) ~ enrolments ~ Some(Organisation) ~ Some(Assistant))
+                Future.successful(Some(id) ~ enrolments ~ Some(Organisation))
               )
             running(application) {
               val authAction = new ContractorIdentifierAction(mockAuthConnector, appConfig, bodyParsers)
@@ -292,7 +246,7 @@ class ContractorIdentificationActionSpec extends SpecBase {
           "must redirect to unauthorised organisation affinity screen" in {
             when(mockAuthConnector.authorise[RetrievalsType](any(), any())(any(), any()))
               .thenReturn(
-                Future.successful(Some(id) ~ emptyEnrolments ~ Some(Organisation) ~ Some(User))
+                Future.successful(Some(id) ~ emptyEnrolments ~ Some(Organisation))
               )
             running(application) {
               val authAction = new ContractorIdentifierAction(mockAuthConnector, appConfig, bodyParsers)
@@ -325,7 +279,7 @@ class ContractorIdentificationActionSpec extends SpecBase {
             )
             when(mockAuthConnector.authorise[RetrievalsType](any(), any())(any(), any()))
               .thenReturn(
-                Future.successful(Some(id) ~ enrolments ~ Some(Organisation) ~ Some(User))
+                Future.successful(Some(id) ~ enrolments ~ Some(Organisation))
               )
             running(application) {
               val authAction = new ContractorIdentifierAction(mockAuthConnector, appConfig, bodyParsers)
@@ -346,7 +300,7 @@ class ContractorIdentificationActionSpec extends SpecBase {
     "Unable to retrieve internal id or affinity group" - {
       "fail and redirect to Unauthorised screen" in {
         when(mockAuthConnector.authorise[RetrievalsType](any(), any())(any(), any()))
-          .thenReturn(Future.successful(None ~ emptyEnrolments ~ None ~ None))
+          .thenReturn(Future.successful(None ~ emptyEnrolments ~ None))
         running(application) {
           val authAction = new ContractorIdentifierAction(mockAuthConnector, appConfig, bodyParsers)
           val controller = new Harness(authAction)
