@@ -57,7 +57,7 @@ class AuthenticatedIdentifierAction @Inject() (
         Retrievals.internalId and Retrievals.allEnrolments
           and Retrievals.affinityGroup and Retrievals.credentialRole
       ) {
-        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Organisation) ~ Some(User) =>
+        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Organisation) ~ _ =>
           hasCisOrgEnrolment(enrolments)
             .map { employerReference =>
               block(IdentifierRequest(request, internalId, Some(employerReference), None))
@@ -67,15 +67,12 @@ class AuthenticatedIdentifierAction @Inject() (
                 Redirect(controllers.routes.UnauthorisedOrganisationAffinityController.onPageLoad())
               )
             )
-        case Some(_) ~ _ ~ Some(Organisation) ~ Some(Assistant)                          =>
-          logger.info("EnrolmentAuthIdentifierAction - Organisation: Assistant login attempt")
-          Future.successful(Redirect(controllers.routes.UnauthorisedWrongRoleController.onPageLoad()))
-        case Some(_) ~ _ ~ Some(Individual) ~ _                                          =>
+        case Some(_) ~ _ ~ Some(Individual) ~ _                                 =>
           logger.info("EnrolmentAuthIdentifierAction - Individual login attempt")
           Future.successful(
             Redirect(controllers.routes.UnauthorisedIndividualAffinityController.onPageLoad())
           )
-        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Agent) ~ _                 =>
+        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Agent) ~ _        =>
           hasCisAgentEnrolment(enrolments)
             .map { agentReference =>
               val identifierRequest =
@@ -87,7 +84,7 @@ class AuthenticatedIdentifierAction @Inject() (
                 Redirect(controllers.routes.UnauthorisedAgentAffinityController.onPageLoad())
               )
             )
-        case _                                                                           =>
+        case _                                                                  =>
           logger.warn("EnrolmentAuthIdentifierAction - Unable to retrieve internal id or affinity group")
           Future.successful(Redirect(routes.UnauthorisedController.onPageLoad()))
       } recover {

@@ -54,7 +54,7 @@ class ContractorIdentifierAction @Inject() (
         Retrievals.internalId and Retrievals.allEnrolments
           and Retrievals.affinityGroup and Retrievals.credentialRole
       ) {
-        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Organisation) ~ Some(User) =>
+        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Organisation) ~ _ =>
           hasCisOrgEnrolment(enrolments)
             .map { employerReference =>
               block(IdentifierRequest(request, internalId, Some(employerReference), None))
@@ -64,20 +64,17 @@ class ContractorIdentifierAction @Inject() (
                 Redirect(controllers.routes.UnauthorisedOrganisationAffinityController.onPageLoad())
               )
             )
-        case Some(_) ~ _ ~ Some(Organisation) ~ Some(Assistant)                          =>
-          logger.info("ContractorIdentifierAction - Organisation: Assistant login attempt")
-          Future.successful(Redirect(controllers.routes.UnauthorisedWrongRoleController.onPageLoad()))
-        case Some(_) ~ _ ~ Some(Individual) ~ _                                          =>
+        case Some(_) ~ _ ~ Some(Individual) ~ _                                 =>
           logger.info("ContractorIdentifierAction - Individual login attempt")
           Future.successful(
             Redirect(controllers.routes.UnauthorisedIndividualAffinityController.onPageLoad())
           )
-        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Agent) ~ _                 =>
+        case Some(internalId) ~ Enrolments(enrolments) ~ Some(Agent) ~ _        =>
           logger.warn("ContractorIdentifierAction - Agent login attempt")
           Future.successful(
             Redirect(controllers.routes.UnauthorisedController.onPageLoad())
           )
-        case _                                                                           =>
+        case _                                                                  =>
           logger.warn("ContractorIdentifierAction - Unable to retrieve internal id or affinity group")
           Future.successful(Redirect(routes.UnauthorisedController.onPageLoad()))
       } recover {

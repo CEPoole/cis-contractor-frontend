@@ -302,7 +302,7 @@ class AgentIdentifierActionSpec extends SpecBase {
     }
 
     "the user is logged in as an organisation assistant" - {
-      "fail and redirect to unauthorised wrong role screen" in {
+      "ignore the credential role and redirect to unauthorised screen" in {
         when(mockAuthConnector.authorise[RetrievalsType](any(), any())(any(), any()))
           .thenReturn(
             Future.successful(Some(id) ~ emptyEnrolments ~ Some(Organisation) ~ Some(Assistant) ~ None)
@@ -313,7 +313,7 @@ class AgentIdentifierActionSpec extends SpecBase {
           val result     = controller.onPageLoad()(FakeRequest())
 
           status(result) mustBe SEE_OTHER
-          redirectLocation(result).value mustBe controllers.routes.UnauthorisedWrongRoleController
+          redirectLocation(result).value mustBe controllers.routes.UnauthorisedController
             .onPageLoad()
             .url
         }
