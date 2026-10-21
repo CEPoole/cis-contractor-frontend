@@ -68,4 +68,27 @@ class ContractorUtrController @Inject() (
             } yield Redirect(navigator.nextPage(ContractorUtrPage, mode, updatedAnswers))
         )
   }
+
+  def onPageLoad(id: String, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
+    implicit request =>
+      val preparedForm = request.userAnswers.getWithId(id, ContractorUtrPage) match {
+        case None        => form
+        case Some(value) => form.fill(value)
+      }
+      Ok(view(preparedForm, mode))
+  }
+
+  def onSubmit(id: String, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+    implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.setSubJourney(ContractorUtrPage, id, value))
+              _              <- sessionRepository.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(ContractorUtrPage, mode, updatedAnswers))
+        )
+  }
 }

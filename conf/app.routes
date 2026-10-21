@@ -917,6 +917,9 @@ GET   /contractor-details/contractor-details-updated  controllers.contractordeta
 GET   /contractor-details/contractor-details-added  controllers.contractordetails.ContractorDetailsCheckAnswersController.onPageLoad(target: Option[String] ?= None)
 POST  /contractor-details/contractor-details-added  controllers.contractordetails.ContractorDetailsCheckAnswersController.onSubmit(target: Option[String] ?= None)
 
+GET   /contractor-details/:id/enter-contractor-utr   controllers.contractordetails.ContractorUtrController.onPageLoad(id: String = id, mode: Mode = NormalMode)
+POST  /contractor-details/:id/enter-contractor-utr   controllers.contractordetails.ContractorUtrController.onSubmit(id: String = id, mode: Mode = NormalMode)
+
 GET   /contractor-details/enter-contractor-utr   controllers.contractordetails.ContractorUtrController.onPageLoad(mode: Mode = NormalMode)
 POST  /contractor-details/enter-contractor-utr   controllers.contractordetails.ContractorUtrController.onSubmit(mode: Mode = NormalMode)
 GET   /contractor-details/enter-contractors-utr  controllers.contractordetails.ContractorUtrController.onPageLoad(mode: Mode = NormalMode)
